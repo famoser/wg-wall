@@ -19,6 +19,7 @@
           "Microsoft.NETCore.App": "2.1.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.5",
           "WgWall": "1.0.0",
+          "WgWall.Data": "1.0.0",
           "WgWall.Migrations": "1.0.0"
         },
         "runtime": {

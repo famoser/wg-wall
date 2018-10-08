@@ -1,11 +1,10 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using WgWall.Controllers;
 using WgWall.Data;
 using WgWall.Data.Model;
@@ -13,13 +12,14 @@ using WgWall.Data.Repository;
 using WgWall.Data.Repository.Interfaces;
 using WgWall.Test.Mock.Data.Repositories;
 
-namespace WgWall.Test
+namespace WgWall.Test.Controllers
 {
     [TestClass]
-    public class UnitTest1
+    public class FrontendUserControllerTest
     {
         private static ServiceProvider _serviceCollection;
         private static readonly string _dbPathName = "test.sqlite2";
+
         [ClassInitialize]
         public static void SetUp(TestContext testContext)
         {

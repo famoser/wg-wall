@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WgWall.Data\WgWall.Data.csproj" />
     <ProjectReference Include="..\WgWall.Migrations\WgWall.Migrations.csproj" />
     <ProjectReference Include="..\WgWall\WgWall.csproj" />
   </ItemGroup>

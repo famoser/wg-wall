@@ -14169,6 +14169,7 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.5",
       "Newtonsoft.Json >= 11.0.2",
       "WgWall >= 1.0.0",
+      "WgWall.Data >= 1.0.0",
       "WgWall.Migrations >= 1.0.0"
     ]
   },
@@ -14202,6 +14203,9 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
+            "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall.Data\\WgWall.Data.csproj": {
+              "projectPath": "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall.Data\\WgWall.Data.csproj"
+            },
             "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall.Migrations\\WgWall.Migrations.csproj": {
               "projectPath": "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall.Migrations\\WgWall.Migrations.csproj"
             },
@@ -14257,6 +14261,7 @@
             "version": "[15.8.0, )"
           },
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
