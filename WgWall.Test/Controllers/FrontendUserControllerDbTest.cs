@@ -15,7 +15,7 @@ using WgWall.Test.Mock.Data.Repositories;
 namespace WgWall.Test.Controllers
 {
     [TestClass]
-    public class FrontendUserControllerTest
+    public class FrontendUserControllerDbTest
     {
         private static ServiceProvider _serviceCollection;
         private static readonly string _dbPathName = "test.sqlite";
@@ -24,9 +24,14 @@ namespace WgWall.Test.Controllers
         public static void SetUp(TestContext testContext)
         {
             var services = new ServiceCollection();
-            services.AddTransient<IFrontendUserRepository>(provider => new MockFrontendUserRepository(GetTestUsers()));
+            services.AddTransient<IFrontendUserRepository, FrontendUserRepository>();
+            services.AddDbContext<MyDbContext>(options => options.UseLazyLoadingProxies().UseSqlite("DataSource=" + _dbPathName, x => x.MigrationsAssembly("WgWall.Migrations")));
 
             _serviceCollection = services.BuildServiceProvider();
+
+            //migrate db
+            var context = _serviceCollection.GetService<MyDbContext>();
+            context.Database.Migrate();
         }
 
         [ClassCleanup]
@@ -36,7 +41,7 @@ namespace WgWall.Test.Controllers
         }
 
         [TestMethod]
-        public async Task GetFrontendUser_ShouldFindFrontendUser()
+        public async Task GetFrontendUser_ShouldNotFindFrontendUser()
         {
             //arrange
             var controller = new FrontendUsersController(_serviceCollection.GetService<IFrontendUserRepository>());
@@ -49,17 +54,6 @@ namespace WgWall.Test.Controllers
             Assert.IsNotNull(objectResult);
             Assert.IsInstanceOfType(objectResult.Value, typeof(bool));
             Assert.AreEqual(false, (bool)objectResult.Value);
-        }
-
-        private static List<FrontendUser> GetTestUsers()
-        {
-            var frontendUsers = new List<FrontendUser>
-            {
-                new FrontendUser {Name = "Florian"},
-                new FrontendUser {Name = "Cédric"},
-                new FrontendUser {Name = "Xenia"}
-            };
-            return frontendUsers;
         }
     }
 }

@@ -18,8 +18,7 @@ namespace WgWall.Data.Repository
 
         public async Task<bool> CheckExistenceAsync(string name)
         {
-            var user = await _context.FrontendUsers.FirstOrDefaultAsync(e => e.Name == name);
-            return user == null;
+            return await _context.FrontendUsers.FirstOrDefaultAsync(e => e.Name == name) != null;
         }
 
         public async Task<FrontendUser> CreateFrontendUserAsync(string name)
