@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WgWall.Data;
 
 namespace WgWall
 {
@@ -27,6 +29,10 @@ namespace WgWall
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            var connection = @"Data Source = db.sqlite";
+            services.AddDbContext<MyDbContext>
+                (options => options.UseLazyLoadingProxies().UseSqlite(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
