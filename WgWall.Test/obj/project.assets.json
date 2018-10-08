@@ -5342,13 +5342,27 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "2.1.4",
           "Microsoft.NETCore.App": "2.1.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.5",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "11.0.2",
+          "WgWall.Data": "1.0.0"
         },
         "compile": {
           "bin/placeholder/WgWall.dll": {}
         },
         "runtime": {
           "bin/placeholder/WgWall.dll": {}
+        }
+      },
+      "WgWall.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "2.1.4"
+        },
+        "compile": {
+          "bin/placeholder/WgWall.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WgWall.Data.dll": {}
         }
       }
     }
@@ -14112,6 +14126,11 @@
       "type": "project",
       "path": "../WgWall/WgWall.csproj",
       "msbuildProject": "../WgWall/WgWall.csproj"
+    },
+    "WgWall.Data/1.0.0": {
+      "type": "project",
+      "path": "../WgWall.Data/WgWall.Data.csproj",
+      "msbuildProject": "../WgWall.Data/WgWall.Data.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -14208,7 +14227,6 @@
             "version": "[15.8.0, )"
           },
           "Microsoft.NETCore.App": {
-            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true

@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WgWall.Data;
+using WgWall.Data.Repositories;
+using WgWall.Data.Repositories.Interfaces;
 
 namespace WgWall
 {
@@ -32,6 +34,7 @@ namespace WgWall
 
             var connection = @"Data Source = db.sqlite";
             services.AddDbContext<MyDbContext>(options => options.UseLazyLoadingProxies().UseSqlite(connection, x => x.MigrationsAssembly("WgWall.Migrations")));
+            services.AddTransient<IFrontendUserRepository, FrontendUserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -833,10 +833,19 @@
           "Microsoft.EntityFrameworkCore.Proxies": "2.1.4",
           "Microsoft.EntityFrameworkCore.Sqlite": "2.1.4",
           "Microsoft.NETCore.App": "2.1.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.5"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.5",
+          "WgWall.Data": "1.0.0"
         },
         "runtime": {
           "WgWall.dll": {}
+        }
+      },
+      "WgWall.Data/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "2.1.4"
+        },
+        "runtime": {
+          "WgWall.Data.dll": {}
         }
       }
     }
@@ -1296,6 +1305,11 @@
       "hashPath": "system.xml.xpath.xmldocument.4.0.1.nupkg.sha512"
     },
     "WgWall/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "WgWall.Data/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

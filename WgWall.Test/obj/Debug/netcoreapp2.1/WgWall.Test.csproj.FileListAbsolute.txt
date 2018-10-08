@@ -17,3 +17,5 @@ C:\Users\flmo\source\repos\wg-wall\WgWall.Test\obj\Debug\netcoreapp2.1\WgWall.Te
 C:\Users\flmo\source\repos\wg-wall\WgWall.Test\obj\Debug\netcoreapp2.1\WgWall.Test.csproj.CopyComplete
 C:\Users\flmo\source\repos\wg-wall\WgWall.Test\obj\Debug\netcoreapp2.1\WgWall.Test.dll
 C:\Users\flmo\source\repos\wg-wall\WgWall.Test\obj\Debug\netcoreapp2.1\WgWall.Test.pdb
+C:\Users\flmo\source\repos\wg-wall\WgWall.Test\bin\Debug\netcoreapp2.1\WgWall.Data.dll
+C:\Users\flmo\source\repos\wg-wall\WgWall.Test\bin\Debug\netcoreapp2.1\WgWall.Data.pdb

@@ -1,9 +1,9 @@
 C:\Users\flmo\source\repos\wg-wall\WgWall.Data\bin\Debug\netcoreapp2.1\WgWall.Data.deps.json
 C:\Users\flmo\source\repos\wg-wall\WgWall.Data\bin\Debug\netcoreapp2.1\WgWall.Data.dll
-C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Data.csprojAssemblyReference.cache
 C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Data.csproj.CoreCompileInputs.cache
 C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Data.AssemblyInfoInputs.cache
 C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Data.AssemblyInfo.cs
 C:\Users\flmo\source\repos\wg-wall\WgWall.Data\bin\Debug\netcoreapp2.1\WgWall.Data.pdb
 C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Data.dll
 C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Data.pdb
+C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Data.csprojAssemblyReference.cache

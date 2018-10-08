@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WgWall.Model.Base;
+﻿using WgWall.Data.Model.Base;
 
-namespace WgWall.Model
+namespace WgWall.Data.Model
 {
     public class Products : BaseEntity
     {
