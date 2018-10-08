@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WgWall.Data;
 
-namespace WgWall.Test.Mock
+namespace WgWall.Test.Mock.Data
 {
     sealed class MockDbContext : MyDbContext
     {

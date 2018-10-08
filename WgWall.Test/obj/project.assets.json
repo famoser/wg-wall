@@ -1736,10 +1736,10 @@
           "build/netcoreapp2.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.InMemory/2.1.1": {
+      "Microsoft.EntityFrameworkCore.InMemory/2.1.4": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "2.1.1"
+          "Microsoft.EntityFrameworkCore": "2.1.4"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.EntityFrameworkCore.InMemory.dll": {}
@@ -5364,6 +5364,22 @@
         "runtime": {
           "bin/placeholder/WgWall.Data.dll": {}
         }
+      },
+      "WgWall.Migrations/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "2.1.4",
+          "Microsoft.EntityFrameworkCore.Design": "2.1.4",
+          "Microsoft.EntityFrameworkCore.Sqlite": "2.1.4",
+          "WgWall.Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/WgWall.Migrations.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WgWall.Migrations.dll": {}
+        }
       }
     }
   },
@@ -6825,15 +6841,15 @@
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.InMemory/2.1.1": {
-      "sha512": "eX6plbREvKOq06f2XU6n4ZCSpTXjS9khC9jNH4BeyG/m2WXbYnpTW3zX6RT/UCM8wVqO9U3YUr7QbTsuOysK7w==",
+    "Microsoft.EntityFrameworkCore.InMemory/2.1.4": {
+      "sha512": "VFyAQ9qnlVV2Y9vZ8Wk4p659jKZHgvy/Qdo/kwQXnZGzSwdj1eFTD02h9e4+79SrhTGqBxPQRpMVlfdLe2BD6A==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.inmemory/2.1.1",
+      "path": "microsoft.entityframeworkcore.inmemory/2.1.4",
       "files": [
         ".signature.p7s",
         "lib/netstandard2.0/Microsoft.EntityFrameworkCore.InMemory.dll",
         "lib/netstandard2.0/Microsoft.EntityFrameworkCore.InMemory.xml",
-        "microsoft.entityframeworkcore.inmemory.2.1.1.nupkg.sha512",
+        "microsoft.entityframeworkcore.inmemory.2.1.4.nupkg.sha512",
         "microsoft.entityframeworkcore.inmemory.nuspec"
       ]
     },
@@ -14131,6 +14147,11 @@
       "type": "project",
       "path": "../WgWall.Data/WgWall.Data.csproj",
       "msbuildProject": "../WgWall.Data/WgWall.Data.csproj"
+    },
+    "WgWall.Migrations/1.0.0": {
+      "type": "project",
+      "path": "../WgWall.Migrations/WgWall.Migrations.csproj",
+      "msbuildProject": "../WgWall.Migrations/WgWall.Migrations.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -14140,13 +14161,15 @@
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.EntityFrameworkCore >= 2.1.4",
       "Microsoft.EntityFrameworkCore.Design >= 2.1.4",
+      "Microsoft.EntityFrameworkCore.InMemory >= 2.1.4",
       "Microsoft.EntityFrameworkCore.Proxies >= 2.1.4",
       "Microsoft.EntityFrameworkCore.Sqlite >= 2.1.4",
       "Microsoft.NET.Test.Sdk >= 15.8.0",
       "Microsoft.NETCore.App >= 2.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.5",
       "Newtonsoft.Json >= 11.0.2",
-      "WgWall >= 1.0.0"
+      "WgWall >= 1.0.0",
+      "WgWall.Migrations >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -14179,6 +14202,9 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
+            "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall.Migrations\\WgWall.Migrations.csproj": {
+              "projectPath": "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall.Migrations\\WgWall.Migrations.csproj"
+            },
             "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall\\WgWall.csproj": {
               "projectPath": "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall\\WgWall.csproj"
             }
@@ -14211,6 +14237,10 @@
             "version": "[2.1.4, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
+            "target": "Package",
+            "version": "[2.1.4, )"
+          },
+          "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",
             "version": "[2.1.4, )"
           },

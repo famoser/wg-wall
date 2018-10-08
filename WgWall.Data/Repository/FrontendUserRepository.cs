@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WgWall.Data.Model;
-using WgWall.Data.Repositories.Interfaces;
+using WgWall.Data.Repository.Interfaces;
 
-namespace WgWall.Data.Repositories
+namespace WgWall.Data.Repository
 {
     public class FrontendUserRepository : IFrontendUserRepository
     {

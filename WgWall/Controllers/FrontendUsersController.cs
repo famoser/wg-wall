@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WgWall.Data;
 using WgWall.Data.Model;
-using WgWall.Data.Repositories.Interfaces;
+using WgWall.Data.Repository.Interfaces;
 
 namespace WgWall.Controllers
 {

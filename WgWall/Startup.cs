@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WgWall.Data;
-using WgWall.Data.Repositories;
-using WgWall.Data.Repositories.Interfaces;
+using WgWall.Data.Repository;
+using WgWall.Data.Repository.Interfaces;
 
 namespace WgWall
 {
