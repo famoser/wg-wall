@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WgWall.Test\WgWall.Test.csproj" />
+    <ProjectReference Include="..\WgWall\WgWall.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputPath>..\WgWall\bin\$(Configuration)\</OutputPath>
+    <OutputPath>..\WgWall.Test\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+</Project>

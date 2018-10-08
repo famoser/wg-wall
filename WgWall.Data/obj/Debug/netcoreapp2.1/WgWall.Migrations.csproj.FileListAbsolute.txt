@@ -1,0 +1,14 @@
+C:\Users\flmo\source\repos\wg-wall\WgWall\bin\Debug\netcoreapp2.1\WgWall.Views.dll
+C:\Users\flmo\source\repos\wg-wall\WgWall\bin\Debug\netcoreapp2.1\WgWall.Views.pdb
+C:\Users\flmo\source\repos\wg-wall\WgWall\bin\Debug\netcoreapp2.1\WgWall.Migrations.deps.json
+C:\Users\flmo\source\repos\wg-wall\WgWall\bin\Debug\netcoreapp2.1\WgWall.Migrations.runtimeconfig.json
+C:\Users\flmo\source\repos\wg-wall\WgWall\bin\Debug\netcoreapp2.1\WgWall.Migrations.runtimeconfig.dev.json
+C:\Users\flmo\source\repos\wg-wall\WgWall\bin\Debug\netcoreapp2.1\WgWall.Migrations.dll
+C:\Users\flmo\source\repos\wg-wall\WgWall\bin\Debug\netcoreapp2.1\WgWall.Migrations.pdb
+C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Migrations.csprojAssemblyReference.cache
+C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Migrations.csproj.CoreCompileInputs.cache
+C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Migrations.AssemblyInfoInputs.cache
+C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Migrations.AssemblyInfo.cs
+C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Migrations.csproj.CopyComplete
+C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Migrations.dll
+C:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Migrations.pdb

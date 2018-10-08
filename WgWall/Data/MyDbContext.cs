@@ -11,7 +11,9 @@ namespace WgWall.Data
     {
         public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
-        { }
+        {
+
+        }
 
         public DbSet<Products> Products { get; set; }
         public DbSet<FrontendUser> FrontendUsers { get; set; }
