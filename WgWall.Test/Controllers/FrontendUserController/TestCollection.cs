@@ -30,7 +30,7 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var result = await controller.Check("no name of an user");
 
             //assert
-            JsonHelper.AssertBooleanResult(result, false);
+            AssertHelper.AssertBooleanResult(result, false);
         }
 
         [TestMethod]
@@ -43,7 +43,20 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var result = await controller.Check("Florian");
 
             //assert
-            JsonHelper.AssertBooleanResult(result, true);
+            AssertHelper.AssertBooleanResult(result, true);
+        }
+
+        [TestMethod]
+        public async Task CreateFrontendUser_ShouldPersistUser()
+        {
+            //arrange
+            var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
+
+            //act
+            var result = await controller.CreateFrontendUser("NewUser");
+
+            //assert
+            AssertHelper.AssertInstanceResult(result, typeof(FrontendUser));
         }
     }
 }

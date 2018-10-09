@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace WgWall.Test.Controllers
 {
-    public class JsonHelper
+    public class AssertHelper
     {
         public static void AssertBooleanResult(IActionResult result, bool expected)
         {
@@ -15,6 +15,13 @@ namespace WgWall.Test.Controllers
             Assert.IsNotNull(objectResult);
             Assert.IsInstanceOfType(objectResult.Value, typeof(bool));
             Assert.AreEqual(expected, (bool)objectResult.Value);
+        }
+        public static void AssertInstanceResult(IActionResult result, Type expected)
+        {
+            var objectResult = result as OkObjectResult;
+
+            Assert.IsNotNull(objectResult);
+            Assert.IsInstanceOfType(objectResult.Value, expected);
         }
     }
 }
