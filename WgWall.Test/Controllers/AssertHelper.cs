@@ -16,12 +16,5 @@ namespace WgWall.Test.Controllers
             Assert.IsInstanceOfType(objectResult.Value, typeof(bool));
             Assert.AreEqual(expected, (bool)objectResult.Value);
         }
-        public static void AssertInstanceResult(IActionResult result, Type expected)
-        {
-            var objectResult = result as OkObjectResult;
-
-            Assert.IsNotNull(objectResult);
-            Assert.IsInstanceOfType(objectResult.Value, expected);
-        }
     }
 }

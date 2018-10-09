@@ -10,7 +10,7 @@ namespace WgWall.Test.Mock.Data.Repositories
 {
     class MockFrontendUserRepository : IFrontendUserRepository
     {
-        private List<FrontendUser> _testSet;
+        private readonly List<FrontendUser> _testSet;
 
         public MockFrontendUserRepository(List<FrontendUser> testSet)
         {
@@ -25,13 +25,14 @@ namespace WgWall.Test.Mock.Data.Repositories
         public async Task<FrontendUser> CreateFrontendUserAsync(string name)
         {
             var user = FrontendUser.Create(name);
+            user.Id = _testSet.Max(u => u.Id) + 1;
             _testSet.Add(user);
             return user;
         }
 
         public async Task<List<FrontendUser>> GetAllAsync()
         {
-            return _testSet;
+            return new List<FrontendUser>(_testSet);
         }
     }
 }

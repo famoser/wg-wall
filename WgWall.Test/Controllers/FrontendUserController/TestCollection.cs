@@ -1,13 +1,11 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WgWall.Controllers;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
-using WgWall.Test.Mock.Data.Repositories;
 
 namespace WgWall.Test.Controllers.FrontendUserController
 {
@@ -53,10 +51,54 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
-            var result = await controller.CreateFrontendUser("NewUser");
+            string newName = "NewName";
+            var result = await controller.CreateFrontendUser(newName);
 
             //assert
-            AssertHelper.AssertInstanceResult(result, typeof(FrontendUser));
+            AssertNewUser(result, newName);
+        }
+
+        [TestMethod]
+        public async Task GetFrontendUsers_ShouldReturnAllUsers()
+        {
+            //arrange
+            var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
+
+            //act
+            string newName = "NewName";
+            var result = await controller.GetFrontendUsers();
+            var creationResult = await controller.CreateFrontendUser(newName);
+            var result2 = await controller.GetFrontendUsers();
+
+            //assert
+            var list = AssertUsers(result);
+            AssertNewUser(creationResult, newName);
+            var list2 = AssertUsers(result2);
+            Assert.IsTrue(list.Count + 1 == list2.Count);
+        }
+
+        protected FrontendUser AssertNewUser(IActionResult result, string expectedName)
+        {
+            var objectResult = result as OkObjectResult;
+            Assert.IsNotNull(objectResult);
+
+            var user = objectResult.Value as FrontendUser;
+            Assert.IsNotNull(user);
+            Assert.AreEqual(expectedName, user.Name);
+            Assert.IsTrue(user.Id > 0);
+
+            return user;
+        }
+
+        protected IList<FrontendUser> AssertUsers(IActionResult result)
+        {
+            var objectResult = result as OkObjectResult;
+            Assert.IsNotNull(objectResult);
+
+            var users = objectResult.Value as IList<FrontendUser>;
+            Assert.IsNotNull(users);
+
+            return users;
         }
     }
 }
