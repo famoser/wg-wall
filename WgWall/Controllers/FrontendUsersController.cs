@@ -18,18 +18,22 @@ namespace WgWall.Controllers
     public class FrontendUsersController : ControllerBase
     {
         private readonly IFrontendUserRepository _frontendUserRepository;
+        private readonly IMapper _mapper;
 
         public FrontendUsersController(IFrontendUserRepository frontendUserRepository)
         {
             _frontendUserRepository = frontendUserRepository;
-            Mapper.Initialize(cfg => cfg.CreateMap<FrontendUser, FrontendUserDto>());
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<FrontendUser, FrontendUserDto>());
+            _mapper = new Mapper(config);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetFrontendUsers()
         {
             var users = await _frontendUserRepository.GetAllAsync();
-            var usersDto = Mapper.Map<IList<FrontendUserDto>>(users);
+
+            var usersDto = _mapper.Map<IList<FrontendUserDto>>(users);
             return Ok(usersDto);
         }
 
@@ -40,7 +44,7 @@ namespace WgWall.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
             return Ok(await _frontendUserRepository.CheckExistenceAsync(name));
         }
         
@@ -51,8 +55,10 @@ namespace WgWall.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
-            return Ok(await _frontendUserRepository.CreateFrontendUserAsync(name));
+
+            var user = await _frontendUserRepository.CreateFrontendUserAsync(name);
+            var userDto = _mapper.Map<FrontendUserDto>(user);
+            return Ok(userDto);
         }
     }
 }

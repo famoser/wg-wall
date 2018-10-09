@@ -10,25 +10,17 @@ namespace WgWall.Test.Controllers.FrontendUserController
     [TestClass]
     public class IntegrationTest
     {
-         [TestMethod]
-        public async Task Get_EndpointsReturnSuccessAndCorrectContentType()
+        [TestMethod]
+        public async Task Get_ShouldReturnExpectedFields()
         {
-            using (var client = new TestClientProvider().Client)
+            using (var client = new TestClientProvider())
             {
-                var response = await client.GetAsync("/api/FrontendUsers");
-                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+                var response = await client.GetJsonAsync("/api/FrontendUsers") as JArray;
 
-                var json = await response.Content.ReadAsStringAsync();
-                var users = JsonConvert.DeserializeObject(json) as JArray;
-
-                Assert.IsNotNull(users);
-                Assert.IsTrue(users.Count > 0);
-                foreach (var user in users)
+                Assert.IsNotNull(response);
+                if (response.Count > 0)
                 {
-                    var obj = user as JObject;
-
-                    Assert.IsNotNull(obj);
-                    Assert.IsTrue(obj.Properties().Count() == 1);
+                    AssertHelper.AssertFields(response[0] as JObject, new[] {"name", "id"});
                 }
             }
         }

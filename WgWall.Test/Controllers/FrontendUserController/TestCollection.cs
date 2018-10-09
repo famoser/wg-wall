@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WgWall.Controllers;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
+using WgWall.Dto;
 
 namespace WgWall.Test.Controllers.FrontendUserController
 {
@@ -77,12 +78,12 @@ namespace WgWall.Test.Controllers.FrontendUserController
             Assert.IsTrue(list.Count + 1 == list2.Count);
         }
 
-        protected FrontendUser AssertNewUser(IActionResult result, string expectedName)
+        protected FrontendUserDto AssertNewUser(IActionResult result, string expectedName)
         {
             var objectResult = result as OkObjectResult;
             Assert.IsNotNull(objectResult);
 
-            var user = objectResult.Value as FrontendUser;
+            var user = objectResult.Value as FrontendUserDto;
             Assert.IsNotNull(user);
             Assert.AreEqual(expectedName, user.Name);
             Assert.IsTrue(user.Id > 0);
@@ -90,12 +91,12 @@ namespace WgWall.Test.Controllers.FrontendUserController
             return user;
         }
 
-        protected IList<FrontendUser> AssertUsers(IActionResult result)
+        protected IList<FrontendUserDto> AssertUsers(IActionResult result)
         {
             var objectResult = result as OkObjectResult;
             Assert.IsNotNull(objectResult);
 
-            var users = objectResult.Value as IList<FrontendUser>;
+            var users = objectResult.Value as IList<FrontendUserDto>;
             Assert.IsNotNull(users);
 
             return users;
