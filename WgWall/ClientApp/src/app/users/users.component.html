@@ -1,5 +1,8 @@
-<h1>User</h1>
-
-<p>Please choose your user!</p>
-{{currentCount}}
-<button (click)="incrementCounter()">Increment</button>
+<div class="row">
+  <div class="col" *ngFor="let user of users">
+    <img class="card-img-top" src="{{user.imageSrc}}" alt="image of {{user.name}}">
+    <div class="card-body">
+      <p class="card-text">{{user.karma}} <span class="text-muted">karma</span></p>
+    </div>
+  </div>
+</div>

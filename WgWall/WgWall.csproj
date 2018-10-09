@@ -31,6 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\frontend_user.hero.ts" />
+    <None Remove="ClientApp\src\app\models\frontend-user.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WgWall.Data\WgWall.Data.csproj" />
     <ProjectReference Include="..\WgWall.Migrations\WgWall.Migrations.csproj">
       <PrivateAssets>All</PrivateAssets>
@@ -39,6 +44,11 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\dist\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\services\frontend_user.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\frontend-user.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

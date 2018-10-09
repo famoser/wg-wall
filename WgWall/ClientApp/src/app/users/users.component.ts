@@ -5,9 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './users.component.html'
 })
 export class UsersComponent {
-  public currentCount = 0;
-
-  public incrementCounter() {
-    this.currentCount = this.currentCount + 1;
-  }
+  public users = [{name: "Florian", karma: "2000", imageSrc: "img.img"}];
 }

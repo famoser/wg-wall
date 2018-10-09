@@ -23,7 +23,7 @@ namespace WgWall.Test.Controllers.FrontendUserController
         public async Task Check_ShouldReturnFalse()
         {
             //arrange
-            var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
+            var controller = new WgWall.Controllers.FrontendUserController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
             var notExitingUser = new FrontendUserDto() { Name = "not existing" };
@@ -37,7 +37,7 @@ namespace WgWall.Test.Controllers.FrontendUserController
         public async Task Check_ShouldReturnTrue()
         {
             //arrange
-            var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
+            var controller = new WgWall.Controllers.FrontendUserController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
             var exitingUser = new FrontendUserDto() { Name = "Florian" };
@@ -51,7 +51,7 @@ namespace WgWall.Test.Controllers.FrontendUserController
         public async Task CreateFrontendUser_ShouldPersistUser()
         {
             //arrange
-            var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
+            var controller = new WgWall.Controllers.FrontendUserController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
             var newUser = new FrontendUserDto() { Name = "NewName" };
@@ -65,7 +65,7 @@ namespace WgWall.Test.Controllers.FrontendUserController
         public async Task GetFrontendUsers_ShouldReturnAllUsers()
         {
             //arrange
-            var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
+            var controller = new WgWall.Controllers.FrontendUserController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
             var newUser = new FrontendUserDto() {Name = "NewName"};

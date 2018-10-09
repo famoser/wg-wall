@@ -15,12 +15,12 @@ namespace WgWall.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FrontendUsersController : ControllerBase
+    public class FrontendUserController : ControllerBase
     {
         private readonly IFrontendUserRepository _frontendUserRepository;
         private readonly IMapper _mapper;
 
-        public FrontendUsersController(IFrontendUserRepository frontendUserRepository)
+        public FrontendUserController(IFrontendUserRepository frontendUserRepository)
         {
             _frontendUserRepository = frontendUserRepository;
 
