@@ -23,7 +23,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("CreatedById");
+                    b.Property<int?>("CreatedById");
 
                     b.Property<string>("Name");
 
@@ -45,7 +45,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("CreatedById");
+                    b.Property<int?>("CreatedById");
 
                     b.Property<string>("Text");
 
@@ -62,8 +62,7 @@ namespace WgWall.Migrations.Migrations
                 {
                     b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CreatedById");
                 });
 
             modelBuilder.Entity("WgWall.Data.Model.Products", b =>
@@ -75,8 +74,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CreatedById");
                 });
 #pragma warning restore 612, 618
         }

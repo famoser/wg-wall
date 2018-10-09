@@ -14,7 +14,7 @@ namespace WgWall.Data.Model
         public static FrontendUser Create(string name, FrontendUser createdBy =null)
         {
             var element = new FrontendUser {Name = name};
-            RegisterCreation(element, createdBy ?? element);
+            RegisterCreation(element, createdBy);
             return element;
         }
     }

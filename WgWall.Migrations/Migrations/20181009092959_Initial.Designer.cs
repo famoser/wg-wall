@@ -9,7 +9,7 @@ using WgWall.Data;
 namespace WgWall.Migrations.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20181008150606_Initial")]
+    [Migration("20181009092959_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("CreatedById");
+                    b.Property<int?>("CreatedById");
 
                     b.Property<string>("Name");
 
@@ -47,7 +47,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("CreatedById");
+                    b.Property<int?>("CreatedById");
 
                     b.Property<string>("Text");
 
@@ -64,8 +64,7 @@ namespace WgWall.Migrations.Migrations
                 {
                     b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CreatedById");
                 });
 
             modelBuilder.Entity("WgWall.Data.Model.Products", b =>
@@ -77,8 +76,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CreatedById");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,28 +11,39 @@ using WgWall.Test.Mock.Data.Repositories;
 
 namespace WgWall.Test.Controllers.FrontendUserController
 {
-    public class TestCollection
+    public abstract class TestCollection
     {
-        private readonly ServiceProvider _serviceProvider;
+        private ServiceProvider _serviceProvider;
 
-        public TestCollection(ServiceProvider serviceProvider)
+        protected void SetServiceProvider(ServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public async Task GetFrontendUser_ShouldNotFindFrontendUser()
+        [TestMethod]
+        public async Task Check_ShouldReturnFalse()
         {
             //arrange
             var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
             var result = await controller.Check("no name of an user");
-            var objectResult = result as OkObjectResult;
 
             //assert
-            Assert.IsNotNull(objectResult);
-            Assert.IsInstanceOfType(objectResult.Value, typeof(bool));
-            Assert.AreEqual(false, (bool)objectResult.Value);
+            JsonHelper.AssertBooleanResult(result, false);
+        }
+
+        [TestMethod]
+        public async Task Check_ShouldReturnTrue()
+        {
+            //arrange
+            var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
+
+            //act
+            var result = await controller.Check("Florian");
+
+            //assert
+            JsonHelper.AssertBooleanResult(result, true);
         }
     }
 }

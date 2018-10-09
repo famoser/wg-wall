@@ -13,7 +13,7 @@ namespace WgWall.Migrations.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CreatedById = table.Column<int>(nullable: false),
+                    CreatedById = table.Column<int>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -25,7 +25,7 @@ namespace WgWall.Migrations.Migrations
                         column: x => x.CreatedById,
                         principalTable: "FrontendUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -34,7 +34,7 @@ namespace WgWall.Migrations.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CreatedById = table.Column<int>(nullable: false),
+                    CreatedById = table.Column<int>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true),
                     Amount = table.Column<int>(nullable: false),
@@ -54,7 +54,7 @@ namespace WgWall.Migrations.Migrations
                         column: x => x.CreatedById,
                         principalTable: "FrontendUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

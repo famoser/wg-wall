@@ -12,12 +12,18 @@ using WgWall.Data.Repository.Interfaces;
 namespace WgWall.Test.Controllers.FrontendUserController
 {
     [TestClass]
-    public class MockDbTest : Base.MockDbTest
+    public class MockDbTest : TestCollection
     {
-        [TestMethod]
-        public async Task GetFrontendUser_ShouldNotFindFrontendUser()
+        [TestInitialize]
+        public void TestInitialize()
         {
-            await new TestCollection(ServiceProvider).GetFrontendUser_ShouldNotFindFrontendUser();
+            SetServiceProvider(ServiceProviderHelper.SetUpMockDb());
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            ServiceProviderHelper.CleanupMockDb();
         }
     }
 }

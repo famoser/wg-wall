@@ -13,12 +13,12 @@ using WgWall.Test.Mock.Data.Repositories;
 namespace WgWall.Test.Controllers.FrontendUserController
 {
     [TestClass]
-    public class MockRepositoryTest : Base.MockRepositoryTest
+    public class MockRepositoryTest : TestCollection
     {
-        [TestMethod]
-        public async Task GetFrontendUser_ShouldNotFindFrontendUser()
+        [TestInitialize]
+        public void TestInitialize()
         {
-            await new TestCollection(ServiceProvider).GetFrontendUser_ShouldNotFindFrontendUser();
+            SetServiceProvider(ServiceProviderHelper.SetUpMockRepositories());
         }
     }
 }
