@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WgWall.Data;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
+using WgWall.Dto;
 
 namespace WgWall.Controllers
 {
@@ -20,12 +22,15 @@ namespace WgWall.Controllers
         public FrontendUsersController(IFrontendUserRepository frontendUserRepository)
         {
             _frontendUserRepository = frontendUserRepository;
+            Mapper.Initialize(cfg => cfg.CreateMap<FrontendUser, FrontendUserDto>());
         }
 
         [HttpGet]
         public async Task<IActionResult> GetFrontendUsers()
         {
-            return Ok(await _frontendUserRepository.GetAllAsync());
+            var users = await _frontendUserRepository.GetAllAsync();
+            var usersDto = Mapper.Map<IList<FrontendUserDto>>(users);
+            return Ok(usersDto);
         }
 
         [HttpPost("check")]
@@ -38,8 +43,7 @@ namespace WgWall.Controllers
 
             return Ok(await _frontendUserRepository.CheckExistenceAsync(name));
         }
-
-        // PUT: api/FrontendUsers/5
+        
         [HttpPost]
         public async Task<IActionResult> CreateFrontendUser([FromBody] string name)
         {

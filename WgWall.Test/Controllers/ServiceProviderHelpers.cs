@@ -24,15 +24,19 @@ namespace WgWall.Test.Controllers
 
             var serviceProvider = services.BuildServiceProvider();
 
-            //migrate db
-            var context = serviceProvider.GetService<MyDbContext>();
+           PrepareDatabase(serviceProvider.GetService<MyDbContext>());
+
+            return serviceProvider;
+        }
+
+        public static void PrepareDatabase(MyDbContext context)
+        {
+            //migrate
             context.Database.Migrate();
 
             //play in sample data
             context.FrontendUsers.AddRange(GetTestUsers());
             context.SaveChanges();
-
-            return serviceProvider;
         }
         
         public static void CleanupMockDb()
