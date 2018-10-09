@@ -6,10 +6,10 @@ using WgWall.Dto.Base;
 
 namespace WgWall.Dto
 {
-    public class FrontendUserDto : BaseEntityDto
+    public class ProductDto : BaseEntityDto
     {
         public string Name { get; set; }
-        public int Karma { get; set; }
-        public string ProfileImageSrc { get; set; }
+        public int Amount { get; set; }
+        public int? BoughtById { get; set; }
     }
 }

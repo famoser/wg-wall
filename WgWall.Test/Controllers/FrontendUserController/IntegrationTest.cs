@@ -11,24 +11,24 @@ namespace WgWall.Test.Controllers.FrontendUserController
         [TestMethod]
         public async Task Get_ShouldReturnExpectedFields()
         {
-            var expectedUserFields = new[] {"name", "id"};
-            var newUser = new FrontendUserDto() { Name = "new user name", Id = 2};
+            var expectedUserFields = new[] {"name", "id", "karma", "profileImageSrc"};
+            var newUser = new FrontendUserDto() { Name = "new user name"};
             using (var client = new TestClientProvider())
             {
                 //check
-                var checkUserResponse = await client.PostJsonAsync("/api/FrontendUsers/check", newUser);
+                var checkUserResponse = await client.PostJsonAsync("/api/FrontendUser/check", newUser);
                 Assert.IsFalse((bool)checkUserResponse);
 
                 //creation
-                var newUserResponse = await client.PostJsonAsync("/api/FrontendUsers", newUser);
+                var newUserResponse = await client.PostJsonAsync("/api/FrontendUser", newUser);
                 AssertHelper.AssertFields(newUserResponse as JObject, expectedUserFields);
 
                 //check
-                checkUserResponse = await client.PostJsonAsync("/api/FrontendUsers/check", newUser);
+                checkUserResponse = await client.PostJsonAsync("/api/FrontendUser/check", newUser);
                 Assert.IsTrue((bool)checkUserResponse);
 
                 //list
-                var response = await client.GetJsonAsync("/api/FrontendUsers");
+                var response = await client.GetJsonAsync("/api/FrontendUser");
                 Assert.IsInstanceOfType(response, typeof(JArray));
                 AssertHelper.AssertFields(((JArray)response)[0] as JObject, expectedUserFields);
             }

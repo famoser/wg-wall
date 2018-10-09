@@ -7,6 +7,8 @@ namespace WgWall.Data.Model
     public class FrontendUser : BaseEntity
     {
         public string Name { get; set; }
+        public int Karma { get; set; }
+        public string ProfileImageSrc { get; set; }
 
         [InverseProperty("BoughtBy")]
         public virtual List<Product> BoughtProducts { get; set; }

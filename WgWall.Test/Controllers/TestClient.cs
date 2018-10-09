@@ -16,24 +16,24 @@ namespace WgWall.Test.Controllers
     {
         private readonly TestServer _server;
 
-        public HttpClient Client { get; }
+        private readonly HttpClient _client;
 
         public TestClientProvider()
         {
             _server = new TestServer(new WebHostBuilder().UseStartup<MockStartup>());
 
-            Client = _server.CreateClient();
+            _client = _server.CreateClient();
         }
 
         public async Task<object> GetJsonAsync(string link)
         {
-            var response = await Client.GetAsync(link);
+            var response = await _client.GetAsync(link);
             return await DeserializeResponse(response);
         }
 
         public async Task<object> PostJsonAsync(string link, object content)
         {
-            var response = await Client.PostAsync(link, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+            var response = await _client.PostAsync(link, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             return await DeserializeResponse(response);
         }
 
@@ -49,7 +49,7 @@ namespace WgWall.Test.Controllers
         {
             File.Delete(MockStartup.DbName);
             _server?.Dispose();
-            Client?.Dispose();
+            _client?.Dispose();
         }
     }
 }

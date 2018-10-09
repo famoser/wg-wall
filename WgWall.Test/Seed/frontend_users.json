@@ -1,0 +1,17 @@
+﻿[
+  {
+    "name": "Florian",
+    "karma": 20,
+    "profileImageSrc": "assets/florian.jpg"
+  },
+  {
+    "name": "Cédric",
+    "karma": 10,
+    "profileImageSrc": "assets/cedric.jpg"
+  },
+  {
+    "name": "Xenia",
+    "karma": 30,
+    "profileImageSrc": "assets/xenia.jpg"
+  }
+]

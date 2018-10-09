@@ -15,7 +15,9 @@ namespace WgWall.Migrations.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     CreatedById = table.Column<int>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Karma = table.Column<int>(nullable: false),
+                    ProfileImageSrc = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -36,9 +38,9 @@ namespace WgWall.Migrations.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     CreatedById = table.Column<int>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
-                    Text = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     Amount = table.Column<int>(nullable: false),
-                    BoughtById = table.Column<int>(nullable: false)
+                    BoughtById = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,7 +50,7 @@ namespace WgWall.Migrations.Migrations
                         column: x => x.BoughtById,
                         principalTable: "FrontendUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_FrontendUsers_CreatedById",
                         column: x => x.CreatedById,

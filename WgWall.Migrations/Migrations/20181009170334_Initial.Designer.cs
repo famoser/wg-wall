@@ -9,7 +9,7 @@ using WgWall.Data;
 namespace WgWall.Migrations.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20181009123627_Initial")]
+    [Migration("20181009170334_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,11 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<int?>("CreatedById");
 
+                    b.Property<int>("Karma");
+
                     b.Property<string>("Name");
+
+                    b.Property<string>("ProfileImageSrc");
 
                     b.HasKey("Id");
 
@@ -43,13 +47,13 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<int>("Amount");
 
-                    b.Property<int>("BoughtById");
+                    b.Property<int?>("BoughtById");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int?>("CreatedById");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -71,8 +75,7 @@ namespace WgWall.Migrations.Migrations
                 {
                     b.HasOne("WgWall.Data.Model.FrontendUser", "BoughtBy")
                         .WithMany("BoughtProducts")
-                        .HasForeignKey("BoughtById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BoughtById");
 
                     b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
                         .WithMany()

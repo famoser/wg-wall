@@ -80,7 +80,7 @@ namespace WgWall.Test.Controllers.FrontendUserController
             Assert.IsTrue(list.Count + 1 == list2.Count);
         }
 
-        protected FrontendUserDto AssertNewUser(IActionResult result, FrontendUserDto newUser)
+        private FrontendUserDto AssertNewUser(IActionResult result, FrontendUserDto newUser)
         {
             var objectResult = result as OkObjectResult;
             Assert.IsNotNull(objectResult);
@@ -93,7 +93,7 @@ namespace WgWall.Test.Controllers.FrontendUserController
             return user;
         }
 
-        protected IList<FrontendUserDto> AssertUsers(IActionResult result)
+        private IList<FrontendUserDto> AssertUsers(IActionResult result)
         {
             var objectResult = result as OkObjectResult;
             Assert.IsNotNull(objectResult);

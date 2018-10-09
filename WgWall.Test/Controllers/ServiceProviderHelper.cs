@@ -33,10 +33,7 @@ namespace WgWall.Test.Controllers
         {
             //migrate
             context.Database.Migrate();
-
-            //play in sample data
-            context.FrontendUsers.AddRange(GetTestUsers());
-            context.SaveChanges();
+            context.EnsureSeeded();
         }
         
         public static void CleanupMockDb()
