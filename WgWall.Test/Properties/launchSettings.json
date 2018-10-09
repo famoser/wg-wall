@@ -1,7 +1,8 @@
 {
   "profiles": {
     "WgWall.Test": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\flmo\\source\\repos\\wg-wall\\WgWall.Test"
     }
   }
 }

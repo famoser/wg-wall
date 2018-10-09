@@ -26,7 +26,8 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
-            var result = await controller.Check("no name of an user");
+            var notExitingUser = new FrontendUserDto() { Name = "not existing" };
+            var result = await controller.Check(notExitingUser);
 
             //assert
             AssertHelper.AssertBooleanResult(result, false);
@@ -39,7 +40,8 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
-            var result = await controller.Check("Florian");
+            var exitingUser = new FrontendUserDto() { Name = "Florian" };
+            var result = await controller.Check(exitingUser);
 
             //assert
             AssertHelper.AssertBooleanResult(result, true);
@@ -52,11 +54,11 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
-            string newName = "NewName";
-            var result = await controller.CreateFrontendUser(newName);
+            var newUser = new FrontendUserDto() { Name = "NewName" };
+            var result = await controller.PostFrontendUser(newUser);
 
             //assert
-            AssertNewUser(result, newName);
+            AssertNewUser(result, newUser);
         }
 
         [TestMethod]
@@ -66,26 +68,26 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var controller = new FrontendUsersController(_serviceProvider.GetService<IFrontendUserRepository>());
 
             //act
-            string newName = "NewName";
+            var newUser = new FrontendUserDto() {Name = "NewName"};
             var result = await controller.GetFrontendUsers();
-            var creationResult = await controller.CreateFrontendUser(newName);
+            var creationResult = await controller.PostFrontendUser(newUser);
             var result2 = await controller.GetFrontendUsers();
 
             //assert
             var list = AssertUsers(result);
-            AssertNewUser(creationResult, newName);
+            AssertNewUser(creationResult, newUser);
             var list2 = AssertUsers(result2);
             Assert.IsTrue(list.Count + 1 == list2.Count);
         }
 
-        protected FrontendUserDto AssertNewUser(IActionResult result, string expectedName)
+        protected FrontendUserDto AssertNewUser(IActionResult result, FrontendUserDto newUser)
         {
             var objectResult = result as OkObjectResult;
             Assert.IsNotNull(objectResult);
 
             var user = objectResult.Value as FrontendUserDto;
             Assert.IsNotNull(user);
-            Assert.AreEqual(expectedName, user.Name);
+            Assert.AreEqual(newUser.Name, user.Name);
             Assert.IsTrue(user.Id > 0);
 
             return user;

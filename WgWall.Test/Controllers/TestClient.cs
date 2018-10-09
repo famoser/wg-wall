@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WgWall.Test.Mock;
 
 namespace WgWall.Test.Controllers
@@ -21,13 +21,24 @@ namespace WgWall.Test.Controllers
         public TestClientProvider()
         {
             _server = new TestServer(new WebHostBuilder().UseStartup<MockStartup>());
-            
+
             Client = _server.CreateClient();
         }
 
         public async Task<object> GetJsonAsync(string link)
         {
             var response = await Client.GetAsync(link);
+            return await DeserializeResponse(response);
+        }
+
+        public async Task<object> PostJsonAsync(string link, object content)
+        {
+            var response = await Client.PostAsync(link, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+            return await DeserializeResponse(response);
+        }
+
+        private async Task<object> DeserializeResponse(HttpResponseMessage response)
+        {
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var json = await response.Content.ReadAsStringAsync();

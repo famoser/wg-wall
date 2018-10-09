@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,15 +26,18 @@ namespace WgWall.Test.Mock
         
         public override void ConfigureServices(IServiceCollection services)
         {
-            base.ConfigureServices(services);
-
-            //remove prod db
-            var context = services.FirstOrDefault(s => s.ServiceType == typeof(MyDbContext));
-            services.Remove(context);
+            //ensure test db is removed
+            if (File.Exists(DbName))
+            {
+                File.Delete(DbName);
+            }
 
             //add test db to apply migrations afterwards
             var connection = @"Data Source = " + DbName;
             services.AddDbContext<MyDbContext>(options => options.UseLazyLoadingProxies().UseSqlite(connection, x => x.MigrationsAssembly("WgWall.Migrations")));
+
+            //add prod stuff
+            base.ConfigureServices(services);
         }
 
         public override void Configure(IApplicationBuilder app, IHostingEnvironment env)

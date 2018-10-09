@@ -38,27 +38,27 @@ namespace WgWall.Controllers
         }
 
         [HttpPost("check")]
-        public async Task<IActionResult> Check([FromBody] string name)
+        public async Task<IActionResult> Check([FromBody] FrontendUserDto user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            return Ok(await _frontendUserRepository.CheckExistenceAsync(name));
+            return Ok(await _frontendUserRepository.CheckExistenceAsync(user.Name));
         }
         
         [HttpPost]
-        public async Task<IActionResult> CreateFrontendUser([FromBody] string name)
+        public async Task<IActionResult> PostFrontendUser([FromBody] FrontendUserDto user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = await _frontendUserRepository.CreateFrontendUserAsync(name);
-            var userDto = _mapper.Map<FrontendUserDto>(user);
-            return Ok(userDto);
+            var newUser = await _frontendUserRepository.CreateFrontendUserAsync(user.Name);
+            var newUserDto = _mapper.Map<FrontendUserDto>(newUser);
+            return Ok(newUserDto);
         }
     }
 }

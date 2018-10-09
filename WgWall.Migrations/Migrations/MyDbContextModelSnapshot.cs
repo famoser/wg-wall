@@ -34,7 +34,7 @@ namespace WgWall.Migrations.Migrations
                     b.ToTable("FrontendUsers");
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.Products", b =>
+            modelBuilder.Entity("WgWall.Data.Model.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -65,7 +65,7 @@ namespace WgWall.Migrations.Migrations
                         .HasForeignKey("CreatedById");
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.Products", b =>
+            modelBuilder.Entity("WgWall.Data.Model.Product", b =>
                 {
                     b.HasOne("WgWall.Data.Model.FrontendUser", "BoughtBy")
                         .WithMany("BoughtProducts")

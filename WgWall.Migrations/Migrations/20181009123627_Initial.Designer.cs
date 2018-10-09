@@ -9,7 +9,7 @@ using WgWall.Data;
 namespace WgWall.Migrations.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20181009092959_Initial")]
+    [Migration("20181009123627_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace WgWall.Migrations.Migrations
                     b.ToTable("FrontendUsers");
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.Products", b =>
+            modelBuilder.Entity("WgWall.Data.Model.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -67,7 +67,7 @@ namespace WgWall.Migrations.Migrations
                         .HasForeignKey("CreatedById");
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.Products", b =>
+            modelBuilder.Entity("WgWall.Data.Model.Product", b =>
                 {
                     b.HasOne("WgWall.Data.Model.FrontendUser", "BoughtBy")
                         .WithMany("BoughtProducts")

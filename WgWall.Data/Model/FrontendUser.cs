@@ -9,7 +9,7 @@ namespace WgWall.Data.Model
         public string Name { get; set; }
 
         [InverseProperty("BoughtBy")]
-        public virtual List<Products> BoughtProducts { get; set; }
+        public virtual List<Product> BoughtProducts { get; set; }
 
         public static FrontendUser Create(string name, FrontendUser createdBy =null)
         {

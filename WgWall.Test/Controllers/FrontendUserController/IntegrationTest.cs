@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using System.Net;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
+using WgWall.Dto;
 
 namespace WgWall.Test.Controllers.FrontendUserController
 {
@@ -13,15 +11,26 @@ namespace WgWall.Test.Controllers.FrontendUserController
         [TestMethod]
         public async Task Get_ShouldReturnExpectedFields()
         {
+            var expectedUserFields = new[] {"name", "id"};
+            var newUser = new FrontendUserDto() { Name = "new user name", Id = 2};
             using (var client = new TestClientProvider())
             {
-                var response = await client.GetJsonAsync("/api/FrontendUsers") as JArray;
+                //check
+                var checkUserResponse = await client.PostJsonAsync("/api/FrontendUsers/check", newUser);
+                Assert.IsFalse((bool)checkUserResponse);
 
-                Assert.IsNotNull(response);
-                if (response.Count > 0)
-                {
-                    AssertHelper.AssertFields(response[0] as JObject, new[] {"name", "id"});
-                }
+                //creation
+                var newUserResponse = await client.PostJsonAsync("/api/FrontendUsers", newUser);
+                AssertHelper.AssertFields(newUserResponse as JObject, expectedUserFields);
+
+                //check
+                checkUserResponse = await client.PostJsonAsync("/api/FrontendUsers/check", newUser);
+                Assert.IsTrue((bool)checkUserResponse);
+
+                //list
+                var response = await client.GetJsonAsync("/api/FrontendUsers");
+                Assert.IsInstanceOfType(response, typeof(JArray));
+                AssertHelper.AssertFields(((JArray)response)[0] as JObject, expectedUserFields);
             }
         }
     }
