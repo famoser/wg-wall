@@ -23,6 +23,9 @@
     "@angular/platform-browser-dynamic": "^6.1.9",
     "@angular/platform-server": "^6.1.9",
     "@angular/router": "^6.1.9",
+    "@fortawesome/angular-fontawesome": "^0.2.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.5",
+    "@fortawesome/free-solid-svg-icons": "^5.4.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.1.0",
     "ajv": "^6.0",
     "aspnet-prerendering": "^3.0.1",
@@ -31,8 +34,8 @@
     "jquery": "^3.3",
     "popper.js": "^1.14",
     "rxjs": "^6.3.3",
-    "zone.js": "^0.8.26",
-    "rxjs-compat": "^6.0.0-rc.0"
+    "rxjs-compat": "^6.0.0-rc.0",
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.0",

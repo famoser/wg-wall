@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './users.component.html'
 })
 export class UsersComponent {
-  public users = [{name: "Florian", karma: "2000", imageSrc: "img.img"}];
+  public users = [{name: "Florian", karma: "2000", profileImageSrc: null},{name: "Xenia", karma: "2200", profileImageSrc: null},{name: "Cedric", karma: "12", profileImageSrc: null}];
 }
