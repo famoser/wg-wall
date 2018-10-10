@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
+import { UserComponent } from './user/user.component';
+import { NewUserComponent } from './new-user/new-user.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -12,6 +14,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   declarations: [
     AppComponent,
     UsersComponent,
+    UserComponent,
+    NewUserComponent,
     TopBarComponent
   ],
   imports: [
