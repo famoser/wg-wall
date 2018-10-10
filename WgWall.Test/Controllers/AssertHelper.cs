@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace WgWall.Test.Controllers
 {
-    public class AssertHelper
+    public static class AssertHelper
     {
         public static void AssertBooleanResult(IActionResult result, bool expected)
         {
@@ -28,11 +28,6 @@ namespace WgWall.Test.Controllers
             {
                 Assert.IsTrue(fields.Contains(property.Name));
             }
-        }
-
-        public static void AssertArray(JArray array)
-        {
-            Assert.IsNotNull(array);
         }
     }
 }
