@@ -53,6 +53,7 @@ namespace WgWall.Controllers
             product.Name = payload.Name;
             product.Amount = payload.Amount;
             product.BoughtBy = await _frontendUserRepository.TryGet(payload.BoughtBy);
+            product.BoughtById = product.BoughtBy?.Id;
 
             await _productRepository.Update(product);
             

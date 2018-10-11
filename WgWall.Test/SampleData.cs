@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using Microsoft.EntityFrameworkCore.Internal;
-using Newtonsoft.Json;
 using WgWall.Data;
 using WgWall.Data.Model;
+using WgWall.Data.Model.Base;
 
 namespace WgWall.Test
 {
@@ -26,14 +25,22 @@ namespace WgWall.Test
             context.SaveChanges();
         }
 
+        private static List<T> AddIds<T>(List<T> list)
+        where T : BaseEntity
+        {
+            var id = 1;
+            list.ForEach(fu => fu.Id = id++);
+            return list;
+        }
+
         public static List<FrontendUser> LoadFrontendUsers()
         {
-            return JsonConvert.DeserializeObject<List<FrontendUser>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "frontend_users.json"));
+            return AddIds(JsonConvert.DeserializeObject<List<FrontendUser>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "frontend_users.json")));
         }
 
         public static List<Product> LoadProducts()
         {
-            return JsonConvert.DeserializeObject<List<Product>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "products.json"));
+            return AddIds(JsonConvert.DeserializeObject<List<Product>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "products.json")));
         }
     }
 }

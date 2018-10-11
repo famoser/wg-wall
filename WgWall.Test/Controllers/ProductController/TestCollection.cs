@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WgWall.Api.Request;
 using WgWall.Controllers;
@@ -55,7 +56,7 @@ namespace WgWall.Test.Controllers.ProductController
 
             //act
             var previousResult = await controller.GetProducts();
-            var payload = new ProductPostPayload {Name = "fun", FrontendUserId = frontendUser.Id};
+            var payload = new ProductPostPayload { Name = "fun", FrontendUserId = frontendUser.Id };
             var newProduct = await controller.PostProduct(payload);
             var result = await controller.GetProducts();
 
@@ -64,6 +65,33 @@ namespace WgWall.Test.Controllers.ProductController
             var previousList = AssertProducts(previousResult);
             var list = AssertProducts(result);
             Assert.IsTrue(list.Count == previousList.Count + 1);
+        }
+
+        [TestMethod]
+        public async Task PutProduct_ShouldSaveChanges()
+        {
+            //arrange
+            var controller = GetController();
+            var frontendUser = await GetActiveUser();
+
+            //act
+            var previousResult = await controller.GetProducts();
+            var previousList = AssertProducts(previousResult);
+            var prod = previousList[0];
+
+            var payload = new ProductPutPayload() { Name = "newName", Amount = 100, BoughtBy = frontendUser.Id };
+            await controller.PutProduct(prod.Id, payload);
+
+            var result = await controller.GetProducts();
+            var list = AssertProducts(result);
+            var newProd = list.FirstOrDefault(p => p.Id == prod.Id);
+
+            //assert
+            Assert.IsNotNull(newProd);
+            Assert.AreEqual(payload.Name, newProd.Name);
+            Assert.AreEqual(payload.Amount, newProd.Amount);
+            Assert.AreEqual(payload.BoughtBy, newProd.BoughtById);
+            Assert.IsTrue(list.Count == previousList.Count);
         }
 
         private ProductDto AssertNewProduct(IActionResult result, ProductPostPayload newProduct)

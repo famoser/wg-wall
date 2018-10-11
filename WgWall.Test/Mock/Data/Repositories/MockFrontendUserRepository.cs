@@ -17,11 +17,6 @@ namespace WgWall.Test.Mock.Data.Repositories
             _testSet = testSet;
         }
 
-        public async Task<bool> CheckExistenceAsync(string name)
-        {
-            return _testSet.FirstOrDefault(f => f.Name == name) != null;
-        }
-
         public async Task<FrontendUser> TryGet(int frontendUserId)
         {
             return _testSet.FirstOrDefault(t => t.Id == frontendUserId);

@@ -6,7 +6,7 @@ using WgWall.Api.Request.Base;
 
 namespace WgWall.Api.Request
 {
-    public class ProductPutPayload : AccountablePayload
+    public class ProductPutPayload
     {
         public string Name { get; set; }
         public int Amount { get; set; }
