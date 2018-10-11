@@ -30,6 +30,7 @@ namespace WgWall.Data.Repository
         public async Task<Product> Create(string name, FrontendUser frontendUser)
         {
             var product = Product.Create(name, frontendUser);
+            product.Amount = 1;
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 

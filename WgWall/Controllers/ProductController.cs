@@ -16,13 +16,13 @@ namespace WgWall.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
         private readonly IFrontendUserRepository _frontendUserRepository;
         private readonly IMapper _mapper;
 
-        public ProductsController(IProductRepository productRepository, IFrontendUserRepository frontendUserRepository)
+        public ProductController(IProductRepository productRepository, IFrontendUserRepository frontendUserRepository)
         {
             _productRepository = productRepository;
             _frontendUserRepository = frontendUserRepository;

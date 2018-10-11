@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using WgWall.Dto;
 
 namespace WgWall.Test.Controllers
 {
@@ -28,6 +29,17 @@ namespace WgWall.Test.Controllers
             {
                 Assert.IsTrue(fields.Contains(property.Name));
             }
+        }
+
+        public static IList<FrontendUserDto> AssertUsers(IActionResult result)
+        {
+            var objectResult = result as OkObjectResult;
+            Assert.IsNotNull(objectResult);
+
+            var users = objectResult.Value as IList<FrontendUserDto>;
+            Assert.IsNotNull(users);
+
+            return users;
         }
     }
 }

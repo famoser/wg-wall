@@ -47,9 +47,9 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var result2 = await controller.GetFrontendUsers();
 
             //assert
-            var list = AssertUsers(result);
+            var list = AssertHelper.AssertUsers(result);
             AssertNewUser(creationResult, newUser);
-            var list2 = AssertUsers(result2);
+            var list2 = AssertHelper.AssertUsers(result2);
             Assert.IsTrue(list.Count + 1 == list2.Count);
         }
 
@@ -64,17 +64,6 @@ namespace WgWall.Test.Controllers.FrontendUserController
             Assert.IsTrue(user.Id > 0);
 
             return user;
-        }
-
-        private IList<FrontendUserDto> AssertUsers(IActionResult result)
-        {
-            var objectResult = result as OkObjectResult;
-            Assert.IsNotNull(objectResult);
-
-            var users = objectResult.Value as IList<FrontendUserDto>;
-            Assert.IsNotNull(users);
-
-            return users;
         }
     }
 }
