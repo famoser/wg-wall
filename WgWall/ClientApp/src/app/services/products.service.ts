@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
+import { Product } from '../models/product';
 import { FrontendUser } from '../models/frontend-user';
 
 @Injectable({ providedIn: 'root' })
-export class FrontendUserService {
+export class ProductService {
 
-  private frontendUserUrl = 'api/FrontendUser'; // URL to web api
+  private productUrl = 'api/Product'; // URL to web api
 
   constructor(private http: HttpClient) {
   }
 
-  get(): Observable<FrontendUser[]> {
-    return this.http.get<FrontendUser[]>(this.frontendUserUrl);
+  get(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.productUrl);
   }
 
-  create(frontendUser: FrontendUser): Observable<FrontendUser> {
-    return this.http.post<FrontendUser>(this.frontendUserUrl, frontendUser);
+  create(product: Product, frontendUser: FrontendUser): Observable<Product> {
+    return this.http.post<Product>(this.productUrl, {
+      name: product.name,
+      frontendUserId: frontendUser.id
+    });
+  }
+
+  update(product: Product): Observable<any> {
+    return this.http.put(this.productUrl + "/" + product.id, product);
   }
 }
