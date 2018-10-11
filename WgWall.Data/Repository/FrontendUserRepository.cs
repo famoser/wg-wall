@@ -16,12 +16,12 @@ namespace WgWall.Data.Repository
             _context = context;
         }
 
-        public async Task<bool> CheckExistenceAsync(string name)
+        public Task<FrontendUser> TryGet(int frontendUserId)
         {
-            return await _context.FrontendUsers.FirstOrDefaultAsync(e => e.Name == name) != null;
+            return _context.FrontendUsers.FirstOrDefaultAsync(fu => fu.Id == frontendUserId);
         }
 
-        public async Task<FrontendUser> CreateFrontendUserAsync(string name)
+        public async Task<FrontendUser> CreateAsync(string name)
         {
             var user = await _context.FrontendUsers.FirstOrDefaultAsync(e => e.Name == name);
             if (user == null)
@@ -30,8 +30,7 @@ namespace WgWall.Data.Repository
                 _context.FrontendUsers.Add(user);
                 await _context.SaveChangesAsync();
             }
-
-            Contract.Assert(user.Id > 0);
+            
             return user;
         }
 

@@ -10,6 +10,7 @@ using WgWall.Data;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
 using WgWall.Dto;
+using WgWall.Api.Request;
 
 namespace WgWall.Controllers
 {
@@ -36,27 +37,16 @@ namespace WgWall.Controllers
             var usersDto = _mapper.Map<IList<FrontendUserDto>>(users);
             return Ok(usersDto);
         }
-
-        [HttpPost("check")]
-        public async Task<IActionResult> Check([FromBody] FrontendUserDto user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            return Ok(await _frontendUserRepository.CheckExistenceAsync(user.Name));
-        }
         
         [HttpPost]
-        public async Task<IActionResult> PostFrontendUser([FromBody] FrontendUserDto user)
+        public async Task<IActionResult> PostFrontendUser([FromBody] FrontendUserPayload user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var newUser = await _frontendUserRepository.CreateFrontendUserAsync(user.Name);
+            var newUser = await _frontendUserRepository.CreateAsync(user.Name);
             var newUserDto = _mapper.Map<FrontendUserDto>(newUser);
             return Ok(newUserDto);
         }

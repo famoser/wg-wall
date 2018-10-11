@@ -6,8 +6,8 @@ namespace WgWall.Data.Repository.Interfaces
 {
     public interface IFrontendUserRepository
     {
-        Task<bool> CheckExistenceAsync(string name);
-        Task<FrontendUser> CreateFrontendUserAsync(string name);
+        Task<FrontendUser> TryGet(int frontendUserId);
+        Task<FrontendUser> CreateAsync(string name);
         Task<List<FrontendUser>> GetAllAsync();
     }
 }

@@ -28,10 +28,12 @@ export class UsersComponent {
   private newUserComponent: NewUserComponent;
 
   onCreateUser(frontendUser: FrontendUser) {
-    this.frontendUserService.create(frontendUser).subscribe(fu => {
-      this.users.push(fu);
-      this.newUserComponent.reset();
-    });
+    if (this.users.filter(u => u.name === frontendUser.name).length === 0) {
+      this.frontendUserService.create(frontendUser).subscribe(fu => {
+        this.users.push(fu);
+        this.newUserComponent.reset();
+      });
+    }
   }
 
   onSelectUser(frontendUser: FrontendUser) {
