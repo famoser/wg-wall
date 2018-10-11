@@ -1,4 +1,4 @@
 <div class="row no-gutters">
-    <app-new-user class="col"></app-new-user>
-    <app-user class="col" *ngFor="let user of users" [user]="user"></app-user>
+    <app-new-user class="col" (create)="onCreateUser($event)"></app-new-user>
+    <app-user class="col" *ngFor="let user of users" [user]="user" [selectedUser]="selectedUser" (selected)="onSelectUser(user)"></app-user>
 </div>

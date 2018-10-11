@@ -13,11 +13,11 @@ export class FrontendUserService {
   constructor(private http: HttpClient) {
   }
 
-  getFrontendUsers(): Observable<FrontendUser[]> {
+  get(): Observable<FrontendUser[]> {
     return this.http.get<FrontendUser[]>(this.frontendUserUrl);
   }
 
-  create(frontendUser: FrontendUser) {
+  create(frontendUser: FrontendUser): Observable<FrontendUser> {
     return this.http.post<FrontendUser>(this.frontendUserUrl, frontendUser);
   }
 }
