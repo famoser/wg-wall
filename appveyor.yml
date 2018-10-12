@@ -16,6 +16,12 @@ test_script:
   # run the unit tests (requires changing into the test directory)
   - cmd: cd WgWall.Test
   - cmd: dotnet test
-  - 'cmd: %userprofile%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[WgWall*]* -[WgWall.Test*]*" -output:".\WgWall_coverage.xml" -oldstyle'
-  - 'cmd: %userprofile%\.nuget\packages\codecov\1.1.0\tools\codecov.exe -f "WgWall_coverage.xml"'
+  - cmd: '%userprofile%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[WgWall*]* -[WgWall.Test*]*" -output:".\WgWall_coverage.xml" -oldstyle'
+  - cmd: '%userprofile%\.nuget\packages\codecov\1.1.0\tools\codecov.exe -f "WgWall_coverage.xml"'
 deploy: off
+
+cache:
+  - packages -> **\packages.config      # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+  - node_modules                        # local npm modules
+  - '%APPDATA%\npm-cache'               # npm cache
+  - '%USERPROFILE%\.nuget\packages -> **\project.json'  # project.json cache
