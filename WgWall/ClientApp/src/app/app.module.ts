@@ -10,6 +10,7 @@ import { NewUserComponent } from './new-user/new-user.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProductsComponent } from './products/products.component';
+import { TransportComponent } from './transport/transport.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ProductsComponent } from './products/products.component';
     UserComponent,
     NewUserComponent,
     TopBarComponent,
-    ProductsComponent
+    ProductsComponent,
+    TransportComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

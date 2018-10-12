@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, Subscription, Subscribable } from 'rxjs'
-import { of } from 'rxjs';
-import { forkJoin } from 'rxjs';
+import { Subscription } from 'rxjs'
 
 import { Setting } from '../models/setting';
-import { Settings } from 'http2';
-import { setHostBindings } from '@angular/core/src/render3/instructions';
 
 @Injectable({ providedIn: 'root' })
 export class SettingService {
@@ -32,10 +28,8 @@ export class SettingService {
     }
 
     get(key: String, def: String = ""): Setting {
-        while (!this.settingLoaded) {
-            //forgive me; I've asked for help: https://stackoverflow.com/questions/52778759/wait-on-rxjs-subscription-before-resuming
-        }
-
+        //need to wait here; I've asked for help: https://stackoverflow.com/questions/52778759/wait-on-rxjs-subscription-before-resuming
+        
         return this.resolveSetting(key, def);
     }
 

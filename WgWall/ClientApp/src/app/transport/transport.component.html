@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h3>leaving {{stationName}}</h3>
+                <p>
+                    <span class="small text-secondary">shows next 4</span>
+                </p>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary btn-sm mr-2 row" type="button" (click)="startEdit()">
+                    <fa-icon [icon]="faPencilAlt"></fa-icon>
+                </button>
+            </div>
+        </div>
+
+        <table class="table table-sm table-borderless">
+            <tbody>
+                <tr *ngFor="let vehicle of vehicles; first as isFirst" [class.border-top]="!isFirst">
+                    <td>{{vehicle.name}}</td>
+                    <td class="minimal-width">
+                        {{vehicle.departureTime.getTime() | date: 'shortTime'}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
