@@ -2,9 +2,8 @@
 
 namespace WgWall.Data.Model.Base
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity : BaseIdEntity
     {
-        public int Id { get; set; }
         public int? CreatedById { get; set; }
         public virtual FrontendUser CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

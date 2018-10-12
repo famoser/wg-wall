@@ -6,7 +6,7 @@ using WgWall.Dto.Base;
 
 namespace WgWall.Dto
 {
-    public class FrontendUserDto : BaseEntityDto
+    public class FrontendUserDto : BaseIdEntityDto
     {
         public string Name { get; set; }
         public int Karma { get; set; }

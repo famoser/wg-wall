@@ -36,6 +36,7 @@ namespace WgWall
             services.AddDbContext<MyDbContext>(options => options.UseLazyLoadingProxies().UseSqlite(connection, x => x.MigrationsAssembly("WgWall.Migrations")));
             services.AddScoped<IFrontendUserRepository, FrontendUserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ISettingRepository, SettingRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

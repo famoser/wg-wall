@@ -20,5 +20,6 @@ namespace WgWall.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<FrontendUser> FrontendUsers { get; set; }
+        public DbSet<Setting> Settings { get; set; }
     }
 }

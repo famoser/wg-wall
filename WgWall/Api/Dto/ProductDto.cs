@@ -6,7 +6,7 @@ using WgWall.Dto.Base;
 
 namespace WgWall.Dto
 {
-    public class ProductDto : BaseEntityDto
+    public class ProductDto : BaseIdEntityDto
     {
         public string Name { get; set; }
         public int Amount { get; set; }

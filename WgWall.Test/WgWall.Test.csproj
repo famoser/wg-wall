@@ -14,10 +14,14 @@
   <ItemGroup>
     <None Remove="Seed\frontend_users.json" />
     <None Remove="Seed\products.json" />
+    <None Remove="Seed\settings.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Seed\frontend_users.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Seed\products.json">

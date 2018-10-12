@@ -41,6 +41,7 @@ namespace WgWall.Test.Controllers
             var services = new ServiceCollection();
             services.AddTransient<IFrontendUserRepository>(provider => new MockFrontendUserRepository(SampleData.LoadFrontendUsers()));
             services.AddTransient<IProductRepository>(provider => new MockProductRepository(SampleData.LoadProducts()));
+            services.AddTransient<ISettingRepository>(provider => new MockSettingRepository(SampleData.LoadSettings()));
 
             return services.BuildServiceProvider();
         }
