@@ -22,46 +22,35 @@ export class SettingService {
         this.initSettings();
     }
 
-    initSettings(): Subscription {
-        if (this.settingSubscription == null) {
-            this.settingSubscription = this.http.get<Setting[]>(this.settingUrl).subscribe(s => {
+    initSettings() {
+        this.settingSubscription = this.http.get<Setting[]>(this.settingUrl).subscribe(s => {
+            if (this.settings == null) {
                 this.settings = s;
                 this.settingLoaded = true;
-            });
+            }
+        });
+    }
+
+    get(key: String, def: String = ""): Setting {
+        while (!this.settingLoaded) {
+            //forgive me; I've asked for help: https://stackoverflow.com/questions/52778759/wait-on-rxjs-subscription-before-resuming
         }
 
-        return this.settingSubscription;
+        return this.resolveSetting(key, def);
     }
 
-    get(key: string, def: String = ""): Observable<Setting> {
-        return forkJoin()
-        return this.initSettings().add(() =>  {
-
-        });
-        
-        return of(this.resolveSetting(key, def));
-    }
-
-    private resolveSetting(key: string, def: String) {
-
+    private resolveSetting(key: String, def: String) {
         let setting = this.settings.filter(s => s.key == key)[0];
         if (!(setting instanceof Setting)) {
             setting = new Setting();
             setting.key = key;
-            setting.value = key;
+            setting.value = def;
+            this.settings.push(setting);
         }
         return setting;
     }
 
-    create(setting: setting, frontendUser: FrontendUser): Observable<setting> {
-        console.log(setting.name);
-        return this.http.post<setting>(this.settingUrl, {
-            name: setting.name,
-            frontendUserId: frontendUser.id
-        });
-    }
-
-    update(setting: setting): Observable<any> {
-        return this.http.put(this.settingUrl + "/" + setting.id, setting);
+    save(setting: Setting): void {
+        this.http.post(this.settingUrl, setting).subscribe(() => {});
     }
 }

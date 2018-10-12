@@ -1,4 +1,4 @@
-class Setting {
-    key: string;
-    value: string
+export class Setting {
+    key: String;
+    value: String
 }
