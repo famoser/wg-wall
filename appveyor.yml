@@ -24,7 +24,6 @@ test_script:
 deploy: off
 
 cache:
-  - packages -> **\packages.config      # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
-  - node_modules                        # local npm modules
+  - WgWall\ClientApp\node_modules -> WgWall\ClientApp\package-lock.config # preserve npm node_modules
   - '%APPDATA%\npm-cache'               # npm cache
   - '%USERPROFILE%\.nuget\packages -> **\project.json'  # project.json cache
