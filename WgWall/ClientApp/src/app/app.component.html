@@ -1,5 +1,8 @@
-
-<app-top-bar></app-top-bar>
-<div class='container-fluid'>
-
+<app-top-bar (userSelected)="selectedUser = $event"></app-top-bar>
+<div class='container-fluid mt-3' *ngIf="selectedUser != null">
+    <div class="row">
+        <div class="col-md-2">
+            <app-products [user]="selectedUser"></app-products>
+        </div>
+    </div>
 </div>

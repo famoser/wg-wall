@@ -11,7 +11,7 @@ export class UsersComponent {
   public users: FrontendUser[]
   public selectedUser: FrontendUser
   private storageKey = "selectedFrontendUserId";
-  @Output() userSelected = new EventEmitter<FrontendUser>();
+  @Output("userSelected") userSelected = new EventEmitter<FrontendUser>();
 
   constructor(private frontendUserService: FrontendUserService) { }
 
@@ -21,6 +21,9 @@ export class UsersComponent {
 
       const selectedId = Number(localStorage.getItem(this.storageKey));
       this.selectedUser = this.users.filter(u => u.id === selectedId)[0];
+      if (this.selectedUser != null) {
+        this.userSelected.emit(this.selectedUser);
+      }
     });
   }
 

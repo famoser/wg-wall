@@ -233,3 +233,4 @@ _Pvt_Extensions
 .fake/
 
 db.sqlite
+WgWall_coverage.xml

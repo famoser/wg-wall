@@ -19,6 +19,7 @@ export class ProductService {
   }
 
   create(product: Product, frontendUser: FrontendUser): Observable<Product> {
+    console.log(product.name);
     return this.http.post<Product>(this.productUrl, {
       name: product.name,
       frontendUserId: frontendUser.id

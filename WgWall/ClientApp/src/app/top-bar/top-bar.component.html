@@ -9,7 +9,7 @@
     <ul class="navbar-nav mr-auto">
     </ul>
     <ul class="navbar-nav">
-      <app-users></app-users>
+      <app-users (userSelected)="onUserSelected($event)"></app-users>
     </ul>
   </div>
 </nav>

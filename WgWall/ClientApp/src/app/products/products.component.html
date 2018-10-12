@@ -1,4 +1,49 @@
-<div class="row no-gutters">
-    <app-new-user class="col" (create)="onCreateUser($event)"></app-new-user>
-    <app-user class="col" *ngFor="let user of users" [user]="user" [selectedUser]="selectedUser" (selected)="onSelectUser(user)"></app-user>
+<div class="card">
+    <div class="card-body">
+        <h3>shopping list</h3>
+        <p>
+            <span class="small text-secondary">click to increment, red to decrement, green to confirm purchase</span>
+        </p>
+
+        <table class="table table-sm table-borderless">
+            <tbody>
+                <tr *ngFor="let product of active; first as isFirst" [class.border-top]="!isFirst">
+                    <td (click)="increment(product)">{{product.name}}</td>
+                    <td class="minimal-width" (click)="increment(product)">
+                        {{product.amount}}
+                    </td>
+                    <td class="minimal-width">
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-sm btn-danger" type="button" (click)="decrement(product)">
+                                <fa-icon [icon]="faMinus"></fa-icon>
+                            </button>
+                            <button class="btn btn-sm btn-success" type="button" (click)="confirmBuy(product)">
+                                <fa-icon [icon]="faCheck"></fa-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>register</h3>
+        <div class="row pb-2">
+            <div class="col">
+                <input type="text" [(ngModel)]="newProductName" class="form-control form-control-sm" id="productName"
+                    placeholder="new product name" (keyup.enter)="add()">
+            </div>
+            <div class="col-md-auto">
+                <button class="btn btn-primary btn-sm mr-2 row" type="button" (click)="add()">
+                    <fa-icon [icon]="faPlus"></fa-icon>
+                </button>
+            </div>
+        </div>
+        <table class="table table-sm table-borderless">
+            <tbody>
+                <tr *ngFor="let product of register; first as isFirst" [class.border-top]="!isFirst">
+                    <td colspan="2" (click)="select(product)">{{product}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

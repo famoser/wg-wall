@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -64,11 +65,12 @@ namespace WgWall.Controllers
         [HttpPost]
         public async Task<IActionResult> PostProduct([FromBody] ProductPostPayload payload)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || payload.Name.IsNullOrEmpty())
             {
                 return BadRequest(ModelState);
             }
             
+
             var product = await _productRepository.Create(payload.Name, await _frontendUserRepository.TryGet(payload.FrontendUserId));
             var productDto = _mapper.Map<ProductDto>(product);
             return Ok(productDto);
