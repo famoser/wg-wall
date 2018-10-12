@@ -1,4 +1,7 @@
 image: Visual Studio 2017
+branches:
+  only:
+  - master
 init:
   # Good practise, because Windows line endings are different from Unix/Linux ones
   - cmd: git config --global core.autocrlf true
@@ -12,16 +15,11 @@ before_build:
   #install codecov
   - choco install codecov
 test_script:
-  # run the unit tests (requires changing into the test directory)
   # - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -target:"c:\Program Files\dotnet\dotnet.exe" -targetargs:"test WgWall.Test/WgWall.Test.csproj -f netcoreapp2.1 -c Release" -mergeoutput -hideskipped:File -output:WgWall_coverage.xml -oldStyle -filter:"+[WgWall*]* -[WgWall.Test*]*" -searchdirs:WgWall.Tests/bin/Release/netcoreapp2.1 -register:user'
+  # run the unit tests (requires changing into the test directory)
   - cmd: cd WgWall.Test
   - cmd: dotnet test
   - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[WgWall*]* -[WgWall.Test*]*" -output:".\WgWall_coverage.xml" -oldstyle'
   # - cmd: '%USERPROFILE%\.nuget\packages\codecov\1.1.0\tools\codecov.exe -f "WgWall_coverage.xml"'
   - codecov -f "WgWall_coverage.xml"
 deploy: off
-
-cache:
-  - WgWall\ClientApp\node_modules -> WgWall\ClientApp\package-lock.config # preserve npm node_modules
-  - '%APPDATA%\npm-cache'               # npm cache
-  - '%USERPROFILE%\.nuget\packages -> **\project.json'  # project.json cache
