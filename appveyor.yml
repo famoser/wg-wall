@@ -12,12 +12,15 @@ before_build:
   - cmd: dotnet --version
   # Display minimal restore text
   - cmd: dotnet restore
+  #install codecov
+  - choco install codecov
 test_script:
   # run the unit tests (requires changing into the test directory)
   - cmd: cd WgWall.Test
   - cmd: dotnet test
-  - cmd: '%userprofile%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[WgWall*]* -[WgWall.Test*]*" -output:".\WgWall_coverage.xml" -oldstyle'
-  - cmd: '%userprofile%\.nuget\packages\codecov\1.1.0\tools\codecov.exe -f "WgWall_coverage.xml"'
+  - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[WgWall*]* -[WgWall.Test*]*" -output:".\WgWall_coverage.xml" -oldstyle'
+  # - cmd: '%USERPROFILE%\.nuget\packages\codecov\1.1.0\tools\codecov.exe -f "WgWall_coverage.xml"'
+  - codecov -f "WgWall_coverage.xml"
 deploy: off
 
 cache:
