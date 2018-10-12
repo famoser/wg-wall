@@ -22,11 +22,16 @@ namespace WgWall.Test
                 context.Products.AddRange(LoadProducts());
             }
 
+            if (!context.Settings.Any())
+            {
+                context.Settings.AddRange(LoadSettings());
+            }
+
             context.SaveChanges();
         }
 
         private static List<T> AddIds<T>(List<T> list)
-        where T : BaseEntity
+        where T : BaseIdEntity
         {
             var id = 1;
             list.ForEach(fu => fu.Id = id++);
@@ -41,6 +46,11 @@ namespace WgWall.Test
         public static List<Product> LoadProducts()
         {
             return AddIds(JsonConvert.DeserializeObject<List<Product>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "products.json")));
+        }
+
+        public static List<Setting> LoadSettings()
+        {
+            return AddIds(JsonConvert.DeserializeObject<List<Setting>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "settings.json")));
         }
     }
 }

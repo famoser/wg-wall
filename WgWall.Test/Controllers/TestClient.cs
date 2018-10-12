@@ -39,7 +39,7 @@ namespace WgWall.Test.Controllers
 
         private async Task<object> DeserializeResponse(HttpResponseMessage response)
         {
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.NoContent || response.StatusCode == HttpStatusCode.OK);
 
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject(json);
