@@ -23,11 +23,11 @@ export class ProductsComponent {
 
   //product lists
   private products: Product[]
-  public register: String[];
+  public register: string[];
   public active: Product[];
 
   //input
-  public newProductName: String = ""
+  public newProductName: string = ""
   public isLoading: Boolean = false;
 
   //varia
@@ -51,7 +51,7 @@ export class ProductsComponent {
     this.newProductName = "";
   }
 
-  create(name: String) {
+  create(name: string) {
     //create product
     const newProduct = new Product();
     newProduct.name = name;
@@ -76,7 +76,7 @@ export class ProductsComponent {
     });
   }
 
-  select(name: String) {
+  select(name: string) {
     const existing = this.active.filter(p => p.name == name);
     if (existing.length > 0) {
       existing[0].amount = +existing[0].amount + 1;

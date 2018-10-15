@@ -15,7 +15,7 @@ export class TransportComponent {
   public faPencilAlt = faPencilAlt;
 
   //properties
-  public stationName: String;
+  public stationName: string;
   public vehicles: Vehicle[];
   private settingKey = "trasport.service.station";
   private setting: Setting;
@@ -23,23 +23,22 @@ export class TransportComponent {
   //input
   public isEditActive: Boolean = false;
 
-  constructor(private transportService: TransportService, private settingService: SettingService) {
-    this.setting = this.settingService.get(this.settingKey, "Waserstrasse");
-    this.stationName = this.setting.value;
-  }
+  constructor(private transportService: TransportService, private settingService: SettingService) { }
 
   ngOnInit() {
-    this.transportService.get(this.stationName).subscribe(vh => {
-      this.vehicles = vh;
-      console.log(this.vehicles);
+    this.settingService.get(this.settingKey, "Waserstrasse").subscribe(s => {
+      this.setting = s;
+      this.transportService.get(this.stationName).subscribe(vh => {
+        this.vehicles = vh;
+      });
     });
   }
 
   toggleEdit() {
-    this.isEditActive = true;
+    this.isEditActive = !this.isEditActive;
   }
 
-  setStation(station: String): void {
+  setStation(station: string): void {
     this.setting.value = station;
     this.settingService.save(this.setting);
     this.isEditActive = false;

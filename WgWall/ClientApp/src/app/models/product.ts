@@ -1,6 +1,6 @@
 export class Product {
     id: Number;
-    name: String;
+    name: string;
     amount: Number;
     boughtById: Number | null; 
 }

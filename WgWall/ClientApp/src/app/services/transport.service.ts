@@ -14,7 +14,7 @@ export class TransportService {
     constructor(private http: HttpClient) {
     }
 
-    public get(stationName: String): Observable<Vehicle[]> {
+    public get(stationName: string): Observable<Vehicle[]> {
         return this.http.get(this.baseApiUrl + stationName).pipe(map(transportJson => {
             let vehicles = [];
             transportJson["stationboard"].forEach(element => {
@@ -24,7 +24,6 @@ export class TransportService {
                 vehicles.push(vehicle);
                 console.log(vehicle);    
             });
-
             return vehicles;
         }));
     };
