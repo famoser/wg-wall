@@ -14,6 +14,7 @@ before_build:
   - cmd: dotnet restore
   #install codecov
   - choco install codecov
+  - choco install "msbuild-sonarqube-runner" -y
 test_script:
   # - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -target:"c:\Program Files\dotnet\dotnet.exe" -targetargs:"test WgWall.Test/WgWall.Test.csproj -f netcoreapp2.1 -c Release" -mergeoutput -hideskipped:File -output:WgWall_coverage.xml -oldStyle -filter:"+[WgWall*]* -[WgWall.Test*]*" -searchdirs:WgWall.Tests/bin/Release/netcoreapp2.1 -register:user'
   # run the unit tests (requires changing into the test directory)
@@ -22,4 +23,9 @@ test_script:
   - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[WgWall*]* -[WgWall.Test*]*" -output:".\WgWall_coverage.xml" -oldstyle'
   # - cmd: '%USERPROFILE%\.nuget\packages\codecov\1.1.0\tools\codecov.exe -f "WgWall_coverage.xml"'
   - codecov -f "WgWall_coverage.xml"
+
+ # - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { MSBuild.SonarQube.Runner.exe begin /k:"famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" /d:"sonar.analysis.mode=preview" /d:"sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.github.repository=famoser/wg-wall" /d:"sonar.github.oauth=$env:github_auth_token" }
+ - ps: if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { MSBuild.SonarQube.Runner.exe begin /k:"famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" }
+ - ps: if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { dotnet /verbosity:quiet "WgWall.sln" }
+ - ps: if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { MSBuild.SonarQube.Runner.exe end /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" }
 deploy: off

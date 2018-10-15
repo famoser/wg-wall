@@ -1,0 +1,15 @@
+I
+GC:\Users\flmo\source\repos\wg-wall\WgWall.Data\Model\Base\BaseEntity.csK
+IC:\Users\flmo\source\repos\wg-wall\WgWall.Data\Model\Base\BaseIdEntity.csF
+DC:\Users\flmo\source\repos\wg-wall\WgWall.Data\Model\FrontendUser.csA
+?C:\Users\flmo\source\repos\wg-wall\WgWall.Data\Model\Product.csA
+?C:\Users\flmo\source\repos\wg-wall\WgWall.Data\Model\Setting.cs?
+=C:\Users\flmo\source\repos\wg-wall\WgWall.Data\MyDbContext.csU
+SC:\Users\flmo\source\repos\wg-wall\WgWall.Data\Repository\FrontendUserRepository.csa
+_C:\Users\flmo\source\repos\wg-wall\WgWall.Data\Repository\Interfaces\IFrontendUserRepository.cs\
+ZC:\Users\flmo\source\repos\wg-wall\WgWall.Data\Repository\Interfaces\IProductRepository.cs\
+ZC:\Users\flmo\source\repos\wg-wall\WgWall.Data\Repository\Interfaces\ISettingRepository.csP
+NC:\Users\flmo\source\repos\wg-wall\WgWall.Data\Repository\ProductRepository.csP
+NC:\Users\flmo\source\repos\wg-wall\WgWall.Data\Repository\SettingRepository.csS
+OC:\Users\flmo\AppData\Local\Temp\.NETCoreApp,Version=v2.1.AssemblyAttributes.csf
+bC:\Users\flmo\source\repos\wg-wall\WgWall.Data\obj\Debug\netcoreapp2.1\WgWall.Data.AssemblyInfo.cs
