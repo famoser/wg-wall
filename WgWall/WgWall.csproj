@@ -82,5 +82,8 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
+  
+  <!-- for sonar cube -->
+  <ProjectGuid>{71322b1e-3544-4891-ac5c-a12c16f14fb2}</ProjectGuid>
 
 </Project>

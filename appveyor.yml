@@ -26,7 +26,7 @@ test_script:
 
   - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { MSBuild.SonarQube.Runner.exe begin /k:"famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" /d:"sonar.analysis.mode=preview" /d:"sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.github.repository=famoser/wg-wall" }
   - ps: if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { MSBuild.SonarQube.Runner.exe begin /k:"famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" }
-  - ps: msbuild /verbosity:quiet
+  - ps: SonarScanner.MSBuild.exe
   - ps: MSBuild.SonarQube.Runner.exe end /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578"
 
 deploy: off

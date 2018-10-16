@@ -19,5 +19,8 @@
       <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
+  
+  <!-- for sonar cube -->
+  <ProjectGuid>{9b4a60bc-4fd9-4cd5-a00a-16c936dfc752}</ProjectGuid>
 
 </Project>
