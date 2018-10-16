@@ -1,6 +1,3 @@
-environment:
-  github_auth_token:
-    secure: dGkXgpmkuouPK1JMGEo8v76xv9jq0PyXIzm7wYmrY5i3B5kX+9tTTs1b8zXporuk
 image: Visual Studio 2017
 branches:
   only:
@@ -18,6 +15,8 @@ before_build:
   #install codecov
   - choco install codecov
   - choco install "msbuild-sonarqube-runner" -y
+build:
+   #disable default build command
 test_script:
   # - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -target:"c:\Program Files\dotnet\dotnet.exe" -targetargs:"test WgWall.Test/WgWall.Test.csproj -f netcoreapp2.1 -c Release" -mergeoutput -hideskipped:File -output:WgWall_coverage.xml -oldStyle -filter:"+[WgWall*]* -[WgWall.Test*]*" -searchdirs:WgWall.Tests/bin/Release/netcoreapp2.1 -register:user'
   # run the unit tests (requires changing into the test directory)
@@ -27,9 +26,9 @@ test_script:
   # - cmd: '%USERPROFILE%\.nuget\packages\codecov\1.1.0\tools\codecov.exe -f "WgWall_coverage.xml"'
   - codecov -f "WgWall_coverage.xml"
 
-  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { MSBuild.SonarQube.Runner.exe begin /k:"famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" /d:"sonar.analysis.mode=preview" /d:"sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.github.repository=famoser/wg-wall" /d:"sonar.github.oauth=$env:github_auth_token" }
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { MSBuild.SonarQube.Runner.exe begin /k:"famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" /d:"sonar.analysis.mode=preview" /d:"sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.github.repository=famoser/wg-wall" /d:"sonar.github.oauth=$env:github_auth_token" /d:"sonar.exclusions=WgWall/ClientApp/dist/**" }
   - ps: if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { MSBuild.SonarQube.Runner.exe begin /k:"famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" }
-  - ps: MSBuild.exe /t:Rebuild
+  - ps: MSBuild.exe /t:Rebuild /verbosity:minimal
   - ps: MSBuild.SonarQube.Runner.exe end /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578"
 
 deploy: off
