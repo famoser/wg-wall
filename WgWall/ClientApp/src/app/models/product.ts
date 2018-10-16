@@ -3,4 +3,5 @@ export class Product {
     name: string;
     amount: number;
     boughtById: number | null; 
+    hideAsRecommendation: boolean;
 }

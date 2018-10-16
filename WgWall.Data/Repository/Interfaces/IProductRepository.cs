@@ -12,5 +12,6 @@ namespace WgWall.Data.Repository.Interfaces
         Task Update(Product product);
         Task<Product> Create(string name, FrontendUser frontendUser);
         Task<List<Product>> GetAllAsync();
+        Task HideAll(string name);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,17 @@ namespace WgWall.Data.Repository
         public Task<List<Product>> GetAllAsync()
         {
             return _context.Products.ToListAsync();
+        }
+
+        public async Task HideAll(string name)
+        {
+            var products = await _context.Products.Where(p => p.Name == name).ToListAsync();
+            foreach (var product in products)
+            {
+                product.Hide = true;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

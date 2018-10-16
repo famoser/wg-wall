@@ -1,11 +1,11 @@
 <div class="card">
     <div class="card-body">
         <h3>shopping list</h3>
-        <p>
-            <span class="small text-secondary">click increments, red decrements, green confirms the purchase</span>
+        <p class="small text-secondary">
+            click increments, red decrements, green confirms the purchase
         </p>
 
-        <table class="table table-sm table-borderless">
+        <table class="table table-sm table-borderless table-striped">
             <tbody>
                 <tr *ngFor="let product of active; first as isFirst" [class.border-top]="!isFirst">
                     <td (click)="increment(product)">{{product.name}}</td>
@@ -27,10 +27,13 @@
         </table>
 
         <h3>register</h3>
+        <p class="small text-secondary">
+            click on your past purchases to add them to the shopping list
+        </p>
         <div class="row pb-2">
             <div class="col">
                 <input type="text" [(ngModel)]="newProductName" class="form-control form-control-sm" id="productName"
-                    placeholder="new product name" (keyup.enter)="add()">
+                    placeholder="add new product name" (keyup.enter)="add()">
             </div>
             <div class="col-md-auto">
                 <button class="btn btn-primary btn-sm mr-2 row" type="button" (click)="add()">
@@ -38,7 +41,7 @@
                 </button>
             </div>
         </div>
-        <table class="table table-sm table-borderless">
+        <table class="table table-sm table-borderless table-striped">
             <tbody>
                 <tr *ngFor="let product of register; first as isFirst" [class.border-top]="!isFirst">
                     <td colspan="2" (click)="select(product)">{{product}}</td>

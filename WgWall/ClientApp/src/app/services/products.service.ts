@@ -26,6 +26,10 @@ export class ProductService {
     });
   }
 
+  hide(productName: string): Observable<any> {
+    return this.http.get(this.productUrl + "/hideAsRecommendation/" + productName);
+  }
+
   update(product: Product): Observable<any> {
     return this.http.put(this.productUrl + "/" + product.id, product);
   }

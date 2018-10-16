@@ -41,8 +41,8 @@ export class ProductsComponent {
     this.productService.get().subscribe(products => {
       //init view
       this.products = products;
-      this.register = Array.from(new Set(this.products.map(p => p.name))).sort();
       this.active = this.products.filter(p => p.boughtById == null && p.amount > 0);
+      this.populateRegister();
     });
   }
 
@@ -58,15 +58,18 @@ export class ProductsComponent {
 
     this.isLoading = true;
     this.productService.create(newProduct, this.user).subscribe(fu => {
-      console.log(fu);
       //referesh view
       this.products.push(fu);
-      this.register = Array.from(new Set(this.products.map(p => p.name))).sort();
       this.active.push(fu);
+      this.populateRegister();
 
       //reset input
       this.isLoading = false;
     });
+  }
+
+  populateRegister() {
+    this.register = Array.from(new Set(this.products.map(p => p.name))).sort();
   }
 
   update(product: Product) {
@@ -104,6 +107,13 @@ export class ProductsComponent {
     this.active.splice(this.active.indexOf(product), 1);
     this.update(product);
     this.user.karma = +this.user.karma + +product.amount;
+  }
+
+  hide(name: string) {
+    this.productService.hide(name).subscribe(fu => {
+      this.products.filter(p => p.name == name).forEach(p => p.hideAsRecommendation = true);
+      this.populateRegister();
+    });
   }
 
   hideHelp() {
