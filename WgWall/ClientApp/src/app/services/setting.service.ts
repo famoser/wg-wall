@@ -9,13 +9,12 @@ import { Setting } from '../models/setting';
 export class SettingService {
 
     private settingUrl = 'api/Setting';
-    private settings: Setting[] = [];
-    private $settings: Observable<Setting[]> = this.http.get<Setting[]>(this.settingUrl).pipe(shareReplay(1));
+    private settings$: Observable<Setting[]> = this.http.get<Setting[]>(this.settingUrl).pipe(shareReplay(1));
 
     constructor(private http: HttpClient) { }
 
     get(key: string, def: string = ""): Observable<Setting> {
-        return this.$settings.pipe(map(s => {
+        return this.settings$.pipe(map(s => {
             let setting = s.filter(s => s.key == key)[0];
             if (!(setting instanceof Setting)) {
                 setting = new Setting();
