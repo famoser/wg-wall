@@ -15,8 +15,7 @@ before_build:
   #install codecov
   - choco install codecov
   - choco install "msbuild-sonarqube-runner" -y
-build:
-   #disable default build command
+build: off
 test_script:
   # - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -target:"c:\Program Files\dotnet\dotnet.exe" -targetargs:"test WgWall.Test/WgWall.Test.csproj -f netcoreapp2.1 -c Release" -mergeoutput -hideskipped:File -output:WgWall_coverage.xml -oldStyle -filter:"+[WgWall*]* -[WgWall.Test*]*" -searchdirs:WgWall.Tests/bin/Release/netcoreapp2.1 -register:user'
   # run the unit tests (requires changing into the test directory)
