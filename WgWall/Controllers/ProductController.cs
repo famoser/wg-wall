@@ -41,6 +41,13 @@ namespace WgWall.Controllers
             return Ok(productsDto);
         }
 
+        [HttpGet("hideAll/{name}")]
+        public async Task<IActionResult> HideAll([FromRoute] string name)
+        {
+            await _productRepository.HideAll(name);
+            return NoContent();
+        }
+
         // PUT: api/Products/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct([FromRoute] int id, [FromBody] ProductPutPayload payload)

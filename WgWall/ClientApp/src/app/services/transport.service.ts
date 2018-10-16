@@ -22,7 +22,6 @@ export class TransportService {
                 vehicle.name = element["category"] + " " + element["number"];
                 vehicle.departureTime = new Date(element["stop"]["departure"]);
                 vehicles.push(vehicle);
-                console.log(vehicle);    
             });
             return vehicles;
         }));

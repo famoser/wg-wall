@@ -26,7 +26,11 @@ export class ProductService {
     });
   }
 
-  update(product: Product): Observable<any> {
-    return this.http.put(this.productUrl + "/" + product.id, product);
+  hideAll(productName: string) {
+    this.http.get(this.productUrl + "/hideAll/" + productName).subscribe(() => {});
+  }
+
+  update(product: Product) {
+    this.http.put(this.productUrl + "/" + product.id, product).subscribe(() => {});
   }
 }

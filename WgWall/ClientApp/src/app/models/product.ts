@@ -1,6 +1,7 @@
 export class Product {
-    id: Number;
+    id: number;
     name: string;
-    amount: Number;
-    boughtById: Number | null; 
+    amount: number;
+    boughtById: number | null; 
+    hide: boolean;
 }

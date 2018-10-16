@@ -2,19 +2,32 @@
     <div class="card-body">
         <div class="row">
             <div class="col">
-                <h3>leaving {{stationName}}</h3>
-                <p>
-                    <span class="small text-secondary">shows next 4</span>
-                </p>
+                <h3>Station {{stationName}}
+                    <a *ngIf="!isEditActive" href="#" class="pl-2" (click)="enableEdit()">
+                        <fa-icon [icon]="faPencilAlt"></fa-icon>
+                    </a>
+                    <a *ngIf="isEditActive" href="#" class="pl-2" (click)="abort()">
+                        <fa-icon [icon]="faTimes"></fa-icon>
+                    </a>
+                </h3>
             </div>
-            <div class="col-auto">
-                <button class="btn btn-primary btn-sm mr-2 row" type="button" (click)="toggleEdit()">
-                    <fa-icon [icon]="faPencilAlt"></fa-icon>
+        </div>
+
+        <div class="input-group pt-2" *ngIf="isEditActive">
+            <input type="text" [(ngModel)]="stationName" class="form-control form-control-sm" id="productName"
+                placeholder="new product name" (keyup.enter)="save()">
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-success" type="button" (click)="save()">
+                    <fa-icon [icon]="faSave"></fa-icon>
                 </button>
             </div>
         </div>
 
-        <table class="table table-sm table-borderless">
+        <p class="small text-secondary help">
+            the next 4 departures
+        </p>
+
+        <table class="table table-sm table-borderless table-striped">
             <tbody>
                 <tr *ngFor="let vehicle of vehicles; first as isFirst" [class.border-top]="!isFirst">
                     <td>{{vehicle.name}}</td>

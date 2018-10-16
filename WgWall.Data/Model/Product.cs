@@ -7,6 +7,7 @@ namespace WgWall.Data.Model
         public string Name { get; set; }
         public int Amount { get; set; }
         public int? BoughtById { get; set; }
+        public bool Hide { get; set; }
         public virtual FrontendUser BoughtBy { get; set; }
 
         public static Product Create(string name, FrontendUser createdBy = null)

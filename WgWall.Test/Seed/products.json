@@ -10,5 +10,9 @@
   },
   {
     "name": "Milch"
+  },
+  {
+    "name": "Br0t",
+    "hide":  true 
   }
 ]

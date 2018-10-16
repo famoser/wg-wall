@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Vehicle } from '../models/vehicle';
 import { TransportService } from '../services/transport.service';
 import { Setting } from '../models/setting';
@@ -13,6 +13,8 @@ import { SettingService } from '../services/setting.service';
 export class TransportComponent {
   //icons
   public faPencilAlt = faPencilAlt;
+  public faSave = faSave;
+  public faTimes = faTimes;
 
   //properties
   public stationName: string;
@@ -21,26 +23,38 @@ export class TransportComponent {
   private setting: Setting;
 
   //input
-  public isEditActive: Boolean = false;
+  public isEditActive: boolean = false;
 
   constructor(private transportService: TransportService, private settingService: SettingService) { }
 
   ngOnInit() {
     this.settingService.get(this.settingKey, "Waserstrasse").subscribe(s => {
       this.setting = s;
-      this.transportService.get(this.stationName).subscribe(vh => {
-        this.vehicles = vh;
-      });
+      this.stationName = s.value;
+      this.refreshVehicles(this.stationName);
     });
   }
 
-  toggleEdit() {
-    this.isEditActive = !this.isEditActive;
+  refreshVehicles(stationName: string) {
+    this.transportService.get(stationName).subscribe(vh => {
+      this.vehicles = vh;
+    });
   }
 
-  setStation(station: string): void {
-    this.setting.value = station;
+  save() {
+    this.setting.value = this.stationName;
     this.settingService.save(this.setting);
     this.isEditActive = false;
+
+    this.refreshVehicles(this.stationName);
+  }
+
+  abort() {
+    this.stationName = this.setting.value;
+    this.isEditActive = false;
+  }
+
+  enableEdit() {
+    this.isEditActive = true;
   }
 }

@@ -12,7 +12,7 @@ namespace WgWall.Test.Controllers.ProductController
         [TestMethod]
         public async Task Get_ShouldReturnExpectedFields()
         {
-            var expectedProductFields = new[] {"name", "id", "amount", "boughtById"};
+            var expectedProductFields = new[] {"name", "id", "amount", "boughtById", "hide"};
             var newProduct = new ProductPostPayload() { Name = "new product name"};
             using (var client = new TestClientProvider())
             {

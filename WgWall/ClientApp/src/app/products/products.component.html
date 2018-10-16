@@ -1,11 +1,12 @@
 <div class="card">
     <div class="card-body">
         <h3>shopping list</h3>
-        <p>
-            <span class="small text-secondary">click increments, red decrements, green confirms the purchase</span>
+
+        <p class="small text-secondary help">
+            click increments, red decrements, green confirms the purchase
         </p>
 
-        <table class="table table-sm table-borderless">
+        <table class="table table-sm table-borderless table-striped">
             <tbody>
                 <tr *ngFor="let product of active; first as isFirst" [class.border-top]="!isFirst">
                     <td (click)="increment(product)">{{product.name}}</td>
@@ -26,11 +27,22 @@
             </tbody>
         </table>
 
-        <h3>register</h3>
-        <div class="row pb-2">
+        <h3>product inventory
+            <a *ngIf="!isEditActive" href="#" class="pl-2" (click)="enableEdit()">
+                <fa-icon [icon]="faPencilAlt"></fa-icon>
+            </a>
+                    <a *ngIf="isEditActive" href="#" class="pl-2" (click)="abortEdit()">
+                        <fa-icon [icon]="faTimes"></fa-icon>
+                    </a>
+        </h3>
+
+        <p class="small text-secondary help">
+            click on a product to add it to the shopping list
+        </p>
+        <div *ngIf="isEditActive" class="row pb-2">
             <div class="col">
                 <input type="text" [(ngModel)]="newProductName" class="form-control form-control-sm" id="productName"
-                    placeholder="new product name" (keyup.enter)="add()">
+                    placeholder="add new product name" (keyup.enter)="add()">
             </div>
             <div class="col-md-auto">
                 <button class="btn btn-primary btn-sm mr-2 row" type="button" (click)="add()">
@@ -38,10 +50,17 @@
                 </button>
             </div>
         </div>
-        <table class="table table-sm table-borderless">
+        <table class="table table-sm table-borderless table-striped">
             <tbody>
                 <tr *ngFor="let product of register; first as isFirst" [class.border-top]="!isFirst">
-                    <td colspan="2" (click)="select(product)">{{product}}</td>
+                    <td (click)="select(product)">{{product}}</td>
+                    <td *ngIf="isEditActive" class="minimal-width">
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-sm btn-danger" type="button" (click)="hide(product)">
+                                <fa-icon [icon]="faTimes"></fa-icon>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
