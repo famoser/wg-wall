@@ -31,9 +31,9 @@
             <a *ngIf="!isEditActive" href="#" class="pl-2" (click)="enableEdit()">
                 <fa-icon [icon]="faPencilAlt"></fa-icon>
             </a>
-                    <a *ngIf="isEditActive" href="#" class="pl-2" (click)="abortEdit()">
-                        <fa-icon [icon]="faTimes"></fa-icon>
-                    </a>
+            <a *ngIf="isEditActive" href="#" class="pl-2" (click)="abortEdit()">
+                <fa-icon [icon]="faTimes"></fa-icon>
+            </a>
         </h3>
 
         <p class="small text-secondary help">
