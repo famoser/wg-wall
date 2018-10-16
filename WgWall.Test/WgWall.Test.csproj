@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+	  
+	<ProjectGuid>{47fa38f8-2cc9-4cf9-9b16-c8b98d02932f}</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -52,5 +54,5 @@
     <ProjectReference Include="..\WgWall.Migrations\WgWall.Migrations.csproj" />
     <ProjectReference Include="..\WgWall\WgWall.csproj" />
   </ItemGroup>
-
+  
 </Project>

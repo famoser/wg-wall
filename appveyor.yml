@@ -6,20 +6,21 @@ init:
   # Good practise, because Windows line endings are different from Unix/Linux ones
   - cmd: git config --global core.autocrlf true
 install:
-  # Install repo specific stuff here
-before_build:
-  # Display .NET Core version
-  - cmd: dotnet --version
-  # Display minimal restore text
+  #restore dependencies
   - cmd: dotnet restore
-  #install codecov
-  - choco install codecov
+  
+  #install depedencies
+  - choco install codecov "msbuild-sonarqube-runner" -y --limitoutput
+build: off
 test_script:
-  # - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -target:"c:\Program Files\dotnet\dotnet.exe" -targetargs:"test WgWall.Test/WgWall.Test.csproj -f netcoreapp2.1 -c Release" -mergeoutput -hideskipped:File -output:WgWall_coverage.xml -oldStyle -filter:"+[WgWall*]* -[WgWall.Test*]*" -searchdirs:WgWall.Tests/bin/Release/netcoreapp2.1 -register:user'
-  # run the unit tests (requires changing into the test directory)
-  - cmd: cd WgWall.Test
-  - cmd: dotnet test
-  - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[WgWall*]* -[WgWall.Test*]*" -output:".\WgWall_coverage.xml" -oldstyle'
-  # - cmd: '%USERPROFILE%\.nuget\packages\codecov\1.1.0\tools\codecov.exe -f "WgWall_coverage.xml"'
+  # run unit tests with open cover (test coverage)
+  - cmd: '%USERPROFILE%\.nuget\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test WgWall.Test\WgWall.Test.csproj" -filter:"+[WgWall*]* -[WgWall.Test*]*" -output:".\WgWall_coverage.xml" -oldstyle'
   - codecov -f "WgWall_coverage.xml"
+    
+  # run unit tests with sonar cube (code smells)
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarScanner.MSBuild.exe begin /k:"famoser_wg-wall" /d:sonar.organization="famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" /d:"sonar.analysis.mode=preview" /d:"sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.github.repository=famoser/wg-wall" /d:"sonar.github.oauth=$env:github_auth_token" /d:"sonar.exclusions=WgWall/ClientApp/dist/**" }
+  - ps: if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarScanner.MSBuild.exe begin /k:"famoser_wg-wall" /d:sonar.organization="famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" }
+  - ps: MSBuild.exe /t:Rebuild /verbosity:minimal
+  - ps: SonarScanner.MSBuild.exe end /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578"
+
 deploy: off

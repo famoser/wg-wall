@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+  
+	  <!-- for sonar cube -->
+	  <ProjectGuid>{9b4a60bc-4fd9-4cd5-a00a-16c936dfc752}</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
