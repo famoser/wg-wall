@@ -10,6 +10,10 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+	
+  
+	  <!-- for sonar cube -->
+	  <ProjectGuid>{71322b1e-3544-4891-ac5c-a12c16f14fb2}</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -82,8 +86,5 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
-  
-  <!-- for sonar cube -->
-  <ProjectGuid>{71322b1e-3544-4891-ac5c-a12c16f14fb2}</ProjectGuid>
 
 </Project>

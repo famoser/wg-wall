@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+	
+	  
+	  <ProjectGuid>{47fa38f8-2cc9-4cf9-9b16-c8b98d02932f}</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,7 +25,5 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
   </ItemGroup>
-  
-  <ProjectGuid>{47fa38f8-2cc9-4cf9-9b16-c8b98d02932f}</ProjectGuid>
 
 </Project>
