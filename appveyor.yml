@@ -18,7 +18,7 @@ test_script:
   - codecov -f "WgWall_coverage.xml"
     
   # run unit tests with sonar cube (code smells)
-  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarScanner.MSBuild.exe begin /k:"famoser_wg-wall" /d:sonar.organization="famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" /d:"sonar.analysis.mode=preview" /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" /d:"sonar.pullrequest.provider=github" /d:"sonar.pullrequest.github.repository=famoser/wg-wall" /d:"sonar.pullrequest.github.endpoint=https://api.github.com" /d:"sonar.github.oauth=$env:github_auth_token" /d:"sonar.exclusions=WgWall/ClientApp/dist/**" }
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarScanner.MSBuild.exe begin /k:"famoser_wg-wall" /d:sonar.organization="famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" /d:"sonar.analysis.mode=preview" /d:"sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.github.repository=famoser/wg-wall" /d:"sonar.github.oauth=$env:github_auth_token" /d:"sonar.exclusions=WgWall/ClientApp/dist/**" }
   - ps: if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarScanner.MSBuild.exe begin /k:"famoser_wg-wall" /d:sonar.organization="famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" }
   - ps: MSBuild.exe /t:Rebuild /verbosity:minimal
   - ps: SonarScanner.MSBuild.exe end /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578"
