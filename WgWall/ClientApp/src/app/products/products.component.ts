@@ -2,11 +2,7 @@ import { Component, ViewChild, Output, EventEmitter, Input } from '@angular/core
 import { Product } from '../models/product';
 import { ProductService } from '../services/products.service';
 import { FrontendUser } from '../models/frontend-user';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faPlus, faMinus, faShoppingCart, faTimes, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-products',
@@ -16,9 +12,10 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 export class ProductsComponent {
   //icons
   public faCheck = faCheck;
-  public faTrash = faTrash;
+  public faTimes = faTimes;
   public faPlus = faPlus;
   public faMinus = faMinus;
+  public faPencilAlt = faPencilAlt;
   public faShoppingCart = faShoppingCart;
 
   //product lists
@@ -28,10 +25,7 @@ export class ProductsComponent {
 
   //input
   public newProductName: string = ""
-  public isLoading: boolean = false;
-
-  //varia
-  public showHelp: boolean = true;
+  public isEditActive: boolean = false;
 
   @Input("user") user: FrontendUser
 
@@ -46,37 +40,25 @@ export class ProductsComponent {
     });
   }
 
-  add() {
-    this.select(this.newProductName);
-    this.newProductName = "";
-  }
-
   create(name: string) {
     //create product
     const newProduct = new Product();
     newProduct.name = name;
 
-    this.isLoading = true;
     this.productService.create(newProduct, this.user).subscribe(fu => {
       //referesh view
       this.products.push(fu);
       this.active.push(fu);
       this.populateRegister();
-
-      //reset input
-      this.isLoading = false;
     });
   }
 
   populateRegister() {
-    this.register = Array.from(new Set(this.products.map(p => p.name))).sort();
+    this.register = Array.from(new Set(this.products.filter(p => !p.hide).map(p => p.name))).sort();
   }
 
   update(product: Product) {
-    this.isLoading = true;
-    this.productService.update(product).subscribe(() => {
-      this.isLoading = false;
-    });
+    this.productService.update(product);
   }
 
   select(name: string) {
@@ -89,16 +71,31 @@ export class ProductsComponent {
     }
   }
 
+  add() {
+    //add if not existing
+    const existing = this.active.filter(p => p.name == name);
+    if (existing.length == 0) {
+      this.create(name);
+    }
+
+    //reset view
+    this.newProductName = "";
+  }
+
+  abortEdit() {
+    this.isEditActive = false;
+  }
+
   decrement(product: Product) {
     if (product.amount == 1) {
       this.active.splice(this.active.indexOf(product), 1);
     }
-    product.amount = +product.amount - 1;
+    product.amount = product.amount - 1;
     this.update(product);
   }
 
   increment(product: Product) {
-    product.amount = +product.amount + 1;
+    product.amount = product.amount + 1;
     this.update(product);
   }
 
@@ -110,13 +107,12 @@ export class ProductsComponent {
   }
 
   hide(name: string) {
-    this.productService.hide(name).subscribe(fu => {
-      this.products.filter(p => p.name == name).forEach(p => p.hideAsRecommendation = true);
-      this.populateRegister();
-    });
+    this.productService.hideAll(name);
+    this.products.filter(p => p.name == name).forEach(p => p.hide = true);
+    this.populateRegister();
   }
 
-  hideHelp() {
-    this.showHelp = false;
+  enableEdit() {
+    this.isEditActive = true;
   }
 }

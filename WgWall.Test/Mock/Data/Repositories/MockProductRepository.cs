@@ -42,5 +42,13 @@ namespace WgWall.Test.Mock.Data.Repositories
         {
             return new List<Product>(_testSet);
         }
+
+        public async Task HideAll(string name)
+        {
+            foreach (var product in _testSet.Where(t => t.Name == name))
+            {
+                product.Hide = true;
+            }
+        }
     }
 }

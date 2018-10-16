@@ -41,7 +41,7 @@ namespace WgWall.Controllers
             return Ok(productsDto);
         }
 
-        [HttpGet("hide/{name}")]
+        [HttpGet("hideAll/{name}")]
         public async Task<IActionResult> HideAll([FromRoute] string name)
         {
             await _productRepository.HideAll(name);

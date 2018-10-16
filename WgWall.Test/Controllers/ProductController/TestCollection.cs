@@ -94,6 +94,28 @@ namespace WgWall.Test.Controllers.ProductController
             Assert.IsTrue(list.Count == previousList.Count);
         }
 
+        [TestMethod]
+        public async Task HideAll_ShouldSaveChanges()
+        {
+            //arrange
+            var controller = GetController();
+            var frontendUser = await GetActiveUser();
+
+            //act
+            var previousResult = await controller.GetProducts();
+            var previousList = AssertProducts(previousResult);
+            var prod = previousList[0];
+
+            await controller.HideAll(prod.Name);
+
+            var result = await controller.GetProducts();
+            var list = AssertProducts(result);
+            var hiddenProducts = list.Where(p => p.Name == prod.Name).ToList();
+
+            //assert
+            Assert.IsTrue(hiddenProducts.Count(p => p.Hide) == hiddenProducts.Count());
+            }
+
         private ProductDto AssertNewProduct(IActionResult result, ProductPostPayload newProduct)
         {
             var objectResult = result as OkObjectResult;
