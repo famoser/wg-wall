@@ -28,10 +28,10 @@ export class ProductsComponent {
 
   //input
   public newProductName: string = ""
-  public isLoading: Boolean = false;
+  public isLoading: boolean = false;
 
   //varia
-  public showHelp: Boolean = true;
+  public showHelp: boolean = true;
 
   @Input("user") user: FrontendUser
 

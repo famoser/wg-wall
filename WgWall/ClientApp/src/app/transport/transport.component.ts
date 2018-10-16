@@ -21,7 +21,7 @@ export class TransportComponent {
   private setting: Setting;
 
   //input
-  public isEditActive: Boolean = false;
+  public isEditActive: boolean = false;
 
   constructor(private transportService: TransportService, private settingService: SettingService) { }
 
