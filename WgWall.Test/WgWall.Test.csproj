@@ -55,6 +55,4 @@
     <ProjectReference Include="..\WgWall\WgWall.csproj" />
   </ItemGroup>
   
-  <ProjectGuid>{ffba398d-916d-48bc-950d-c8eb40a0ebc2}</ProjectGuid>
-
 </Project>
