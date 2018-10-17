@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 namespace WgWall.Test.Mock.Data.Repositories
@@ -18,14 +19,18 @@ namespace WgWall.Test.Mock.Data.Repositories
             _testSet = testSet;
         }
 
-        public async Task<Product> TryGet(int productId)
+        public async Task Update(int productId, string name, int amount, FrontendUser boughtBy)
         {
-            return _testSet.FirstOrDefault(p => p.Id == productId);
-        }
+            var prod = _testSet.FirstOrDefault(p => p.Id == productId);
+            if (prod == null)
+            {
+                return;
+            }
 
-        public async Task Update(Product product)
-        {
-            //can skip
+            prod.Name = name;
+            prod.Amount = amount;
+            prod.BoughtBy = boughtBy;
+            prod.BoughtById = boughtBy?.Id;
         }
 
         public async Task<Product> Create(string name, FrontendUser frontendUser)

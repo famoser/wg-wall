@@ -56,14 +56,8 @@ namespace WgWall.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var product = await _productRepository.TryGet(id);
-            product.Name = payload.Name;
-            product.Amount = payload.Amount;
-            product.BoughtBy = await _frontendUserRepository.TryGet(payload.BoughtBy);
-            product.BoughtById = product.BoughtBy?.Id;
-
-            await _productRepository.Update(product);
+            
+            await _productRepository.Update(id, payload.Name, payload.Amount, await _frontendUserRepository.TryGet(payload.BoughtBy));
             
             return NoContent();
         }
@@ -72,11 +66,10 @@ namespace WgWall.Controllers
         [HttpPost]
         public async Task<IActionResult> PostProduct([FromBody] ProductPostPayload payload)
         {
-            if (!ModelState.IsValid || payload.Name.IsNullOrEmpty())
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
 
             var product = await _productRepository.Create(payload.Name, await _frontendUserRepository.TryGet(payload.FrontendUserId));
             var productDto = _mapper.Map<ProductDto>(product);
