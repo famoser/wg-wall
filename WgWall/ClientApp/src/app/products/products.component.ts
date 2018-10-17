@@ -37,6 +37,9 @@ export class ProductsComponent {
       this.products = products;
       this.active = this.products.filter(p => p.boughtById == null && p.amount > 0);
       this.populateRegister();
+      if (this.products.length == 0) {
+        this.isEditActive = true;
+      }
     });
   }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 namespace WgWall.Test.Mock.Data.Repositories

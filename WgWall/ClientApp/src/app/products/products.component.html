@@ -6,7 +6,7 @@
             click increments, red decrements, green confirms the purchase
         </p>
 
-        <table class="table table-sm table-borderless table-striped">
+        <table *ngIf="active.length > 0" class="table table-sm table-borderless table-striped">
             <tbody>
                 <tr *ngFor="let product of active; first as isFirst" [class.border-top]="!isFirst">
                     <td (click)="increment(product)">{{product.name}}</td>
@@ -26,6 +26,9 @@
                 </tr>
             </tbody>
         </table>
+        <p *ngIf="active.length == 0" class="font-italic">
+            no products in your shopping list
+        </p>
 
         <h3>product inventory
             <a *ngIf="!isEditActive" href="#" class="pl-2" (click)="enableEdit()">
@@ -50,7 +53,7 @@
                 </button>
             </div>
         </div>
-        <table class="table table-sm table-borderless table-striped">
+        <table *ngIf="register.length > 0" class="table table-sm table-borderless table-striped">
             <tbody>
                 <tr *ngFor="let product of register; first as isFirst" [class.border-top]="!isFirst">
                     <td (click)="select(product)">{{product}}</td>
@@ -64,5 +67,8 @@
                 </tr>
             </tbody>
         </table>
+        <p *ngIf="active.length == 0 && !isEditActive" class="font-italic">
+            no products in your register
+        </p>
     </div>
 </div>

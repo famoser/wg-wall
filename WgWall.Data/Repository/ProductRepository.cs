@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Data.Repository
 {
@@ -17,14 +18,19 @@ namespace WgWall.Data.Repository
         {
             _context = context;
         }
-
-        public Task<Product> TryGet(int productId)
+        
+        public async Task Update(int productId, string name, int amount, FrontendUser boughtBy)
         {
-            return _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
-        }
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            if (product == null)
+            {
+                return;
+            }
 
-        public async Task Update(Product product)
-        {
+            product.Name = name;
+            product.Amount = amount;
+            product.BoughtBy = boughtBy;
+            product.BoughtById = boughtBy?.Id;
             await _context.SaveChangesAsync();
         }
 
