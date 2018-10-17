@@ -1,17 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WgWall.Api.Request;
-using WgWall.Controllers;
-using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
 using WgWall.Dto;
 using Task = System.Threading.Tasks.Task;
 
-namespace WgWall.Test.Controllers.ProductController
+namespace WgWall.Test.Controllers.TaskController
 {
     public abstract class TestCollection
     {
@@ -22,19 +20,19 @@ namespace WgWall.Test.Controllers.ProductController
             _serviceProvider = serviceProvider;
         }
 
-        private WgWall.Controllers.ProductController GetController()
+        private WgWall.Controllers.TaskController GetController()
         {
-            return new WgWall.Controllers.ProductController(_serviceProvider.GetService<IProductRepository>(), _serviceProvider.GetService<IFrontendUserRepository>());
+            return new WgWall.Controllers.TaskController(_serviceProvider.GetService<IFrontendUserRepository>(), _serviceProvider.GetService<ITaskRepository>());
         }
 
         [TestMethod]
-        public async Task Get_ShouldReturnProducts()
+        public async Task Get_ShouldReturnTasks()
         {
             //arrange
             var controller = GetController();
 
             //act
-            var result = await controller.GetProducts();
+            var result = await controller.GetTasks();
 
             //assert
             AssertProducts(result);
@@ -48,9 +46,9 @@ namespace WgWall.Test.Controllers.ProductController
             var frontendUser = await ServiceProviderHelper.GetActiveUser(_serviceProvider);
 
             //act
-            var previousResult = await controller.GetProducts();
+            var previousResult = await controller.GetTasks();
             var payload = new ProductPostPayload { Name = "fun", FrontendUserId = frontendUser.Id };
-            var newProduct = await controller.PostProduct(payload);
+            var newProduct = await controller.Create(payload);
             var result = await controller.GetProducts();
 
             //assert
@@ -65,7 +63,7 @@ namespace WgWall.Test.Controllers.ProductController
         {
             //arrange
             var controller = GetController();
-            var frontendUser = await ServiceProviderHelper.GetActiveUser(_serviceProvider);
+            var frontendUser = await GetActiveUser();
 
             //act
             var previousResult = await controller.GetProducts();
@@ -92,6 +90,7 @@ namespace WgWall.Test.Controllers.ProductController
         {
             //arrange
             var controller = GetController();
+            var frontendUser = await GetActiveUser();
 
             //act
             var previousResult = await controller.GetProducts();
