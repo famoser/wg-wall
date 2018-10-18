@@ -52,6 +52,8 @@ namespace WgWall.Controllers
             await _taskTemplateRepository.Update(taskTemplate);
 
             //save new task
+            
+
             var task = await _taskRepository.Create(taskTemplate, await _frontendUserRepository.TryGet(payload.FrontendUserId));
             var taskDto = _mapper.Map<TaskDto>(task);
             return Ok(taskDto);

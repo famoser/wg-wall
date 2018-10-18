@@ -4,10 +4,22 @@
 }
 
 h3 {
+    font-size: 1em;
+    text-transform: uppercase;
     margin-bottom: 0;
 }
 
 .help {
     margin-bottom: 0.2rem;
     margin-top: 0.5rem;
+}
+
+.minimal-width {
+    width: 1%;
+    white-space: nowrap;
+    text-align: right;
+}
+
+html, body {
+    background-color: #212529;
 }
