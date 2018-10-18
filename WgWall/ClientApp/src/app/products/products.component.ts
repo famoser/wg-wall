@@ -1,8 +1,11 @@
-import { Component, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import {
+    faCheck, faEyeSlash, faMinus, faPencilAlt, faPlus
+} from '@fortawesome/free-solid-svg-icons';
+
+import { FrontendUser } from '../models/frontend-user';
 import { Product } from '../models/product';
 import { ProductService } from '../services/product.service';
-import { FrontendUser } from '../models/frontend-user';
-import { faCheck, faPlus, faMinus, faShoppingCart, faTimes, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-products',
@@ -11,11 +14,10 @@ import { faCheck, faPlus, faMinus, faShoppingCart, faTimes, faPencilAlt } from '
 export class ProductsComponent {
   //icons
   public faCheck = faCheck;
-  public faTimes = faTimes;
   public faPlus = faPlus;
   public faMinus = faMinus;
   public faPencilAlt = faPencilAlt;
-  public faShoppingCart = faShoppingCart;
+  public faEyeSlash = faEyeSlash;
 
   //product lists
   private products: Product[]
@@ -26,7 +28,7 @@ export class ProductsComponent {
   public newProductName: string = ""
   public isEditActive: boolean = false;
 
-  @Input("user") user: FrontendUser
+  @Input() user: FrontendUser
 
   constructor(private productService: ProductService) { }
 

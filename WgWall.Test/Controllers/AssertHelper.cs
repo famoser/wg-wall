@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using WgWall.Api.Dto;
 using WgWall.Data.Repository.Interfaces;
-using WgWall.Dto;
 
 namespace WgWall.Test.Controllers
 {

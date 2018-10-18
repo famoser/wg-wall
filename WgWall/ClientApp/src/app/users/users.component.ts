@@ -1,7 +1,8 @@
-import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { FrontendUserService } from '../services/frontend-user.service';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+
 import { FrontendUser } from '../models/frontend-user';
 import { NewUserComponent } from '../new-user/new-user.component';
+import { FrontendUserService } from '../services/frontend-user.service';
 
 @Component({
   selector: 'app-users',
@@ -11,7 +12,7 @@ export class UsersComponent {
   public users: FrontendUser[]
   public selectedUser: FrontendUser
   private storageKey = "selectedFrontendUserId";
-  @Output("userSelected") userSelected = new EventEmitter<FrontendUser>();
+  @Output() userSelected = new EventEmitter<FrontendUser>();
 
   constructor(private frontendUserService: FrontendUserService) { }
 
