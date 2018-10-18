@@ -6,8 +6,7 @@ import { faCheck, faPlus, faMinus, faShoppingCart, faTimes, faPencilAlt } from '
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  templateUrl: './products.component.html'
 })
 export class ProductsComponent {
   //icons
