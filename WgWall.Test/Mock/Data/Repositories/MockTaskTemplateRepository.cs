@@ -17,6 +17,11 @@ namespace WgWall.Test.Mock.Data.Repositories
             _testSet = testSet;
         }
 
+        public async Task Update(TaskTemplate taskTemplate)
+        {
+            //dont need to do anything
+        }
+
         public async Task<TaskTemplate> Create(string name, int? intervalInDays, FrontendUser frontendUser)
         {
             var taskTemplate = TaskTemplate.Create(name, intervalInDays, frontendUser);

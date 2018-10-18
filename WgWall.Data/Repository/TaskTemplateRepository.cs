@@ -32,6 +32,11 @@ namespace WgWall.Data.Repository
             await _context.SaveChangesAsync();
         }
 
+        public Task Update(TaskTemplate taskTemplate)
+        {
+            return _context.SaveChangesAsync();
+        }
+
         public async Task<TaskTemplate> Create(string name, int? intervalInDays, FrontendUser frontendUser)
         {
             var taskTemplate = TaskTemplate.Create(name, intervalInDays, frontendUser);

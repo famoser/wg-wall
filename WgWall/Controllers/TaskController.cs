@@ -41,7 +41,18 @@ namespace WgWall.Controllers
         [HttpPost("create/{templateId}")]
         public async Task<IActionResult> Create([FromRoute] int templateId, [FromBody] AccountablePayload payload)
         {
-            var task = await _taskRepository.Create(await _taskTemplateRepository.TryGet(templateId), await _frontendUserRepository.TryGet(payload.FrontendUserId));
+            var taskTemplate = await _taskTemplateRepository.TryGet(templateId);
+            if (taskTemplate == null)
+            {
+                return NotFound();
+            }
+
+            //remember last activation
+            taskTemplate.LastActivationAt = new DateTime();
+            await _taskTemplateRepository.Update(taskTemplate);
+
+            //save new task
+            var task = await _taskRepository.Create(taskTemplate, await _frontendUserRepository.TryGet(payload.FrontendUserId));
             var taskDto = _mapper.Map<TaskDto>(task);
             return Ok(taskDto);
         }
