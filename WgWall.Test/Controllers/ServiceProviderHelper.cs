@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WgWall.Api.Dto;
 using WgWall.Data;
 using WgWall.Data.Model;
 using WgWall.Data.Repository;
@@ -46,16 +47,24 @@ namespace WgWall.Test.Controllers
             services.AddTransient<ISettingRepository>(provider => new MockSettingRepository(SampleData.LoadSettings()));
 
             var templates = SampleData.LoadTaskTemplates();
-            services.AddTransient<ITaskRepository>(provider => new MockSettingRepository(SampleData.LoadTasks(templates)()));
-            services.AddTransient<ITaskTemplateRepository>(provider => new MockSettingRepository(SampleData.LoadTaskTemplates()));
+            services.AddTransient<ITaskRepository>(provider => new MockTaskRepository(SampleData.LoadTasks(templates)));
+            services.AddTransient<ITaskTemplateRepository>(provider => new MockTaskTemplateRepository(SampleData.LoadTaskTemplates()));
 
             return services.BuildServiceProvider();
         }
-        
+
         public static async Task<FrontendUserDto> GetActiveUser(ServiceProvider serviceProvider)
         {
             var controller = new WgWall.Controllers.FrontendUserController(serviceProvider.GetService<IFrontendUserRepository>());
-            var users = AssertHelper.AssertUsers(await controller.GetFrontendUsers());
+            var users = AssertHelper.AssertList<FrontendUserDto>(await controller.GetFrontendUsers());
+
+            return users[0];
+        }
+
+        public static async Task<TaskTemplateDto> GetSomeTaskTemplate(ServiceProvider serviceProvider)
+        {
+            var controller = new WgWall.Controllers.TaskTemplateController(serviceProvider.GetService<IFrontendUserRepository>(), serviceProvider.GetService<ITaskTemplateRepository>());
+            var users = AssertHelper.AssertList<TaskTemplateDto>(await controller.GetTasks());
 
             return users[0];
         }

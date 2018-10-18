@@ -9,7 +9,7 @@ namespace WgWall.Data.Repository.Interfaces
 {
     public interface ITaskRepository
     {
-        Task<Model.Task> Create(int taskTemplateId, FrontendUser frontendUser);
+        Task<Model.Task> Create(TaskTemplate taskTemplate, FrontendUser frontendUser);
         Task<List<Model.Task>> GetActiveAsync();
         Task Done(int taskId, FrontendUser frontendUser);
         Task Remove(int taskId);

@@ -19,12 +19,9 @@ namespace WgWall.Data.Repository
             _context = context;
         }
 
-        public async Task<Model.Task> Create(int taskTemplateId, FrontendUser frontendUser)
+        public async Task<Model.Task> Create(TaskTemplate taskTemplate, FrontendUser frontendUser)
         {
-            var template = await _context.TaskTemplates.FirstOrDefaultAsync(t => t.Id == taskTemplateId);
-            if (template == null) return null;
-
-            var task = Model.Task.Create(template, frontendUser);
+            var task = Model.Task.Create(taskTemplate, frontendUser);
 
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();

@@ -40,16 +40,11 @@ namespace WgWall.Test.Mock
             base.ConfigureServices(services);
         }
 
-        public override void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public override void PrepareDatabase(MyDbContext context)
         {
-            PrepareDatabase(app.ApplicationServices.GetService<MyDbContext>());
-            base.Configure(app, env);
-        }
+            base.PrepareDatabase(context);
 
-        public void PrepareDatabase(MyDbContext context)
-        {
-            //migrate & seed db
-            context.Database.Migrate();
+            //seed db
             context.EnsureSeeded();
         }
     }

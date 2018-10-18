@@ -58,5 +58,10 @@ namespace WgWall.Data.Repository
             task.Hide = true;
             await _context.SaveChangesAsync();
         }
+
+        public Task<TaskTemplate> TryGet(int templateId)
+        {
+            return _context.TaskTemplates.FirstOrDefaultAsync(t => t.Id == templateId);
+        }
     }
 }

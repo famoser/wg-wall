@@ -37,11 +37,21 @@ namespace WgWall
             services.AddScoped<IFrontendUserRepository, FrontendUserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ISettingRepository, SettingRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskTemplateRepository, TaskTemplateRepository>();
+        }
+
+        public virtual void PrepareDatabase(MyDbContext context)
+        {
+            //migrate
+            context.Database.Migrate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            PrepareDatabase(app.ApplicationServices.GetService<MyDbContext>());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

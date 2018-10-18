@@ -13,5 +13,6 @@ namespace WgWall.Data.Repository.Interfaces
         Task<TaskTemplate> Create(string name, int? intervalInDays, FrontendUser frontendUser);
         Task<List<TaskTemplate>> GetAllAsync();
         Task Hide(int taskTemplateId);
+        Task<TaskTemplate> TryGet(int templateId);
     }
 }

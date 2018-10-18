@@ -15,7 +15,7 @@ namespace WgWall.Data.Model
 
         public static Task Create(TaskTemplate taskTemplate, FrontendUser createdBy)
         {
-            var element = new Task  { TaskTemplate = taskTemplate };
+            var element = new Task  { TaskTemplate = taskTemplate, TaskTemplateId = taskTemplate.Id};
             RegisterCreation(element, createdBy);
             return element;
         }

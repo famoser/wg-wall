@@ -1,40 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 namespace WgWall.Test.Mock.Data.Repositories
 {
     public class MockTaskRepository : ITaskRepository
     {
-        private readonly List<Task> _testSet;
-        private readonly ITaskTemplateRepository _taskTemplateRepository;
+        private readonly List<WgWall.Data.Model.Task> _testSet;
 
-        public MockTaskRepository(List<Task> testSet, ITaskTemplateRepository taskTemplateRepository)
+        public MockTaskRepository(List<WgWall.Data.Model.Task> testSet)
         {
             _testSet = testSet;
-            _taskTemplateRepository = taskTemplateRepository;
         }
 
-        public async System.Threading.Tasks.Task<Task> Create(int taskTemplateId, FrontendUser frontendUser)
+        public async Task<WgWall.Data.Model.Task> Create(TaskTemplate taskTemplate, FrontendUser frontendUser)
         {
-            _testSet.Add(Task.Create(_taskTemplateRepository.GetAllAsync()));
+            var task = WgWall.Data.Model.Task.Create(taskTemplate, frontendUser);
+            task.Id = _testSet.Max(t => t.Id) + 1;
+            _testSet.Add(task);
+
+            return task;
         }
 
-        public System.Threading.Tasks.Task<List<Task>> GetActiveAsync()
+        public async Task<List<WgWall.Data.Model.Task>> GetActiveAsync()
         {
-            throw new NotImplementedException();
+            return _testSet.Where(t => t.DoneBy == null).ToList();
         }
 
-        public System.Threading.Tasks.Task Done(int taskId, FrontendUser frontendUser)
+        public async Task Done(int taskId, FrontendUser frontendUser)
         {
-            throw new NotImplementedException();
+            foreach (var task in _testSet.Where(t => t.Id == taskId))
+            {
+                task.DoneBy = frontendUser;
+                task.DoneById = frontendUser.Id;
+            }
         }
 
-        public System.Threading.Tasks.Task Remove(int taskId)
+        public async Task Remove(int taskId)
         {
-            throw new NotImplementedException();
+            _testSet.Remove(_testSet.FirstOrDefault(t => t.Id == taskId));
         }
     }
 }
