@@ -64,7 +64,7 @@ namespace WgWall.Test.Controllers
         public static async Task<TaskTemplateDto> GetSomeTaskTemplate(ServiceProvider serviceProvider)
         {
             var controller = new WgWall.Controllers.TaskTemplateController(serviceProvider.GetService<IFrontendUserRepository>(), serviceProvider.GetService<ITaskTemplateRepository>());
-            var users = AssertHelper.AssertList<TaskTemplateDto>(await controller.GetTasks());
+            var users = AssertHelper.AssertList<TaskTemplateDto>(await controller.Get());
 
             return users[0];
         }

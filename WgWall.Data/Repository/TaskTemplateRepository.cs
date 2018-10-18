@@ -28,7 +28,7 @@ namespace WgWall.Data.Repository
             }
 
             task.Name = name;
-            task.IntervalInDays = intervalInDays;
+            task.IntervalInDays = intervalInDays == 0 || intervalInDays == null ? null : intervalInDays;
             await _context.SaveChangesAsync();
         }
 

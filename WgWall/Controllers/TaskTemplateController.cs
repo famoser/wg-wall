@@ -34,7 +34,7 @@ namespace WgWall.Controllers
 
         // GET: api/TaskTemplates
         [HttpGet]
-        public async Task<IActionResult> GetTasks()
+        public async Task<IActionResult> Get()
         {
             var taskTemplates = await _taskTemplateRepository.GetAllAsync();
 
