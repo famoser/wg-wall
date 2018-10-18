@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 
-import { Subscription, Observable } from 'rxjs'
-import { shareReplay, map } from "rxjs/operators";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
 import { Setting } from '../models/setting';
 
 @Injectable({ providedIn: 'root' })

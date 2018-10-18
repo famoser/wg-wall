@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+
 import { FrontendUser } from '../models/frontend-user';
 
 @Component({
