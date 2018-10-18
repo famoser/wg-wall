@@ -1,5 +1,5 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { FrontendUserService } from '../services/frontend_user.service';
+import { FrontendUserService } from '../services/frontend-user.service';
 import { FrontendUser } from '../models/frontend-user';
 import { NewUserComponent } from '../new-user/new-user.component';
 

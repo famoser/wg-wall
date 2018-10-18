@@ -27,14 +27,6 @@ namespace WgWall.Test.Controllers.ProductController
             return new WgWall.Controllers.ProductController(_serviceProvider.GetService<IProductRepository>(), _serviceProvider.GetService<IFrontendUserRepository>());
         }
 
-        private async Task<FrontendUserDto> GetActiveUser()
-        {
-            var controller = new WgWall.Controllers.FrontendUserController(_serviceProvider.GetService<IFrontendUserRepository>());
-            var users = AssertHelper.AssertUsers(await controller.GetFrontendUsers());
-
-            return users[0];
-        }
-
         [TestMethod]
         public async Task Get_ShouldReturnProducts()
         {
@@ -53,7 +45,7 @@ namespace WgWall.Test.Controllers.ProductController
         {
             //arrange
             var controller = GetController();
-            var frontendUser = await GetActiveUser();
+            var frontendUser = await ServiceProviderHelper.GetActiveUser(_serviceProvider);
 
             //act
             var previousResult = await controller.GetProducts();
@@ -73,7 +65,7 @@ namespace WgWall.Test.Controllers.ProductController
         {
             //arrange
             var controller = GetController();
-            var frontendUser = await GetActiveUser();
+            var frontendUser = await ServiceProviderHelper.GetActiveUser(_serviceProvider);
 
             //act
             var previousResult = await controller.GetProducts();
@@ -100,7 +92,6 @@ namespace WgWall.Test.Controllers.ProductController
         {
             //arrange
             var controller = GetController();
-            var frontendUser = await GetActiveUser();
 
             //act
             var previousResult = await controller.GetProducts();

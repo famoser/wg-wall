@@ -1,0 +1,5 @@
+.top-bar {
+    height: 10%;
+    z-index: 100;
+    position: relative;
+}

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -27,6 +28,17 @@ namespace WgWall.Test
                 context.Settings.AddRange(LoadSettings());
             }
 
+            if (!context.TaskTemplates.Any())
+            {
+                var taskTemplates = LoadTaskTemplates();
+                context.TaskTemplates.AddRange(taskTemplates);
+
+                if (!context.Tasks.Any())
+                {
+                    context.Tasks.AddRange(LoadTasks(taskTemplates));
+                }
+            }
+
             context.SaveChanges();
         }
 
@@ -51,6 +63,29 @@ namespace WgWall.Test
         public static List<Setting> LoadSettings()
         {
             return AddIds(JsonConvert.DeserializeObject<List<Setting>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "settings.json")));
+        }
+
+        public static List<TaskTemplate> LoadTaskTemplates()
+        {
+            return AddIds(JsonConvert.DeserializeObject<List<TaskTemplate>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "task_templates.json")));
+        }
+
+        public static List<Task> LoadTasks(List<TaskTemplate> taskTemplates)
+        {
+            int skip = 3;
+            var res = new List<Task>();
+            for (int i = 0; i < taskTemplates.Count * 2; i++)
+            {
+                if (i % skip != 0)
+                {
+                    res.Add(new Task()
+                    {
+                        ActivatedAt = new DateTime(),
+                        TaskTemplate = taskTemplates[i % taskTemplates.Count]
+                    });
+                }
+            }
+            return AddIds(res);
         }
     }
 }

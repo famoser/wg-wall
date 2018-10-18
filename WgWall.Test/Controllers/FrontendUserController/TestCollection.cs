@@ -48,9 +48,9 @@ namespace WgWall.Test.Controllers.FrontendUserController
             var result2 = await controller.GetFrontendUsers();
 
             //assert
-            var list = AssertHelper.AssertUsers(result);
+            var list = AssertHelper.AssertList<FrontendUserDto>(result);
             AssertNewUser(creationResult, newUser);
-            var list2 = AssertHelper.AssertUsers(result2);
+            var list2 = AssertHelper.AssertList<FrontendUserDto>(result2);
             Assert.IsTrue(list.Count + 1 == list2.Count);
         }
 

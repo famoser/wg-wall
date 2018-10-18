@@ -1,13 +1,12 @@
 import { Component, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { Product } from '../models/product';
-import { ProductService } from '../services/products.service';
+import { ProductService } from '../services/product.service';
 import { FrontendUser } from '../models/frontend-user';
 import { faCheck, faPlus, faMinus, faShoppingCart, faTimes, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  templateUrl: './products.component.html'
 })
 export class ProductsComponent {
   //icons
@@ -20,8 +19,8 @@ export class ProductsComponent {
 
   //product lists
   private products: Product[]
-  public register: string[];
-  public active: Product[];
+  public register: string[] = [];
+  public active: Product[] = [];
 
   //input
   public newProductName: string = ""
@@ -76,9 +75,9 @@ export class ProductsComponent {
 
   add() {
     //add if not existing
-    const existing = this.active.filter(p => p.name == name);
+    const existing = this.active.filter(p => p.name == this.newProductName);
     if (existing.length == 0) {
-      this.create(name);
+      this.create(this.newProductName);
     }
 
     //reset view

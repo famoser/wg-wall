@@ -15,20 +15,22 @@ namespace WgWall.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly ITaskTemplateRepository _taskTemplateRepository;
         private readonly IFrontendUserRepository _frontendUserRepository;
         private readonly IMapper _mapper;
 
-        public TaskController(IFrontendUserRepository frontendUserRepository, ITaskRepository taskRepository)
+        public TaskController(IFrontendUserRepository frontendUserRepository, ITaskRepository taskRepository, ITaskTemplateRepository taskTemplateRepository)
         {
             _frontendUserRepository = frontendUserRepository;
             _taskRepository = taskRepository;
+            _taskTemplateRepository = taskTemplateRepository;
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Data.Model.Task, TaskDto>());
             _mapper = new Mapper(config);
         }
 
         // GET: api/Tasks
         [HttpGet]
-        public async Task<IActionResult> GetTasks()
+        public async Task<IActionResult> GetActiveTasks()
         {
             var tasks = await _taskRepository.GetActiveAsync();
 
@@ -39,7 +41,20 @@ namespace WgWall.Controllers
         [HttpPost("create/{templateId}")]
         public async Task<IActionResult> Create([FromRoute] int templateId, [FromBody] AccountablePayload payload)
         {
-            var task = await _taskRepository.Create(templateId, await _frontendUserRepository.TryGet(payload.FrontendUserId));
+            var taskTemplate = await _taskTemplateRepository.TryGet(templateId);
+            if (taskTemplate == null)
+            {
+                return NotFound();
+            }
+
+            //remember last activation
+            taskTemplate.LastActivationAt = new DateTime();
+            await _taskTemplateRepository.Update(taskTemplate);
+
+            //save new task
+            
+
+            var task = await _taskRepository.Create(taskTemplate, await _frontendUserRepository.TryGet(payload.FrontendUserId));
             var taskDto = _mapper.Map<TaskDto>(task);
             return Ok(taskDto);
         }
@@ -52,7 +67,7 @@ namespace WgWall.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Done([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             await _taskRepository.Remove(id);
             return NoContent();

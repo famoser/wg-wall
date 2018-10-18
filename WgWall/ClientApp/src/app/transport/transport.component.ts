@@ -7,8 +7,7 @@ import { SettingService } from '../services/setting.service';
 
 @Component({
   selector: 'app-transport',
-  templateUrl: './transport.component.html',
-  styleUrls: ['./transport.component.css']
+  templateUrl: './transport.component.html'
 })
 export class TransportComponent {
   //icons

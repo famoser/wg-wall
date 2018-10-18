@@ -10,8 +10,10 @@ namespace WgWall.Data.Repository.Interfaces
     public interface ITaskTemplateRepository
     {
         Task Update(int taskTemplateId, string name, int? intervalInDays);
+        Task Update(TaskTemplate taskTemplate);
         Task<TaskTemplate> Create(string name, int? intervalInDays, FrontendUser frontendUser);
         Task<List<TaskTemplate>> GetAllAsync();
         Task Hide(int taskTemplateId);
+        Task<TaskTemplate> TryGet(int templateId);
     }
 }

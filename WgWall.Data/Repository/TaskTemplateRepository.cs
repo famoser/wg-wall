@@ -28,8 +28,13 @@ namespace WgWall.Data.Repository
             }
 
             task.Name = name;
-            task.IntervalInDays = intervalInDays;
+            task.IntervalInDays = intervalInDays == 0 || intervalInDays == null ? null : intervalInDays;
             await _context.SaveChangesAsync();
+        }
+
+        public Task Update(TaskTemplate taskTemplate)
+        {
+            return _context.SaveChangesAsync();
         }
 
         public async Task<TaskTemplate> Create(string name, int? intervalInDays, FrontendUser frontendUser)
@@ -57,6 +62,11 @@ namespace WgWall.Data.Repository
 
             task.Hide = true;
             await _context.SaveChangesAsync();
+        }
+
+        public Task<TaskTemplate> TryGet(int templateId)
+        {
+            return _context.TaskTemplates.FirstOrDefaultAsync(t => t.Id == templateId);
         }
     }
 }

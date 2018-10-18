@@ -11,6 +11,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProductsComponent } from './products/products.component';
 import { TransportComponent } from './transport/transport.component';
+import { TasksComponent } from './tasks/tasks.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TransportComponent } from './transport/transport.component';
     NewUserComponent,
     TopBarComponent,
     ProductsComponent,
-    TransportComponent
+    TransportComponent,
+    TasksComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -34,19 +34,12 @@ namespace WgWall.Controllers
 
         // GET: api/TaskTemplates
         [HttpGet]
-        public async Task<IActionResult> GetTasks()
+        public async Task<IActionResult> Get()
         {
             var taskTemplates = await _taskTemplateRepository.GetAllAsync();
 
             var taskTemplatesDto = _mapper.Map<IList<TaskTemplateDto>>(taskTemplates);
             return Ok(taskTemplatesDto);
-        }
-
-        [HttpGet("hide/{id}")]
-        public async Task<IActionResult> Hide([FromRoute] int templateId)
-        {
-            await _taskTemplateRepository.Hide(templateId);
-            return NoContent();
         }
 
         // PUT: api/TaskTemplates/5
@@ -57,9 +50,9 @@ namespace WgWall.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             await _taskTemplateRepository.Update(id, payload.Name, payload.IntervalInDays);
-            
+
             return NoContent();
         }
 
@@ -75,6 +68,13 @@ namespace WgWall.Controllers
             var taskTemplate = await _taskTemplateRepository.Create(payload.Name, payload.IntervalInDays, await _frontendUserRepository.TryGet(payload.FrontendUserId));
             var taskTemplateDto = _mapper.Map<TaskTemplateDto>(taskTemplate);
             return Ok(taskTemplateDto);
+        }
+
+        [HttpGet("hide/{id}")]
+        public async Task<IActionResult> Hide([FromRoute] int templateId)
+        {
+            await _taskTemplateRepository.Hide(templateId);
+            return NoContent();
         }
     }
 }

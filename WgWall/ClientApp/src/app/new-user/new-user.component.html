@@ -1,4 +1,4 @@
-<div class="pl-1 pr-1" [ngClass]="{'light-bg': isOpen}">
+<div class="m-1" [ngClass]="{'light-bg': isOpen}">
   <div class="hover-light-bg" (click)="open()" [class.selectable]="!isOpen" >
     <svg class="rounded-circle" version="1.1" height="100" width="100" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
       <rect width="100%" height="100%" fill="lightgrey" />
@@ -6,7 +6,7 @@
       <line x1="50" y1="40" x2="50" y2="60" style="stroke:#212529;stroke-width:2"></line>
     </svg>
   </div>
-  <div class="popup p-2" *ngIf="isOpen">
+  <div class="popup p-2 m-1" *ngIf="isOpen">
     <form #frontendUserForm="ngForm" (ngSubmit)="createUser()">
       <div class="form-group">
         <label for="name">Name</label>

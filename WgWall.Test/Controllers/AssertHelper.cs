@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using WgWall.Api.Dto;
+using WgWall.Data.Repository.Interfaces;
 using WgWall.Dto;
 
 namespace WgWall.Test.Controllers
@@ -31,12 +33,12 @@ namespace WgWall.Test.Controllers
             }
         }
 
-        public static IList<FrontendUserDto> AssertUsers(IActionResult result)
+        public static IList<T> AssertList<T>(IActionResult result)
         {
             var objectResult = result as OkObjectResult;
             Assert.IsNotNull(objectResult);
 
-            var users = objectResult.Value as IList<FrontendUserDto>;
+            var users = objectResult.Value as IList<T>;
             Assert.IsNotNull(users);
 
             return users;
