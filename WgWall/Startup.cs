@@ -37,7 +37,7 @@ namespace WgWall
             services.AddScoped<IFrontendUserRepository, FrontendUserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ISettingRepository, SettingRepository>();
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskExecutionRepository, TaskRepository>();
             services.AddScoped<ITaskTemplateRepository, TaskTemplateRepository>();
         }
 

@@ -22,7 +22,7 @@ namespace WgWall.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<FrontendUser> FrontendUsers { get; set; }
         public DbSet<Setting> Settings { get; set; }
-        public DbSet<TaskTemplate> TaskTemplates { get; set; }
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<Task> TaskTemplates { get; set; }
+        public DbSet<TaskExecution> Tasks { get; set; }
     }
 }

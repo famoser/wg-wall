@@ -65,23 +65,23 @@ namespace WgWall.Test
             return AddIds(JsonConvert.DeserializeObject<List<Setting>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "settings.json")));
         }
 
-        public static List<TaskTemplate> LoadTaskTemplates()
+        public static List<Task> LoadTaskTemplates()
         {
-            return AddIds(JsonConvert.DeserializeObject<List<TaskTemplate>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "task_templates.json")));
+            return AddIds(JsonConvert.DeserializeObject<List<Task>>(File.ReadAllText("Seed" + Path.DirectorySeparatorChar + "task_templates.json")));
         }
 
-        public static List<Task> LoadTasks(List<TaskTemplate> taskTemplates)
+        public static List<TaskExecution> LoadTasks(List<Task> taskTemplates)
         {
             int skip = 3;
-            var res = new List<Task>();
+            var res = new List<TaskExecution>();
             for (int i = 0; i < taskTemplates.Count * 2; i++)
             {
                 if (i % skip != 0)
                 {
-                    res.Add(new Task()
+                    res.Add(new TaskExecution()
                     {
-                        ActivatedAt = new DateTime(),
-                        TaskTemplate = taskTemplates[i % taskTemplates.Count]
+                        ExecutedAt = new DateTime(),
+                        Task = taskTemplates[i % taskTemplates.Count]
                     });
                 }
             }

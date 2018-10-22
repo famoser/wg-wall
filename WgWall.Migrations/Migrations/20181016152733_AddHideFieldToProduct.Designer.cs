@@ -53,7 +53,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<int?>("CreatedById");
 
-                    b.Property<bool>("Hide");
+                    b.Property<bool>("Hidden");
 
                     b.Property<string>("Name");
 

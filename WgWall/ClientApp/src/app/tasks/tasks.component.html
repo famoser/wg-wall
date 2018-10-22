@@ -9,77 +9,65 @@
       </a>
     </h3>
 
-    <ng-template *ngIf="!isEditActive; else edit">
-      <p class="small text-secondary help">
+    <p class="small text-secondary help">
+      <ng-container *ngIf="!isEditActive; else editDescription">
         green marks as completed
-      </p>
-
-      <ng-template *ngIf="activeTaskTemplates$ | async as activeTaskTemplates; else placeholder2">
-        <table class="table table-sm table-borderless table-striped">
-          <tbody>
-            <tr *ngFor="let taskTemplate of activeTaskTemplates; first as isFirst; trackBy taskTemplate.id"
-              [class.border-top]="!isFirst">
-              <td>{{taskTemplate.name}}</td>
-              <td>{{taskTemplate.lastExecutionAt | date}}</td>
-              <td class="minimal-width">
-                <button class="btn btn-sm btn-success" type="button" (click)="registerExecution(taskTemplate)">
-                  <fa-icon [icon]="faCheck"></fa-icon>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      </ng-container>
+      <ng-template #editDescription>
+        select a task template to edit
       </ng-template>
-      <ng-template #placeholder2>
-        <p>
-          no tasks yet
-        </p>
-      </ng-template>
-    </ng-template>
-    <ng-template #edit>
-      <p class="small text-secondary help">
-        edit the task templates
-      </p>
+    </p>
 
-      <div class="row pb-2">
-        <div class="col">
-          <input type="text" [(ngModel)]="editTaskTemplate.name" class="form-control form-control-sm" placeholder="add new product name"
-            (keyup.enter)="saveEditTaskTemplate()">
-        </div>
-        <div class="col-md-auto">
-          <button class="btn btn-primary btn-sm mr-2 row" type="button" (click)="saveEditTaskTemplate()">
-            <fa-icon *ngIf="!this.editTaskTemplate.id" [icon]="faPlus"></fa-icon>
-            <fa-icon *ngIf="this.editTaskTemplate.id" [icon]="faSave"></fa-icon>
-          </button>
-        </div>
+    <div *ngIf="isEditActive" class="input-group">
+      <input type="text" [(ngModel)]="editTaskTemplate.name" class="form-control form-control-sm flex-grow-1"
+        placeholder="add new product name" (keyup.enter)="saveEditTaskTemplate()">
+      <input type="text" [(ngModel)]="editTaskTemplate.name" class="form-control form-control-sm" placeholder="add new product name"
+        (keyup.enter)="saveEditTaskTemplate()">
+      <div class="input-group-append">
+        <button class="btn btn-primary btn-sm" type="button" (click)="saveEditTaskTemplate()">
+          <fa-icon *ngIf="!this.editTaskTemplate.id" [icon]="faPlus"></fa-icon>
+          <fa-icon *ngIf="this.editTaskTemplate.id" [icon]="faSave"></fa-icon>
+        </button>
       </div>
+    </div>
 
-      <table *ngIf="activeTaskTemplates$ | async; else placeholder" class="table table-sm table-borderless table-striped">
+    <ng-container *ngIf="activeTaskTemplates$ | async as activeTaskTemplates; else loading">
+      <table *ngIf="activeTaskTemplates.length > 0; else placeholder" class="table table-sm table-borderless table-striped">
         <tbody>
-          <tr *ngFor="let taskTemplate of activeTaskTemplates$ | async; first as isFirst; trackBy taskTemplate.id"
-            [class.border-top]="!isFirst">
-            <td (click)="startEditTaskTemplate(taskTemplate)">{{taskTemplate.name}}</td>
-            <td (click)="startEditTaskTemplate(taskTemplate)">{{taskTemplate.lastExecutionAt | date}}</td>
+          <tr *ngFor="let taskTemplate of activeTaskTemplates; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst">
+            <td>{{taskTemplate.name}}</td>
+            <td>{{taskTemplate.lastExecutionAt | date}}</td>
             <td class="minimal-width">
               <div class="btn-group btn-group-sm">
-                <ng-template *ngIf="taskTemplate.hide; else unhide">
-                  <button class="btn btn-sm btn-danger" type="button" (click)="hideTaskTemplate(taskTemplate)">
+                <button *ngIf="!isEditActive" class="btn btn-sm btn-success" type="button" (click)="registerExecution(taskTemplate)">
+                  <fa-icon [icon]="faCheck"></fa-icon>
+                </button>
+                <ng-container *ngIf="isEditActive">
+                  <button *ngIf="taskTemplate.hidden" class="btn btn-sm btn-danger" type="button" (click)="toggleHidden(taskTemplate)">
                     <fa-icon [icon]="faEyeSlash"></fa-icon>
                   </button>
-                  <button class="btn btn-sm btn-success" #unhide type="button" (click)="unHideTaskTemplate(taskTemplate)">
+                  <button *ngIf="!taskTemplate.hidden" class="btn btn-sm btn-success" #unhide type="button" (click)="toggleHidden(taskTemplate)">
                     <fa-icon [icon]="faEye"></fa-icon>
                   </button>
-                </ng-template>
-                <button class="btn btn-sm btn-warning" type="button" (click)="startEditTaskTemplate(taskTemplate)">
-                  <fa-icon [icon]="faPencilAlt"></fa-icon>
-                </button>
+                  <button (click)="startEditTaskTemplate(taskTemplate)" class="btn btn-sm btn-warning" type="button"
+                    (click)="startEditTaskTemplate(taskTemplate)">
+                    <fa-icon [icon]="faPencilAlt"></fa-icon>
+                  </button>
+                </ng-container>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <p #placeholder>
-        no tasks yet
+
+      <ng-template #placeholder>
+        <p>no entries yet</p>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loading>
+      <p>
+        loading
       </p>
     </ng-template>
   </div>

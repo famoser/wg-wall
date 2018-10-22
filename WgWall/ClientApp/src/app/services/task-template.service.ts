@@ -1,10 +1,10 @@
-import { Observable } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { TaskTemplate } from '../models/task-template';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap, debounce, startWith } from 'rxjs/operators';
 import { ReloadService } from './reload.service';
 import { FrontendUserService } from './frontend-user.service';
 
@@ -39,21 +39,20 @@ export class TaskTemplateService {
     );
   }
 
-  update(taskTemplate: TaskTemplate): Observable<void> {
+  update(taskTemplate: TaskTemplate): Observable<any> {
     return this.frontendUserService.getActiveUser().pipe(
       switchMap(frontendUser => {
-        return this.http.put<TaskTemplate>(this.taskTemplateUrl + "/" + taskTemplate.id, {
+        return this.http.put(this.taskTemplateUrl + "/" + taskTemplate.id, {
           frontendUserId: frontendUser.id,
           name: taskTemplate.name,
           intervalInDays: taskTemplate.intervalInDays,
-          hide: taskTemplate.hide
+          hidden: taskTemplate.hidden
         });
-      }),
-      map(() => { })
+      })
     );
   }
 
-  registerExecution(taskTemplate: TaskTemplate): Observable<void> {
+  registerExecution(taskTemplate: TaskTemplate): Observable<any> {
     return this.frontendUserService.getActiveUser().pipe(
       switchMap(frontendUser => {
         return this.http.post(this.taskTemplateUrl + "/executed/" + taskTemplate.id, {

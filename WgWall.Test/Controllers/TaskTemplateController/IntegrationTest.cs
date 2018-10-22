@@ -16,11 +16,11 @@ namespace WgWall.Test.Controllers.TaskTemplateController
             using (var client = new TestClientProvider())
             {
                 //creation
-                var newTaskTemplateResponse = await client.PostJsonAsync("/api/TaskTemplate", newTaskTemplate);
+                var newTaskTemplateResponse = await client.PostJsonAsync("/api/Task", newTaskTemplate);
                 AssertHelper.AssertFields(newTaskTemplateResponse as JObject, expectedTaskTemplateFields);
                 
                 //list
-                var response = await client.GetJsonAsync("/api/TaskTemplate");
+                var response = await client.GetJsonAsync("/api/Task");
                 Assert.IsInstanceOfType(response, typeof(JArray));
                 AssertHelper.AssertFields(((JArray)response)[0] as JObject, expectedTaskTemplateFields);
             }

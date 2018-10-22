@@ -46,7 +46,7 @@ namespace WgWall.Test.Controllers
             services.AddTransient<ISettingRepository>(provider => new MockSettingRepository(SampleData.LoadSettings()));
 
             var templates = SampleData.LoadTaskTemplates();
-            services.AddTransient<ITaskRepository>(provider => new MockTaskRepository(SampleData.LoadTasks(templates)));
+            services.AddTransient<ITaskExecutionRepository>(provider => new MockTaskRepository(SampleData.LoadTasks(templates)));
             services.AddTransient<ITaskTemplateRepository>(provider => new MockTaskTemplateRepository(SampleData.LoadTaskTemplates()));
 
             return services.BuildServiceProvider();

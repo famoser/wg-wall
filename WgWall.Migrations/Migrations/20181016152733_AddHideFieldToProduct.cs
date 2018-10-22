@@ -7,7 +7,7 @@ namespace WgWall.Migrations.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "Hide",
+                name: "Hidden",
                 table: "Products",
                 nullable: false,
                 defaultValue: false);
@@ -16,7 +16,7 @@ namespace WgWall.Migrations.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Hide",
+                name: "Hidden",
                 table: "Products");
         }
     }

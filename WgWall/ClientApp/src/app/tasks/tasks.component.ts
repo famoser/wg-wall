@@ -37,7 +37,7 @@ export class TasksComponent implements OnInit {
   ngOnInit() {
     this.taskTemplates$ = this.taskTemplateService.get();
     this.activeTaskTemplates$ = this.taskTemplates$.pipe(
-      map(taskTemplate => taskTemplate.filter(tt => !tt.hide))
+      map(taskTemplate => taskTemplate.filter(tt => !tt.hidden))
     );
   }
 
@@ -56,13 +56,8 @@ export class TasksComponent implements OnInit {
     this.isEditActive = false;
   }
 
-  hideTaskTemplate(taskTemplate: TaskTemplate) {
-    taskTemplate.hide = true;
-    this.taskTemplateService.update(taskTemplate).subscribe();
-  }
-
-  unHideTaskTemplate(taskTemplate: TaskTemplate) {
-    taskTemplate.hide = true;
+  toggleHidden(taskTemplate: TaskTemplate) {
+    taskTemplate.hidden = true;
     this.taskTemplateService.update(taskTemplate).subscribe();
   }
 
@@ -77,5 +72,9 @@ export class TasksComponent implements OnInit {
 
   startEdit() {
     this.isEditActive = true;
+  }
+
+  trackByFn(index) {
+    return index;
   }
 }

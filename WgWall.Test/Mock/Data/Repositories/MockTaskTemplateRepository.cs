@@ -10,21 +10,21 @@ namespace WgWall.Test.Mock.Data.Repositories
 {
     public class MockTaskTemplateRepository : ITaskTemplateRepository
     {
-        private readonly List<TaskTemplate> _testSet;
+        private readonly List<WgWall.Data.Model.Task> _testSet;
 
-        public MockTaskTemplateRepository(List<TaskTemplate> testSet)
+        public MockTaskTemplateRepository(List<WgWall.Data.Model.Task> testSet)
         {
             _testSet = testSet;
         }
 
-        public async Task Update(TaskTemplate taskTemplate)
+        public async Task Update(WgWall.Data.Model.Task task)
         {
             //dont need to do anything
         }
 
-        public async Task<TaskTemplate> Create(string name, int? intervalInDays, FrontendUser frontendUser)
+        public async Task<WgWall.Data.Model.Task> Create(string name, int? intervalInDays, FrontendUser frontendUser)
         {
-            var taskTemplate = TaskTemplate.Create(name, intervalInDays, frontendUser);
+            var taskTemplate = WgWall.Data.Model.Task.Create(name, intervalInDays, frontendUser);
             taskTemplate.Id = _testSet.Max(t => t.Id) + 1;
             _testSet.Add(taskTemplate);
 
@@ -40,9 +40,9 @@ namespace WgWall.Test.Mock.Data.Repositories
             taskTemplate.IntervalInDays = intervalInDays;
         }
 
-        public async Task<List<TaskTemplate>> GetAllAsync()
+        public async Task<List<WgWall.Data.Model.Task>> GetAllAsync()
         {
-            return new List<TaskTemplate>(_testSet);
+            return new List<WgWall.Data.Model.Task>(_testSet);
         }
 
         public async Task Hide(int taskTemplateId)
@@ -50,10 +50,10 @@ namespace WgWall.Test.Mock.Data.Repositories
             var taskTemplate = await TryGet(taskTemplateId);
             if (taskTemplate == null) return;
 
-            taskTemplate.Hide = true;
+            taskTemplate.Hidden = true;
         }
 
-        public async Task<TaskTemplate> TryGet(int templateId)
+        public async Task<WgWall.Data.Model.Task> TryGet(int templateId)
         {
             return _testSet.FirstOrDefault(t => t.Id == templateId);
         }

@@ -7,8 +7,8 @@ namespace WgWall.Data.Model
     {
         public string Name { get; set; }
         public int? IntervalInDays { get; set; }
-        public DateTime? LastActivationAt { get; set; }
-        public bool Hide { get; set; }
+        public DateTime? LastExecutionAt { get; set; }
+        public bool Hidden { get; set; }
 
         public static TaskTemplate Create(string name, int? intervalInDays, FrontendUser createdBy)
         {

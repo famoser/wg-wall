@@ -16,7 +16,7 @@ namespace WgWall.Test.Controllers.TaskController
             using (var client = new TestClientProvider())
             {
                 //list
-                var response = await client.GetJsonAsync("/api/Task");
+                var response = await client.GetJsonAsync("/api/TaskExecution");
                 Assert.IsInstanceOfType(response, typeof(JArray));
                 AssertHelper.AssertFields(((JArray)response)[0] as JObject, expectedTaskFields);
             }

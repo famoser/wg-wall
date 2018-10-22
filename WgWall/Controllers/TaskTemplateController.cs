@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Castle.Core.Internal;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WgWall.Api.Dto;
 using WgWall.Api.Request;
-using WgWall.Data;
+using WgWall.Api.Request.Base;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
 
@@ -20,18 +15,19 @@ namespace WgWall.Controllers
     public class TaskTemplateController : ControllerBase
     {
         private readonly ITaskTemplateRepository _taskTemplateRepository;
+        private readonly ITaskExecutionRepository _taskExecutionRepository;
         private readonly IFrontendUserRepository _frontendUserRepository;
         private readonly IMapper _mapper;
 
-        public TaskTemplateController(IFrontendUserRepository frontendUserRepository, ITaskTemplateRepository taskTemplateRepository)
+        public TaskTemplateController(IFrontendUserRepository frontendUserRepository, ITaskTemplateRepository taskTemplateRepository, ITaskExecutionRepository taskExecutionRepository)
         {
             _frontendUserRepository = frontendUserRepository;
             _taskTemplateRepository = taskTemplateRepository;
+            _taskExecutionRepository = taskExecutionRepository;
             var config = new MapperConfiguration(cfg => cfg.CreateMap<TaskTemplate, TaskTemplateDto>());
             _mapper = new Mapper(config);
         }
-
-        // GET: api/TaskTemplates
+        
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -40,22 +36,23 @@ namespace WgWall.Controllers
             var taskTemplatesDto = _mapper.Map<IList<TaskTemplateDto>>(taskTemplates);
             return Ok(taskTemplatesDto);
         }
-
-        // PUT: api/TaskTemplates/5
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTaskTemplate([FromRoute] int id, [FromBody] TaskTemplatePayload payload)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _taskTemplateRepository.Update(id, payload.Name, payload.IntervalInDays);
+            var taskTemplate = await _taskTemplateRepository.TryGet(id);
+            if (taskTemplate == null) return NotFound();
 
+            taskTemplate.Name = payload.Name;
+            taskTemplate.IntervalInDays = payload.IntervalInDays;
+            taskTemplate.Hidden = payload.Hidden;
+
+            await _taskTemplateRepository.Save(taskTemplate);
             return NoContent();
         }
-
-        // POST: api/TaskTemplates
+        
         [HttpPost]
         public async Task<IActionResult> PostTaskTemplate([FromBody] TaskTemplatePayload payload)
         {
@@ -64,16 +61,12 @@ namespace WgWall.Controllers
                 return BadRequest(ModelState);
             }
 
-            var taskTemplate = await _taskTemplateRepository.Create(payload.Name, payload.IntervalInDays, await _frontendUserRepository.TryGet(payload.FrontendUserId));
+            var currentUser = await _frontendUserRepository.TryGet(payload.FrontendUserId);
+            var taskTemplate = TaskTemplate.Create(payload.Name, payload.IntervalInDays, currentUser);
+            await _taskTemplateRepository.Save(taskTemplate);
+
             var taskTemplateDto = _mapper.Map<TaskTemplateDto>(taskTemplate);
             return Ok(taskTemplateDto);
-        }
-
-        [HttpGet("hide/{id}")]
-        public async Task<IActionResult> Hide([FromRoute] int templateId)
-        {
-            await _taskTemplateRepository.Hide(templateId);
-            return NoContent();
         }
     }
 }

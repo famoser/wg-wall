@@ -1,6 +1,7 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, timer } from 'rxjs';
 
 import { Injectable } from '@angular/core';
+import { debounce } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ReloadService {
@@ -12,7 +13,9 @@ export class ReloadService {
   }
 
   get reloadObservable(): Observable<any> {
-    return this.reloadSubject;
+    return this.reloadSubject.pipe(
+      debounce(() => timer(200))
+    );
   }
 
   public reload() {

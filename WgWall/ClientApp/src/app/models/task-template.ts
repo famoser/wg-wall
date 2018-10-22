@@ -3,5 +3,5 @@ export class TaskTemplate {
     name: string;
     intervalInDays: number | null;
     lastExecutionAt: Date | null;
-    hide: boolean;
+    hidden: boolean;
 }

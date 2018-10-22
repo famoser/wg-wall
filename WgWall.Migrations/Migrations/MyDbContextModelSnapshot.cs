@@ -51,7 +51,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<int?>("CreatedById");
 
-                    b.Property<bool>("Hide");
+                    b.Property<bool>("Hidden");
 
                     b.Property<string>("Name");
 
@@ -78,12 +78,12 @@ namespace WgWall.Migrations.Migrations
                     b.ToTable("Settings");
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.Task", b =>
+            modelBuilder.Entity("WgWall.Data.Model.TaskExecution", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("ActivatedAt");
+                    b.Property<DateTime>("ExecutedAt");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -104,7 +104,7 @@ namespace WgWall.Migrations.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.TaskTemplate", b =>
+            modelBuilder.Entity("WgWall.Data.Model.Task", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -113,11 +113,11 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<int?>("CreatedById");
 
-                    b.Property<bool>("Hide");
+                    b.Property<bool>("Hidden");
 
                     b.Property<int?>("IntervalInDays");
 
-                    b.Property<DateTime?>("LastActivationAt");
+                    b.Property<DateTime?>("LastExecutionAt");
 
                     b.Property<string>("Name");
 
@@ -146,7 +146,7 @@ namespace WgWall.Migrations.Migrations
                         .HasForeignKey("CreatedById");
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.Task", b =>
+            modelBuilder.Entity("WgWall.Data.Model.TaskExecution", b =>
                 {
                     b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
                         .WithMany()
@@ -156,13 +156,13 @@ namespace WgWall.Migrations.Migrations
                         .WithMany()
                         .HasForeignKey("DoneById");
 
-                    b.HasOne("WgWall.Data.Model.TaskTemplate", "TaskTemplate")
+                    b.HasOne("WgWall.Data.Model.Task", "Task")
                         .WithMany()
                         .HasForeignKey("TaskTemplateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.TaskTemplate", b =>
+            modelBuilder.Entity("WgWall.Data.Model.Task", b =>
                 {
                     b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
                         .WithMany()

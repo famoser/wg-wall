@@ -3,17 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WgWall.Data.Model;
+using WgWall.Data.Repository.Base.Interfaces;
 using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Data.Repository.Interfaces
 {
-    public interface ITaskTemplateRepository
+    public interface ITaskTemplateRepository : IGetAllRepository<TaskTemplate>
     {
-        Task Update(int taskTemplateId, string name, int? intervalInDays);
-        Task Update(TaskTemplate taskTemplate);
-        Task<TaskTemplate> Create(string name, int? intervalInDays, FrontendUser frontendUser);
-        Task<List<TaskTemplate>> GetAllAsync();
-        Task Hide(int taskTemplateId);
-        Task<TaskTemplate> TryGet(int templateId);
     }
 }

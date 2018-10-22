@@ -20,7 +20,7 @@ namespace WgWall.Test.Controllers.TaskController
 
         private WgWall.Controllers.TaskController GetController()
         {
-            return new WgWall.Controllers.TaskController(_serviceProvider.GetService<IFrontendUserRepository>(), _serviceProvider.GetService<ITaskRepository>(), _serviceProvider.GetService<ITaskTemplateRepository>());
+            return new WgWall.Controllers.TaskController(_serviceProvider.GetService<IFrontendUserRepository>(), _serviceProvider.GetService<ITaskExecutionRepository>(), _serviceProvider.GetService<ITaskTemplateRepository>());
         }
 
         [TestMethod]
