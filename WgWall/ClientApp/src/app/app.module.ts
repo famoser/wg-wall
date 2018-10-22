@@ -12,6 +12,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { TransportComponent } from './transport/transport.component';
 import { UserComponent } from './user/user.component';
 import { UsersComponent } from './users/users.component';
+import { LengthPipe } from './pipes/length.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { UsersComponent } from './users/users.component';
     TopBarComponent,
     ProductsComponent,
     TransportComponent,
-    TasksComponent
+    TasksComponent,
+
+    LengthPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

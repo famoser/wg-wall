@@ -48,7 +48,7 @@ namespace WgWall.Controllers
             }
 
             //remember last activation
-            taskTemplate.LastActivationAt = new DateTime();
+            taskTemplate.LastActivationAt = DateTime.Now;
             await _taskTemplateRepository.Update(taskTemplate);
 
             //save new task

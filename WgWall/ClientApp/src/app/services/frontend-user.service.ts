@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 
 import { FrontendUser } from '../models/frontend-user';
 
@@ -9,15 +9,25 @@ import { FrontendUser } from '../models/frontend-user';
 export class FrontendUserService {
 
   private frontendUserUrl = 'api/FrontendUser'; // URL to web api
+  private activeUser$: BehaviorSubject<FrontendUser>
 
   constructor(private http: HttpClient) {
+    this.activeUser$ = new BehaviorSubject<FrontendUser>(null);
   }
 
-  get(): Observable<FrontendUser[]> {
+  public get(): Observable<FrontendUser[]> {
     return this.http.get<FrontendUser[]>(this.frontendUserUrl);
   }
 
-  create(frontendUser: FrontendUser): Observable<FrontendUser> {
+  public create(frontendUser: FrontendUser): Observable<FrontendUser> {
     return this.http.post<FrontendUser>(this.frontendUserUrl, frontendUser);
+  }
+
+  public setActiveUser(frontendUser: FrontendUser) : void {
+    this.activeUser$.next(frontendUser);
+  }
+
+  public getActiveUser(): Observable<FrontendUser> {
+    return this.activeUser$;
   }
 }
