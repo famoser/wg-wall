@@ -72,7 +72,7 @@ namespace WgWall.Test.Controllers.ProductController
             var previousList = AssertProducts(previousResult);
             var prod = previousList[0];
 
-            var payload = new ProductPutPayload() { Name = "newName", Amount = 100, BoughtBy = frontendUser.Id };
+            var payload = new ProductPayload() { Name = "newName", Amount = 100, BoughtBy = frontendUser.Id };
             await controller.PutProduct(prod.Id, payload);
 
             var result = await controller.GetProducts();

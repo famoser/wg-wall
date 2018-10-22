@@ -1,8 +1,6 @@
-﻿using WgWall.Api.Dto.Base;
-
-namespace WgWall.Api.Dto
+﻿namespace WgWall.Api.Dto
 {
-    public class ProductDto : BaseIdEntityDto
+    public class ProductDto
     {
         public string Name { get; set; }
         public int Amount { get; set; }

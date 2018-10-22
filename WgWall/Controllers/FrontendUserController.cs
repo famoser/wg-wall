@@ -45,7 +45,7 @@ namespace WgWall.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
             var newUser = await _frontendUserRepository.CreateAsync(user.Name);
             var newUserDto = _mapper.Map<FrontendUserDto>(newUser);
             return Ok(newUserDto);

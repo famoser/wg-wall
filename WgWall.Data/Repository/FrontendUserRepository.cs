@@ -8,7 +8,7 @@ using WgWall.Data.Repository.Interfaces;
 
 namespace WgWall.Data.Repository
 {
-    public class FrontendUserRepository : TryGetRepository<FrontendUser>, IFrontendUserRepository
+    public class FrontendUserRepository : GetAllRepository<FrontendUser>, IFrontendUserRepository
     {
         public FrontendUserRepository(MyDbContext context) : base(context)
         {

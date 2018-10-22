@@ -1,8 +1,6 @@
-﻿using WgWall.Api.Dto.Base;
-
-namespace WgWall.Api.Dto
+﻿namespace WgWall.Api.Dto
 {
-    public class FrontendUserDto : BaseIdEntityDto
+    public class FrontendUserDto
     {
         public string Name { get; set; }
         public int Karma { get; set; }
