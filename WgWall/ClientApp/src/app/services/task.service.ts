@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { Subscription, Observable } from 'rxjs'
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
 import { FrontendUser } from '../models/frontend-user';
 import { Task } from '../models/task';
 import { TaskTemplate } from '../models/task-template';

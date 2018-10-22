@@ -1,4 +1,4 @@
-﻿namespace WgWall.Dto.Base
+﻿namespace WgWall.Api.Dto.Base
 {
     public class BaseIdEntityDto
     {

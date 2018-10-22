@@ -1,10 +1,13 @@
-import { Component, ViewChild, Output, EventEmitter, Input } from '@angular/core';
-import { Task } from '../models/task';
-import { TaskService } from '../services/task.service';
+import { Component, Input } from '@angular/core';
+import {
+    faCheck, faEyeSlash, faPencilAlt, faSave, faTimes, faTrash
+} from '@fortawesome/free-solid-svg-icons';
+
 import { FrontendUser } from '../models/frontend-user';
-import { faCheck, faPlus, faMinus, faPencilAlt, faTrash, faSave, faEyeSlash, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Task } from '../models/task';
 import { TaskTemplate } from '../models/task-template';
 import { TaskTemplateService } from '../services/task-template.service';
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-tasks',
@@ -13,8 +16,6 @@ import { TaskTemplateService } from '../services/task-template.service';
 export class TasksComponent {
   //icons
   public faCheck = faCheck;
-  public faPlus = faPlus;
-  public faMinus = faMinus;
   public faTrash = faTrash;
   public faPencilAlt = faPencilAlt;
   public faSave = faSave;
@@ -30,7 +31,7 @@ export class TasksComponent {
   public editTaskTemplate: TaskTemplate = new TaskTemplate();
   public isEditActive: boolean = false;
 
-  @Input("user") user: FrontendUser;
+  @Input() user: FrontendUser;
 
   constructor(private taskService: TaskService, private taskTemplateService: TaskTemplateService) { }
 

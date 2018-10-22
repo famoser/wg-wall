@@ -1,11 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { SettingService } from "./setting.service";
-import { Vehicle } from "../models/vehicle";
-import { Observable } from "rxjs";
-import { map } from 'rxjs/operators'
-import { Injectable } from "@angular/core";
-import { Setting } from "../models/setting";
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { Vehicle } from '../models/vehicle';
 
 @Injectable({ providedIn: 'root' })
 export class TransportService {

@@ -10,7 +10,6 @@ using WgWall.Data;
 using WgWall.Data.Model;
 using WgWall.Data.Repository;
 using WgWall.Data.Repository.Interfaces;
-using WgWall.Dto;
 using WgWall.Test.Mock;
 using WgWall.Test.Mock.Data.Repositories;
 

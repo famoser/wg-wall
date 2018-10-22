@@ -12,7 +12,6 @@ using WgWall.Api.Request;
 using WgWall.Data;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
-using WgWall.Dto;
 
 namespace WgWall.Controllers
 {

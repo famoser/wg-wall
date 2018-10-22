@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+
 import { FrontendUser } from '../models/frontend-user';
 
 @Component({
@@ -9,7 +10,7 @@ import { FrontendUser } from '../models/frontend-user';
 })
 export class TopBarComponent {
   faPlusCircle = faPlusCircle
-  @Output("userSelected") userSelected = new EventEmitter<FrontendUser>();
+  @Output() userSelected = new EventEmitter<FrontendUser>();
 
   onUserSelected(frontendUser: FrontendUser) {
     this.userSelected.emit(frontendUser);

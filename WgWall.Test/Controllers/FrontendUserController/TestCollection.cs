@@ -3,11 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WgWall.Api.Dto;
 using WgWall.Api.Request;
 using WgWall.Controllers;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
-using WgWall.Dto;
 using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Test.Controllers.FrontendUserController

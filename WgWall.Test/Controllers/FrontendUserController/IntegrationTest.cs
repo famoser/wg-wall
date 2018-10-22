@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using WgWall.Api.Request;
-using WgWall.Dto;
 
 namespace WgWall.Test.Controllers.FrontendUserController
 {

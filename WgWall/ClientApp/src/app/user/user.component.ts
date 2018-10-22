@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { FrontendUser } from '../models/frontend-user';
 
 @Component({
@@ -6,10 +7,10 @@ import { FrontendUser } from '../models/frontend-user';
   templateUrl: './user.component.html'
 })
 export class UserComponent {
-  @Input("user") user: FrontendUser;
-  @Input("selectedUser") selectedUser: FrontendUser;
+  @Input() user: FrontendUser;
+  @Input() selectedUser: FrontendUser;
 
-  @Output("selected") selected = new EventEmitter<FrontendUser>()
+  @Output() selected = new EventEmitter<FrontendUser>()
 
   clicked() {
     this.selected.emit() 

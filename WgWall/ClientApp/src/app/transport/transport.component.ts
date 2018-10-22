@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { faPencilAlt, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { Vehicle } from '../models/vehicle';
-import { TransportService } from '../services/transport.service';
+
 import { Setting } from '../models/setting';
+import { Vehicle } from '../models/vehicle';
 import { SettingService } from '../services/setting.service';
+import { TransportService } from '../services/transport.service';
 
 @Component({
   selector: 'app-transport',
@@ -18,7 +19,7 @@ export class TransportComponent {
   //properties
   public stationName: string;
   public vehicles: Vehicle[];
-  private settingKey = "trasport.service.station";
+  private settingKey = "transport.station-name";
   private setting: Setting;
 
   //input
