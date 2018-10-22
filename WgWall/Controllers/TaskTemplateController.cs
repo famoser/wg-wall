@@ -15,15 +15,11 @@ namespace WgWall.Controllers
     public class TaskTemplateController : ControllerBase
     {
         private readonly ITaskTemplateRepository _taskTemplateRepository;
-        private readonly ITaskExecutionRepository _taskExecutionRepository;
-        private readonly IFrontendUserRepository _frontendUserRepository;
         private readonly IMapper _mapper;
 
-        public TaskTemplateController(IFrontendUserRepository frontendUserRepository, ITaskTemplateRepository taskTemplateRepository, ITaskExecutionRepository taskExecutionRepository)
+        public TaskTemplateController(ITaskTemplateRepository taskTemplateRepository)
         {
-            _frontendUserRepository = frontendUserRepository;
             _taskTemplateRepository = taskTemplateRepository;
-            _taskExecutionRepository = taskExecutionRepository;
             var config = new MapperConfiguration(cfg => cfg.CreateMap<TaskTemplate, TaskTemplateDto>());
             _mapper = new Mapper(config);
         }
@@ -42,12 +38,12 @@ namespace WgWall.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var taskTemplate = await _taskTemplateRepository.TryGet(id);
+            var taskTemplate = await _taskTemplateRepository.TryGetAsync(id);
             if (taskTemplate == null) return NotFound();
 
             taskTemplate.Name = payload.Name;
             taskTemplate.IntervalInDays = payload.IntervalInDays;
-            taskTemplate.Hidden = payload.Hidden;
+            taskTemplate.IsHidden = payload.IsHidden;
 
             await _taskTemplateRepository.Save(taskTemplate);
             return NoContent();
@@ -60,9 +56,12 @@ namespace WgWall.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var currentUser = await _frontendUserRepository.TryGet(payload.FrontendUserId);
-            var taskTemplate = TaskTemplate.Create(payload.Name, payload.IntervalInDays, currentUser);
+            
+            var taskTemplate = new TaskTemplate
+            {
+                Name = payload.Name,
+                IntervalInDays = payload.IntervalInDays
+            };
             await _taskTemplateRepository.Save(taskTemplate);
 
             var taskTemplateDto = _mapper.Map<TaskTemplateDto>(taskTemplate);

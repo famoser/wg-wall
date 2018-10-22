@@ -43,7 +43,7 @@ namespace WgWall.Test
         }
 
         private static List<T> AddIds<T>(List<T> list)
-        where T : BaseIdEntity
+        where T : BaseEntity
         {
             var id = 1;
             list.ForEach(fu => fu.Id = id++);

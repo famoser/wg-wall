@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -30,12 +31,17 @@ namespace WgWall.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var taskTemplate = await _taskTemplateRepository.TryGet(id);
+            var taskTemplate = await _taskTemplateRepository.TryGetAsync(id);
             if (taskTemplate == null) return NotFound();
 
-            var currentUser = await _frontendUserRepository.TryGet(payload.FrontendUserId);
-            var task = TaskExecution.Create(taskTemplate, currentUser);
-            await _taskExecutionRepository.Save(task);
+            var currentUser = await _frontendUserRepository.TryGetAsync(payload.FrontendUserId);
+            var taskExecution = new TaskExecution()
+            {
+                DoneBy = currentUser,
+                Entity = taskTemplate,
+                ExecutedAt = DateTime.Now
+            };
+            await _taskExecutionRepository.Save(taskExecution);
 
             return NoContent();
         }

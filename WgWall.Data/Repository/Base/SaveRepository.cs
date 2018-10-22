@@ -5,7 +5,7 @@ using WgWall.Data.Repository.Base.Interfaces;
 namespace WgWall.Data.Repository.Base
 {
     public abstract class SaveRepository<T> : ISaveRepository<T>
-    where T : BaseIdEntity
+    where T : BaseEntity
     {
         protected readonly MyDbContext Context;
 

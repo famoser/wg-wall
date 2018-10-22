@@ -7,7 +7,7 @@ using WgWall.Data.Model.Base;
 namespace WgWall.Data.Repository.Base.Interfaces
 {
     public interface ITryGetRepository<T> : ISaveRepository<T>
-        where T : BaseIdEntity
+        where T : BaseEntity
     {
         Task<T> TryGetAsync(int entityId);
     }

@@ -8,7 +8,7 @@ using WgWall.Data.Repository.Base.Interfaces;
 namespace WgWall.Data.Repository.Base
 {
     public abstract class GetAllRepository<T> : TryGetRepository<T>, IGetAllRepository<T>
-    where T : BaseIdEntity
+    where T : BaseEntity
     {
         protected GetAllRepository(MyDbContext context) : base(context)
         {

@@ -11,10 +11,11 @@ using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Data.Repository
 {
-    public class ProductRepository : GetAllRepository<Product>, IProductRepository
+    public class ProductPurchaseRepository : SaveRepository<TaskExecution>, ITaskExecutionRepository
     {
-        public ProductRepository(MyDbContext context) : base(context)
+        public ProductPurchaseRepository(MyDbContext context) : base(context)
         {
+
         }
     }
 }

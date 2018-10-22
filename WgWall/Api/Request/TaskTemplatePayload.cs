@@ -10,6 +10,6 @@ namespace WgWall.Api.Request
     {
         public string Name { get; set; }
         public int? IntervalInDays { get; set; }
-        public bool Hidden { get; set; }
+        public bool IsHidden { get; set; }
     }
 }
