@@ -2,10 +2,9 @@
 
 namespace WgWall.Api.Dto
 {
-    public class FrontendUserDto : BaseIdEntityDto
+    public class FrontendUserDto : BaseDto
     {
         public string Name { get; set; }
         public int Karma { get; set; }
-        public string ProfileImageSrc { get; set; }
     }
 }

@@ -1,6 +1,10 @@
 <section class="top-bar">
   <div class="row">
     <div class="col">
+        <button class="btn btn-primary" type="button" (click)="reload()">
+            <fa-icon [icon]="faSync"></fa-icon>
+        </button>
+        {{ timeFromNow }}
     </div>
     <div class="col-md-auto">
       <app-users (userSelected)="onUserSelected($event)"></app-users>

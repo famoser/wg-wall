@@ -1,6 +1,6 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
@@ -36,15 +36,17 @@ namespace WgWall
             services.AddDbContext<MyDbContext>(options => options.UseLazyLoadingProxies().UseSqlite(connection, x => x.MigrationsAssembly("WgWall.Migrations")));
             services.AddScoped<IFrontendUserRepository, FrontendUserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductPurchaseRepository, ProductPurchaseRepository>();
             services.AddScoped<ISettingRepository, SettingRepository>();
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskExecutionRepository, TaskExecutionRepository>();
             services.AddScoped<ITaskTemplateRepository, TaskTemplateRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
         }
 
-        public virtual void PrepareDatabase(MyDbContext context)
+        public virtual void PreConfigureHook(IServiceProvider serviceScope)
         {
             //migrate
-            context.Database.Migrate();
+            serviceScope.GetService<MyDbContext>().Database.Migrate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,8 +54,7 @@ namespace WgWall
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                var services = serviceScope.ServiceProvider;
-                PrepareDatabase(services.GetService<MyDbContext>());
+                PreConfigureHook(serviceScope.ServiceProvider);
             }
 
             if (env.IsDevelopment())
@@ -66,7 +67,7 @@ namespace WgWall
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 

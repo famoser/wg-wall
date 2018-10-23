@@ -1,35 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using WgWall.Api.Dto;
-using WgWall.Data.Repository.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WgWall.Test.Controllers
 {
     public static class AssertHelper
     {
-        public static void AssertBooleanResult(IActionResult result, bool expected)
+        public static JObject AssertObject(object input, string[] expectedFields = null)
         {
-            var objectResult = result as OkObjectResult;
+            var jObject = input as JObject;
+            Assert.IsNotNull(jObject);
 
-            Assert.IsNotNull(objectResult);
-            Assert.IsInstanceOfType(objectResult.Value, typeof(bool));
-            Assert.AreEqual(expected, (bool)objectResult.Value);
+            if (expectedFields != null)
+            {
+                Assert.IsTrue(jObject.Properties().Count() == expectedFields.Length);
+                foreach (var property in jObject.Properties())
+                {
+                    Assert.IsTrue(expectedFields.Contains(property.Name),
+                        $"expectedFields.Contains(property.Name) failed for ${property.Name}");
+                }
+            }
+
+            return jObject;
         }
 
-        public static void AssertFields(JObject obj, string[] fields)
+        public static JArray AssertArray(object input, string[] expectedFields = null)
         {
-            Assert.IsNotNull(obj);
+            var array = input as JArray;
+            Assert.IsNotNull(array);
 
-            Assert.IsTrue(obj.Properties().Count() == fields.Length);
-            foreach (var property in obj.Properties())
+            if (expectedFields != null)
             {
-                Assert.IsTrue(fields.Contains(property.Name));
+                Assert.IsTrue(array.Count > 0, "array empty; expected fields can't be checked");
+                AssertObject(array[0], expectedFields);
             }
+
+            return array;
         }
 
         public static IList<T> AssertList<T>(IActionResult result)
@@ -41,6 +49,17 @@ namespace WgWall.Test.Controllers
             Assert.IsNotNull(users);
 
             return users;
+        }
+
+        public static void AssertArrayDifference(object getResponse, object getResponse2, int difference)
+        {
+            var array1 = getResponse as JArray;
+            Assert.IsNotNull(array1);
+
+            var array2 = getResponse2 as JArray;
+            Assert.IsNotNull(array2);
+
+            Assert.AreEqual(array1.Count + difference, array2.Count);
         }
     }
 }

@@ -1,84 +1,64 @@
-import { Component, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { Component, Input, OnInit } from '@angular/core';
 import {
-    faCheck, faEyeSlash, faPencilAlt, faSave, faTimes, faTrash
+    faCheck, faEyeSlash, faPencilAlt, faPlus, faSave, faTimes, faTrash, faEye
 } from '@fortawesome/free-solid-svg-icons';
 
-import { FrontendUser } from '../models/frontend-user';
-import { Task } from '../models/task';
 import { TaskTemplate } from '../models/task-template';
 import { TaskTemplateService } from '../services/task-template.service';
-import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html'
 })
-export class TasksComponent {
+export class TasksComponent implements OnInit {
   //icons
   public faCheck = faCheck;
   public faTrash = faTrash;
   public faPencilAlt = faPencilAlt;
   public faSave = faSave;
   public faEyeSlash = faEyeSlash;
+  public faEye = faEye;
   public faTimes = faTimes;
+  public faPlus = faPlus;
 
   //task lists
-  public activeTasks: Task[] = [];
-  public activeTaskTemplates: TaskTemplate[] = [];
-  private taskTemplates: TaskTemplate[];
+  private taskTemplates$ : Observable<TaskTemplate[]>;
+  public activeTaskTemplates$ : Observable<TaskTemplate[]>;
 
   //input
   public editTaskTemplate: TaskTemplate = new TaskTemplate();
   public isEditActive: boolean = false;
 
-  @Input() user: FrontendUser;
-
-  constructor(private taskService: TaskService, private taskTemplateService: TaskTemplateService) { }
+  constructor(private taskTemplateService: TaskTemplateService) { }
 
   ngOnInit() {
-    this.taskTemplateService.get().subscribe(tt => {
-      this.taskTemplates = tt;
-      this.activeTaskTemplates = this.taskTemplates.filter(t => !t.hide);
-
-      this.taskService.get().subscribe(tasks => {
-        tasks.forEach(t => {
-          t.taskTemplate = this.taskTemplates.filter(tt => tt.id == t.taskTemplateId)[0];
-        })
-        this.activeTasks = tasks;
-      })
-    });
+    this.taskTemplates$ = this.taskTemplateService.get();
+    this.activeTaskTemplates$ = this.taskTemplates$.pipe(
+      map(taskTemplate => taskTemplate.filter(tt => !tt.hidden))
+    );
   }
 
-  addTask(taskTemplate: TaskTemplate) {
-    //create task    
-    this.taskService.create(taskTemplate, this.user).subscribe(fu => {
-      fu.taskTemplate = taskTemplate;
-      this.activeTasks.push(fu);
-    });
+  registerExecution(taskTemplate: TaskTemplate) {
+    this.taskTemplateService.registerExecution(taskTemplate).subscribe();
   }
 
-  deleteTask(task: Task) {
-    this.taskService.delete(task);
-    this.activeTasks.splice(this.activeTasks.indexOf(task), 1);
-  }
-
-  markTaskAsDone(task: Task) {
-    this.taskService.done(task, this.user);
-    this.activeTasks.splice(this.activeTasks.indexOf(task), 1);
-  }
-
+  //edit stuff
   saveEditTaskTemplate() {
     if (!this.editTaskTemplate.id) {
-      this.taskTemplateService.create(this.editTaskTemplate, this.user).subscribe(tt => this.activeTaskTemplates.push(tt));
+      this.taskTemplateService.create(this.editTaskTemplate).subscribe();
     } else {
-      this.taskTemplateService.update(this.editTaskTemplate, this.user);
+      this.taskTemplateService.update(this.editTaskTemplate).subscribe();
     }
     this.editTaskTemplate = new TaskTemplate();
     this.isEditActive = false;
   }
 
-  hideTaskTemplate(taskTemplate: TaskTemplate) {
-    this.taskTemplateService.hide(taskTemplate);
+  toggleHidden(taskTemplate: TaskTemplate) {
+    taskTemplate.hidden = true;
+    this.taskTemplateService.update(taskTemplate).subscribe();
   }
 
   startEditTaskTemplate(taskTemplate: TaskTemplate) {
@@ -92,5 +72,9 @@ export class TasksComponent {
 
   startEdit() {
     this.isEditActive = true;
+  }
+
+  trackByFn(index) {
+    return index;
   }
 }

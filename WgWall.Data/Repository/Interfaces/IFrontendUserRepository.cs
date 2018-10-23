@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using WgWall.Data.Model;
+﻿using WgWall.Data.Model;
+using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Data.Repository.Interfaces
 {
-    public interface IFrontendUserRepository
+    public interface IFrontendUserRepository : IGetRepository<FrontendUser>
     {
-        Task<FrontendUser> TryGet(int frontendUserId);
-        Task<FrontendUser> CreateAsync(string name);
-        Task<List<FrontendUser>> GetAllAsync();
     }
 }

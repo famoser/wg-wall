@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using WgWall.Data.Model;
-using Task = System.Threading.Tasks.Task;
+﻿using WgWall.Data.Model;
+using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Data.Repository.Interfaces
 {
-    public interface ISettingRepository
+    public interface ISettingRepository : IGetRepository<Setting>
     {
-        Task Persist(string key, string value);
-        Task<List<Setting>> GetAllAsync();
     }
 }

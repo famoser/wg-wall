@@ -1,0 +1,2 @@
+ignore:
+  - "WgWall.Migrations/Migrations"  # ignore generated migrations
