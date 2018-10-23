@@ -1,29 +1,30 @@
-﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 using WgWall.Api.Request;
+using WgWall.Test.Utils;
+using WgWall.Test.Utils.IntegrationTest;
+using WgWall.Test.Utils.IntegrationTest.Interface;
 
 namespace WgWall.Test.Controllers.TaskTemplateController
 {
     [TestClass]
-    public class IntegrationTest
+    public class IntegrationTest : AbstractIntegrationTest
     {
-        [TestMethod]
-        public async Task Get_ShouldReturnExpectedFields()
+        protected override async Task PerformIntegrationTest(ITestClient testClient)
         {
-            var expectedTaskTemplateFields = new[] {"name", "id", "intervalInDays", "lastActivationAt", "hide"};
-            var newTaskTemplate = new TaskTemplatePayload() { Name = "new task name", IntervalInDays = 2};
-            using (var client = new TestClientProvider())
-            {
-                //creation
-                var newTaskTemplateResponse = await client.PostJsonAsync("/api/Task", newTaskTemplate);
-                AssertHelper.AssertFields(newTaskTemplateResponse as JObject, expectedTaskTemplateFields);
-                
-                //list
-                var response = await client.GetJsonAsync("/api/Task");
-                Assert.IsInstanceOfType(response, typeof(JArray));
-                AssertHelper.AssertFields(((JArray)response)[0] as JObject, expectedTaskTemplateFields);
-            }
+            //arrange
+            var expectedTaskTemplateFields = new[] { "name", "id", "intervalInDays", "lastExecutionAt" };
+            var newTaskTemplate = new TaskTemplatePayload() { Name = "new task template name", IntervalInDays = 2 };
+
+            //test create
+            var newTaskTemplateResponse = await testClient.PostJsonAsync("/api/TaskTemplate", newTaskTemplate);
+            AssertHelper.AssertFields(newTaskTemplateResponse as JObject, expectedTaskTemplateFields);
+
+            //test get
+            var response = await testClient.GetJsonAsync("/api/TaskTemplate");
+            Assert.IsInstanceOfType(response, typeof(JArray));
+            AssertHelper.AssertFields(((JArray)response)[0] as JObject, expectedTaskTemplateFields);
         }
     }
 }

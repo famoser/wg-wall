@@ -14,23 +14,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Seed\frontend_users.json" />
-    <None Remove="Seed\products.json" />
-    <None Remove="Seed\settings.json" />
-    <None Remove="Seed\task_templates.json" />
+    <None Remove="Utils\SampleData\Seed\frontend_users.json" />
+    <None Remove="Utils\SampleData\Seed\products.json" />
+    <None Remove="Utils\SampleData\Seed\settings.json" />
+    <None Remove="Utils\SampleData\Seed\task_templates.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Seed\frontend_users.json">
+    <Content Include="Utils\SampleData\Seed\frontend_users.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Seed\task_templates.json">
+    <Content Include="Utils\SampleData\Seed\task_templates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Seed\settings.json">
+    <Content Include="Utils\SampleData\Seed\settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Seed\products.json">
+    <Content Include="Utils\SampleData\Seed\products.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

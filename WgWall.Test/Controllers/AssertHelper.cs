@@ -12,15 +12,6 @@ namespace WgWall.Test.Controllers
 {
     public static class AssertHelper
     {
-        public static void AssertBooleanResult(IActionResult result, bool expected)
-        {
-            var objectResult = result as OkObjectResult;
-
-            Assert.IsNotNull(objectResult);
-            Assert.IsInstanceOfType(objectResult.Value, typeof(bool));
-            Assert.AreEqual(expected, (bool)objectResult.Value);
-        }
-
         public static void AssertFields(JObject obj, string[] fields)
         {
             Assert.IsNotNull(obj);

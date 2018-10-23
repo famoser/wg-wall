@@ -1,26 +1,28 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using WgWall.Test.Mock;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using WgWall.Test.Utils.IntegrationTest.Interface;
+using WgWall.Test.Utils.Startup;
 
-namespace WgWall.Test.Controllers
+namespace WgWall.Test.Utils.IntegrationTest
 {
-    public class TestClientProvider : IDisposable
+    public class TestClient<T> : IDisposable, ITestClient
+        where T: WgWall.Startup
     {
         private readonly TestServer _server;
 
         private readonly HttpClient _client;
 
-        public TestClientProvider()
+        public TestClient()
         {
-            _server = new TestServer(new WebHostBuilder().UseStartup<MockStartup>());
+            _server = new TestServer(new WebHostBuilder().UseStartup<T>());
 
             _client = _server.CreateClient();
         }
@@ -47,7 +49,7 @@ namespace WgWall.Test.Controllers
 
         public void Dispose()
         {
-            File.Delete(MockStartup.DbName);
+            File.Delete(MockDatabaseStartup.DbName);
             _server?.Dispose();
             _client?.Dispose();
         }

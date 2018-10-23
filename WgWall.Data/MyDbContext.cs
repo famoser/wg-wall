@@ -17,5 +17,13 @@ namespace WgWall.Data
         {
 
         }
+
+        public DbSet<Event> Events { get; set; }
+        public DbSet<FrontendUser> FrontendUsers { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductPurchase> ProductPurchases { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<TaskExecution> TaskExecutions { get; set; }
+        public DbSet<TaskTemplate> TaskTemplates { get; set; }
     }
 }

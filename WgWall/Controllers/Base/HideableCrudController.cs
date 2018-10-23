@@ -13,11 +13,10 @@ namespace WgWall.Controllers.Base
     where TEntity : BaseEntity, new()
     where TDto : BaseDto
     {
-        private readonly IHideableCrudRepository<TEntity> _entityRepository;
+        protected IHideableCrudRepository<TEntity> _entityRepository;
 
-        protected HideableCrudController(IHideableCrudRepository<TEntity> entityRepository) : base(entityRepository)
+        protected HideableCrudController(ITryFindRepository<TEntity> entityRepository) : base(entityRepository)
         {
-            _entityRepository = entityRepository;
         }
 
         [HttpGet]

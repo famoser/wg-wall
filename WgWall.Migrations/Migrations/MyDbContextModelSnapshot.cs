@@ -16,14 +16,24 @@ namespace WgWall.Migrations.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
 
-            modelBuilder.Entity("WgWall.Data.Model.FrontendUser", b =>
+            modelBuilder.Entity("WgWall.Data.Model.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<string>("Name");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<DateTime>("StartDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("WgWall.Data.Model.FrontendUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("Karma");
 
@@ -32,8 +42,6 @@ namespace WgWall.Migrations.Migrations
                     b.Property<string>("ProfileImageSrc");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
 
                     b.ToTable("FrontendUsers");
                 });
@@ -47,11 +55,7 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<int?>("BoughtById");
 
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int?>("CreatedById");
-
-                    b.Property<bool>("Hidden");
+                    b.Property<bool>("IsHidden");
 
                     b.Property<string>("Name");
 
@@ -59,9 +63,27 @@ namespace WgWall.Migrations.Migrations
 
                     b.HasIndex("BoughtById");
 
-                    b.HasIndex("CreatedById");
-
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("WgWall.Data.Model.ProductPurchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AccountableId");
+
+                    b.Property<int?>("EntityId");
+
+                    b.Property<DateTime>("ExecutedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountableId");
+
+                    b.HasIndex("EntityId");
+
+                    b.ToTable("ProductPurchases");
                 });
 
             modelBuilder.Entity("WgWall.Data.Model.Setting", b =>
@@ -83,39 +105,29 @@ namespace WgWall.Migrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("AccountableId");
+
+                    b.Property<int?>("EntityId");
+
                     b.Property<DateTime>("ExecutedAt");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int?>("CreatedById");
-
-                    b.Property<int?>("DoneById");
-
-                    b.Property<int>("TaskTemplateId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("AccountableId");
 
-                    b.HasIndex("DoneById");
+                    b.HasIndex("EntityId");
 
-                    b.HasIndex("TaskTemplateId");
-
-                    b.ToTable("Tasks");
+                    b.ToTable("TaskExecutions");
                 });
 
-            modelBuilder.Entity("WgWall.Data.Model.Task", b =>
+            modelBuilder.Entity("WgWall.Data.Model.TaskTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int?>("CreatedById");
-
-                    b.Property<bool>("Hidden");
-
                     b.Property<int?>("IntervalInDays");
+
+                    b.Property<bool>("IsHidden");
 
                     b.Property<DateTime?>("LastExecutionAt");
 
@@ -123,50 +135,36 @@ namespace WgWall.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
                     b.ToTable("TaskTemplates");
-                });
-
-            modelBuilder.Entity("WgWall.Data.Model.FrontendUser", b =>
-                {
-                    b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
                 });
 
             modelBuilder.Entity("WgWall.Data.Model.Product", b =>
                 {
                     b.HasOne("WgWall.Data.Model.FrontendUser", "BoughtBy")
-                        .WithMany("BoughtProducts")
-                        .HasForeignKey("BoughtById");
-
-                    b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById");
+                        .HasForeignKey("BoughtById");
+                });
+
+            modelBuilder.Entity("WgWall.Data.Model.ProductPurchase", b =>
+                {
+                    b.HasOne("WgWall.Data.Model.FrontendUser", "Accountable")
+                        .WithMany("PurchasedProducts")
+                        .HasForeignKey("AccountableId");
+
+                    b.HasOne("WgWall.Data.Model.Product", "Entity")
+                        .WithMany()
+                        .HasForeignKey("EntityId");
                 });
 
             modelBuilder.Entity("WgWall.Data.Model.TaskExecution", b =>
                 {
-                    b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
+                    b.HasOne("WgWall.Data.Model.FrontendUser", "Accountable")
+                        .WithMany("ExecutedTasks")
+                        .HasForeignKey("AccountableId");
 
-                    b.HasOne("WgWall.Data.Model.FrontendUser", "DoneBy")
+                    b.HasOne("WgWall.Data.Model.TaskTemplate", "Entity")
                         .WithMany()
-                        .HasForeignKey("DoneById");
-
-                    b.HasOne("WgWall.Data.Model.Task", "Task")
-                        .WithMany()
-                        .HasForeignKey("TaskTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WgWall.Data.Model.Task", b =>
-                {
-                    b.HasOne("WgWall.Data.Model.FrontendUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
+                        .HasForeignKey("EntityId");
                 });
 #pragma warning restore 612, 618
         }
