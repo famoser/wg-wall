@@ -11,7 +11,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Data.Repository
 {
-    public class ProductPurchaseRepository : SaveRepository<TaskExecution>, ITaskExecutionRepository
+    public class ProductPurchaseRepository : SaveRepository<ProductPurchase>, IProductPurchaseRepository
     {
         public ProductPurchaseRepository(MyDbContext context) : base(context)
         {

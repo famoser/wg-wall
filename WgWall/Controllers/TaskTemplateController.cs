@@ -18,5 +18,12 @@ namespace WgWall.Controllers
         public TaskTemplateController(ITaskTemplateRepository taskTemplateRepository) : base(taskTemplateRepository)
         {
         }
+        
+        protected override bool WriteInto(TaskTemplate target, TaskTemplatePayload source)
+        {
+            target.Name = source.Name;
+            target.IntervalInDays = source.IntervalInDays;
+            return true;
+        }
     }
 }

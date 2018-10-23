@@ -2,7 +2,7 @@
 
 namespace WgWall.Data.Model
 {
-    public class ProductPurchase : TrackActionEntity<ProductPurchase>
+    public class ProductPurchase : TrackActionEntity<Product>
     {
     }
 }

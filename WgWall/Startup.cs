@@ -36,9 +36,11 @@ namespace WgWall
             services.AddDbContext<MyDbContext>(options => options.UseLazyLoadingProxies().UseSqlite(connection, x => x.MigrationsAssembly("WgWall.Migrations")));
             services.AddScoped<IFrontendUserRepository, FrontendUserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductPurchaseRepository, ProductPurchaseRepository>();
             services.AddScoped<ISettingRepository, SettingRepository>();
-            services.AddScoped<ITaskExecutionRepository, TaskRepository>();
+            services.AddScoped<ITaskExecutionRepository, TaskExecutionRepository>();
             services.AddScoped<ITaskTemplateRepository, TaskTemplateRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
         }
 
         public virtual void PrepareDatabase(MyDbContext context)

@@ -4,7 +4,7 @@ using WgWall.Data.Model.Base;
 
 namespace WgWall.Data.Repository.Base.Interfaces
 {
-    public interface IGetRepository<T> : ITryGetRepository<T>
+    public interface IGetRepository<T> : ITryFindRepository<T>
         where T : BaseEntity
     {
         Task<List<T>> GetAsync();

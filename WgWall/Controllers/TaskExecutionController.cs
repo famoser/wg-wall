@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WgWall.Api.Dto;
+using WgWall.Api.Dto.Base;
 using WgWall.Api.Request;
 using WgWall.Api.Request.Base;
+using WgWall.Controllers.Base;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
 
@@ -13,37 +15,31 @@ namespace WgWall.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskExecutionController : ControllerBase
+    public class TaskExecutionController : PostController<TaskExecution, BaseDto, TaskExecutionPayload>
     {
         private readonly ITaskTemplateRepository _taskTemplateRepository;
-        private readonly ITaskExecutionRepository _taskExecutionRepository;
         private readonly IFrontendUserRepository _frontendUserRepository;
 
-        public TaskExecutionController(IFrontendUserRepository frontendUserRepository, ITaskTemplateRepository taskTemplateRepository, ITaskExecutionRepository taskExecutionRepository)
+        public TaskExecutionController(IFrontendUserRepository frontendUserRepository, ITaskTemplateRepository taskTemplateRepository, ITaskExecutionRepository taskExecutionRepository) : base(taskExecutionRepository)
         {
             _frontendUserRepository = frontendUserRepository;
             _taskTemplateRepository = taskTemplateRepository;
-            _taskExecutionRepository = taskExecutionRepository;
         }
 
-        [HttpPost("{templateId}")]
-        public async Task<IActionResult> Execute([FromRoute] int id, [FromBody] AccountablePayload payload)
+        protected override async Task<bool> WriteIntoAsync(TaskExecution target, TaskExecutionPayload source)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var frontendUser = await _frontendUserRepository.TryFindAsync(source.FrontendUserId);
+            var taskTemplate = await _taskTemplateRepository.TryFindAsync(source.TaskTemplateId);
 
-            var taskTemplate = await _taskTemplateRepository.TryFindAsync(id);
-            if (taskTemplate == null) return NotFound();
-
-            var currentUser = await _frontendUserRepository.TryFindAsync(payload.FrontendUserId);
-            var taskExecution = new TaskExecution()
+            if (frontendUser == null || taskTemplate == null)
             {
-                DoneBy = currentUser,
-                Entity = taskTemplate,
-                ExecutedAt = DateTime.Now
-            };
-            await _taskExecutionRepository.Save(taskExecution);
+                return false;
+            }
 
-            return NoContent();
+            target.Accountable = frontendUser;
+            target.Entity = taskTemplate;
+
+            return true;
         }
     }
 }

@@ -9,35 +9,26 @@ using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Controllers.Base
 {
-    public abstract class HideableCrudController<TEntity, TDto, TPayload> : PutController<TEntity, TDto, TPayload>
+    public abstract class CrudController<TEntity, TDto, TPayload> : GetController<TEntity, TDto, TPayload>
     where TEntity : BaseEntity, new()
     where TDto : BaseDto
     {
-        private readonly IHideableCrudRepository<TEntity> _entityRepository;
+        private readonly ICrudRepository<TEntity> _entityRepository;
 
-        protected HideableCrudController(IHideableCrudRepository<TEntity> entityRepository) : base(entityRepository)
+        protected CrudController(ICrudRepository<TEntity> entityRepository) : base(entityRepository)
         {
             _entityRepository = entityRepository;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var entities = await _entityRepository.GetActiveAsync();
-
-            var dtos = Mapper.Map<IList<TDto>>(entities);
-            return Ok(dtos);
-        }
-
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Hide([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var entity = await _entityRepository.TryFindAsync(id);
             if (entity == null) return NotFound();
 
-            await _entityRepository.HideAsync(entity);
+            await _entityRepository.RemoveAsync(entity);
 
             return NoContent();
         }

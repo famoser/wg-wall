@@ -6,7 +6,7 @@ using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Data.Repository.Interfaces
 {
-    interface ICalenderEntryRepository : ICrudRepository<CalenderEntry>
+    public interface IEventRepository : ICrudRepository<Event>
     {
     }
 }

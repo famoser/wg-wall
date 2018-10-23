@@ -1,41 +1,61 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WgWall.Api.Dto;
 using WgWall.Api.Dto.Base;
-using WgWall.Api.Request.Interface;
 using WgWall.Data.Model.Base;
 using WgWall.Data.Repository.Base.Interfaces;
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 namespace WgWall.Controllers.Base
 {
     public abstract class PostController<TEntity, TDto, TPayload> : ControllerBase
     where TEntity : BaseEntity, new()
     where TDto : BaseDto
-    where TPayload : IWriteIntoPayload<TEntity>
     {
         private readonly ISaveRepository<TEntity> _entityRepository;
-        protected readonly IMapper _mapper;
+        protected readonly IMapper Mapper;
 
-        protected PostController(IHideableCrudRepository<TEntity> entityRepository)
+        protected PostController(ISaveRepository<TEntity> entityRepository)
         {
             _entityRepository = entityRepository;
 
             var config = new MapperConfiguration(cfg => cfg.CreateMap<TEntity, TDto>());
-            _mapper = new Mapper(config);
+            Mapper = new Mapper(config);
         }
 
+        /// <summary>
+        /// overwrite either this method or the async variation
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        protected virtual bool WriteInto(TEntity target, TPayload source)
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// overwrite either this method or the sync variation
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        protected virtual async Task<bool> WriteIntoAsync(TEntity target, TPayload source)
+        {
+            return false;
+        }
+        
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TPayload payload)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var product = new TEntity();
-            payload.WriteInto(product);
-            await _entityRepository.Save(product);
+            var entity = new TEntity();
+            if (!WriteInto(entity, payload) && !await WriteIntoAsync(entity, payload)) return BadRequest();
 
-            var productDto = _mapper.Map<ProductDto>(product);
+            await _entityRepository.Save(entity);
+
+            var productDto = Mapper.Map<TDto>(entity);
             return Ok(productDto);
         }
     }

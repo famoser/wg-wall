@@ -8,7 +8,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Data.Repository.Interfaces
 {
-    public interface IProductPurchaseRepository : ISaveRepository<TaskExecution>
+    public interface IProductPurchaseRepository : ISaveRepository<ProductPurchase>
     {
     }
 }

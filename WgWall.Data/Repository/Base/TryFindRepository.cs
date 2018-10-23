@@ -4,7 +4,7 @@ using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Data.Repository.Base
 {
-    public abstract class TryFindRepository<T> : SaveRepository<T>, ITryGetRepository<T>
+    public abstract class TryFindRepository<T> : SaveRepository<T>, ITryFindRepository<T>
     where T : BaseEntity
     {
         protected TryFindRepository(MyDbContext context) : base(context)

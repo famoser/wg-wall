@@ -18,10 +18,16 @@ namespace WgWall.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FrontendUserController : HideableCrudController<FrontendUser, FrontendUserDto, FrontendUserPayload>
+    public class FrontendUserController : GetController<FrontendUser, FrontendUserDto, FrontendUserPayload>
     {
         public FrontendUserController(IFrontendUserRepository repository) : base(repository)
         {
+        }
+
+        protected override bool WriteInto(FrontendUser target, FrontendUserPayload source)
+        {
+            target.Name = source.Name;
+            return true;
         }
     }
 }
