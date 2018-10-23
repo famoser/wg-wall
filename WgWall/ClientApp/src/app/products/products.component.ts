@@ -36,7 +36,7 @@ export class ProductsComponent {
     this.productService.get().subscribe(products => {
       //init view
       this.products = products;
-      this.active = this.products.filter(p => p.boughtById == null && p.amount > 0);
+      this.active = this.products;
       this.populateRegister();
       if (this.products.length == 0) {
         this.isEditActive = true;
@@ -58,7 +58,7 @@ export class ProductsComponent {
   }
 
   populateRegister() {
-    this.register = Array.from(new Set(this.products.filter(p => !p.hide).map(p => p.name))).sort();
+    this.register = Array.from(new Set(this.products.map(p => p.name))).sort();
   }
 
   update(product: Product) {
@@ -104,7 +104,6 @@ export class ProductsComponent {
   }
 
   confirmBuy(product: Product) {
-    product.boughtById = this.user.id;
     this.active.splice(this.active.indexOf(product), 1);
     this.update(product);
     this.user.karma = +this.user.karma + +product.amount;
@@ -112,7 +111,7 @@ export class ProductsComponent {
 
   hide(name: string) {
     this.productService.hideAll(name);
-    this.products.filter(p => p.name == name).forEach(p => p.hide = true);
+    this.products.filter(p => p.name == name);
     this.populateRegister();
   }
 

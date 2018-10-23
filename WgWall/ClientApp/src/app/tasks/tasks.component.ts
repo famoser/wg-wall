@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-    faCheck, faEyeSlash, faPencilAlt, faPlus, faSave, faTimes, faTrash, faEye
+  faCheck, faPencilAlt, faPlus, faSave, faTimes, faTrash
 } from '@fortawesome/free-solid-svg-icons';
 
 import { TaskTemplate } from '../models/task-template';
@@ -19,14 +19,11 @@ export class TasksComponent implements OnInit {
   public faTrash = faTrash;
   public faPencilAlt = faPencilAlt;
   public faSave = faSave;
-  public faEyeSlash = faEyeSlash;
-  public faEye = faEye;
   public faTimes = faTimes;
   public faPlus = faPlus;
 
   //task lists
-  private taskTemplates$ : Observable<TaskTemplate[]>;
-  public activeTaskTemplates$ : Observable<TaskTemplate[]>;
+  public taskTemplates: TaskTemplate[];
 
   //input
   public editTaskTemplate: TaskTemplate = new TaskTemplate();
@@ -35,10 +32,9 @@ export class TasksComponent implements OnInit {
   constructor(private taskTemplateService: TaskTemplateService) { }
 
   ngOnInit() {
-    this.taskTemplates$ = this.taskTemplateService.get();
-    this.activeTaskTemplates$ = this.taskTemplates$.pipe(
-      map(taskTemplate => taskTemplate.filter(tt => !tt.hidden))
-    );
+    this.taskTemplateService.get().subscribe(taskTemplates => {
+      this.taskTemplates = taskTemplates;
+    });
   }
 
   registerExecution(taskTemplate: TaskTemplate) {
@@ -48,7 +44,9 @@ export class TasksComponent implements OnInit {
   //edit stuff
   saveEditTaskTemplate() {
     if (!this.editTaskTemplate.id) {
-      this.taskTemplateService.create(this.editTaskTemplate).subscribe();
+      this.taskTemplateService.create(this.editTaskTemplate).subscribe((newTaskTemplate => {
+        this.taskTemplates.push(newTaskTemplate);
+      }));
     } else {
       this.taskTemplateService.update(this.editTaskTemplate).subscribe();
     }
@@ -56,9 +54,8 @@ export class TasksComponent implements OnInit {
     this.isEditActive = false;
   }
 
-  toggleHidden(taskTemplate: TaskTemplate) {
-    taskTemplate.hidden = true;
-    this.taskTemplateService.update(taskTemplate).subscribe();
+  remove(taskTemplate: TaskTemplate) {
+    this.taskTemplateService.remove(taskTemplate).subscribe();
   }
 
   startEditTaskTemplate(taskTemplate: TaskTemplate) {

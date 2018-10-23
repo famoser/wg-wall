@@ -24,32 +24,25 @@ export class TaskTemplateService {
 
   create(taskTemplate: TaskTemplate): Observable<TaskTemplate> {
     //todo: how to add to get() observable?
-    return this.frontendUserService.getActiveUser().pipe(
-      switchMap(frontendUser => {
-        return this.http.post<TaskTemplate>(this.taskTemplateUrl, {
-          frontendUserId: frontendUser.id,
-          name: taskTemplate.name,
-          intervalInDays: taskTemplate.intervalInDays
-        });
-      }),
-      map((newTaskTemplate) => {
-        taskTemplate.id = newTaskTemplate.id;
-        return taskTemplate;
-      })
+    return this.http.post<TaskTemplate>(this.taskTemplateUrl, {
+      name: taskTemplate.name,
+      intervalInDays: taskTemplate.intervalInDays,
+      reward: taskTemplate.reward
+    }).pipe(
+      tap((newTaskTemplate) => taskTemplate.id = newTaskTemplate.id)
     );
   }
 
   update(taskTemplate: TaskTemplate): Observable<any> {
-    return this.frontendUserService.getActiveUser().pipe(
-      switchMap(frontendUser => {
-        return this.http.put(this.taskTemplateUrl + "/" + taskTemplate.id, {
-          frontendUserId: frontendUser.id,
-          name: taskTemplate.name,
-          intervalInDays: taskTemplate.intervalInDays,
-          hidden: taskTemplate.hidden
-        });
-      })
-    );
+    return this.http.put(this.taskTemplateUrl + "/" + taskTemplate.id, {
+      name: taskTemplate.name,
+      intervalInDays: taskTemplate.intervalInDays,
+      reward: taskTemplate.reward
+    });
+  }
+
+  remove(taskTemplate: TaskTemplate): Observable<any> {
+    return this.http.delete(this.taskTemplateUrl + "/" + taskTemplate.id);
   }
 
   registerExecution(taskTemplate: TaskTemplate): Observable<any> {
@@ -59,7 +52,7 @@ export class TaskTemplateService {
           frontendUserId: frontendUser.id
         });
       }),
-      map(() => { taskTemplate.lastExecutionAt = new Date() })
+      tap(() => { taskTemplate.lastExecutionAt = new Date() })
     );
   }
 }

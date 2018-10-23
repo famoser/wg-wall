@@ -19,10 +19,9 @@
     </p>
 
     <div *ngIf="isEditActive" class="input-group">
-      <input type="text" [(ngModel)]="editTaskTemplate.name" class="form-control form-control-sm flex-grow-1"
-        placeholder="add new product name" (keyup.enter)="saveEditTaskTemplate()">
-      <input type="text" [(ngModel)]="editTaskTemplate.name" class="form-control form-control-sm" placeholder="add new product name"
-        (keyup.enter)="saveEditTaskTemplate()">
+      <input type="text" [(ngModel)]="editTaskTemplate.name" class="form-control form-control-sm" placeholder="new task name">
+      <input type="number" [(ngModel)]="editTaskTemplate.intervalInDays" class="form-control form-control-sm" placeholder="interval">
+      <input type="number" [(ngModel)]="editTaskTemplate.reward" class="form-control form-control-sm" placeholder="reward">
       <div class="input-group-append">
         <button class="btn btn-primary btn-sm" type="button" (click)="saveEditTaskTemplate()">
           <fa-icon *ngIf="!this.editTaskTemplate.id" [icon]="faPlus"></fa-icon>
@@ -31,39 +30,34 @@
       </div>
     </div>
 
-    <ng-container *ngIf="activeTaskTemplates$ | async as activeTaskTemplates; else loading">
-      <table *ngIf="activeTaskTemplates.length > 0; else placeholder" class="table table-sm table-borderless table-striped">
-        <tbody>
-          <tr *ngFor="let taskTemplate of activeTaskTemplates; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst">
-            <td>{{taskTemplate.name}}</td>
-            <td>{{taskTemplate.lastExecutionAt | date}}</td>
-            <td class="minimal-width">
-              <div class="btn-group btn-group-sm">
-                <button *ngIf="!isEditActive" class="btn btn-sm btn-success" type="button" (click)="registerExecution(taskTemplate)">
-                  <fa-icon [icon]="faCheck"></fa-icon>
+    <table *ngIf="taskTemplates.length > 0; else placeholder" class="table table-sm table-borderless table-striped">
+      <tbody>
+        <tr *ngFor="let taskTemplate of taskTemplates; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst">
+          <td>{{taskTemplate.name}}</td>
+          <td>{{taskTemplate.lastExecutionAt | date}}</td>
+          <td class="minimal-width">
+            <div class="btn-group btn-group-sm">
+              <button *ngIf="!isEditActive" class="btn btn-sm btn-success" type="button" (click)="registerExecution(taskTemplate)">
+                <fa-icon [icon]="faCheck"></fa-icon>
+              </button>
+              <ng-container *ngIf="isEditActive">
+                <button class="btn btn-sm btn-success" #unhide type="button" (click)="toggleHidden(taskTemplate)">
+                  <fa-icon [icon]="faTrash"></fa-icon>
                 </button>
-                <ng-container *ngIf="isEditActive">
-                  <button *ngIf="taskTemplate.hidden" class="btn btn-sm btn-danger" type="button" (click)="toggleHidden(taskTemplate)">
-                    <fa-icon [icon]="faEyeSlash"></fa-icon>
-                  </button>
-                  <button *ngIf="!taskTemplate.hidden" class="btn btn-sm btn-success" #unhide type="button" (click)="toggleHidden(taskTemplate)">
-                    <fa-icon [icon]="faEye"></fa-icon>
-                  </button>
-                  <button (click)="startEditTaskTemplate(taskTemplate)" class="btn btn-sm btn-warning" type="button"
-                    (click)="startEditTaskTemplate(taskTemplate)">
-                    <fa-icon [icon]="faPencilAlt"></fa-icon>
-                  </button>
-                </ng-container>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                <button (click)="startEditTaskTemplate(taskTemplate)" class="btn btn-sm btn-warning" type="button"
+                  (click)="startEditTaskTemplate(taskTemplate)">
+                  <fa-icon [icon]="faPencilAlt"></fa-icon>
+                </button>
+              </ng-container>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-      <ng-template #placeholder>
-        <p>no entries yet</p>
-      </ng-template>
-    </ng-container>
+    <ng-template #placeholder>
+      <p>no entries yet</p>
+    </ng-template>
 
     <ng-template #loading>
       <p>

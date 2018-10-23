@@ -9,13 +9,13 @@ namespace WgWall.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventController : CrudController<Event, CalenderEntryDto, CalenderEntryPayload>
+    public class EventController : CrudController<Event, EventDto, EventPayload>
     {
         public EventController(IEventRepository entityRepository) : base(entityRepository)
         {
         }
 
-        protected override bool WriteInto(Event target, CalenderEntryPayload source)
+        protected override bool WriteInto(Event target, EventPayload source)
         {
             target.Name = source.Name;
             target.StartDate = source.StartDate;
