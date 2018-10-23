@@ -43,7 +43,7 @@ namespace WgWall.Test.Mock.Data.Repositories
             return product;
         }
 
-        public async Task<List<Product>> GetAllAsync()
+        public async Task<List<Product>> GetActiveAsync()
         {
             return new List<Product>(_testSet);
         }

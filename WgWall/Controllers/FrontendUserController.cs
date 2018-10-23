@@ -11,44 +11,17 @@ using WgWall.Data;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
 using WgWall.Api.Request;
+using WgWall.Controllers.Base;
+using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FrontendUserController : ControllerBase
+    public class FrontendUserController : HideableCrudController<FrontendUser, FrontendUserDto, FrontendUserPayload>
     {
-        private readonly IFrontendUserRepository _frontendUserRepository;
-        private readonly IMapper _mapper;
-
-        public FrontendUserController(IFrontendUserRepository frontendUserRepository)
+        public FrontendUserController(IFrontendUserRepository repository) : base(repository)
         {
-            _frontendUserRepository = frontendUserRepository;
-
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<FrontendUser, FrontendUserDto>());
-            _mapper = new Mapper(config);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetFrontendUsers()
-        {
-            var users = await _frontendUserRepository.GetAllAsync();
-
-            var usersDto = _mapper.Map<IList<FrontendUserDto>>(users);
-            return Ok(usersDto);
-        }
-        
-        [HttpPost]
-        public async Task<IActionResult> PostFrontendUser([FromBody] FrontendUserPayload user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            var newUser = await _frontendUserRepository.CreateAsync(user.Name);
-            var newUserDto = _mapper.Map<FrontendUserDto>(newUser);
-            return Ok(newUserDto);
         }
     }
 }

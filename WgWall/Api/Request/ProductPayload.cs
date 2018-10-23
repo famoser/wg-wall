@@ -7,13 +7,11 @@ namespace WgWall.Api.Request
     {
         public string Name { get; set; }
         public int Amount { get; set; }
-        public bool IsHidden { get; set; }
 
         public void WriteInto(Product entity)
         {
             entity.Name = Name;
             entity.Amount = Amount;
-            entity.IsHidden = IsHidden;
         }
     }
 }

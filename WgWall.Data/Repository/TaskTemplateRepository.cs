@@ -11,7 +11,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Data.Repository
 {
-    public class TaskTemplateRepository : GetAllRepository<TaskTemplate>, ITaskTemplateRepository
+    public class TaskTemplateRepository : HideableCrudRepository<TaskTemplate>, ITaskTemplateRepository
     {
         public TaskTemplateRepository(MyDbContext context) : base(context)
         {

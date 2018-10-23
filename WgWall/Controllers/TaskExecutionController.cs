@@ -31,10 +31,10 @@ namespace WgWall.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var taskTemplate = await _taskTemplateRepository.TryGetAsync(id);
+            var taskTemplate = await _taskTemplateRepository.TryFindAsync(id);
             if (taskTemplate == null) return NotFound();
 
-            var currentUser = await _frontendUserRepository.TryGetAsync(payload.FrontendUserId);
+            var currentUser = await _frontendUserRepository.TryFindAsync(payload.FrontendUserId);
             var taskExecution = new TaskExecution()
             {
                 DoneBy = currentUser,

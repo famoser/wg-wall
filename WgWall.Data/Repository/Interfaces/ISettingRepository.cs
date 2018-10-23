@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Data.Repository.Interfaces
 {
-    public interface ISettingRepository : IGetAllRepository<Setting>
+    public interface ISettingRepository : IGetRepository<Setting>
     {
     }
 }

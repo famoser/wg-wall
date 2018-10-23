@@ -30,7 +30,7 @@ namespace WgWall.Test.Mock.Data.Repositories
             existing.Value = value;
         }
 
-        public async Task<List<Setting>> GetAllAsync()
+        public async Task<List<Setting>> GetActiveAsync()
         {
             return _testSet;
         }

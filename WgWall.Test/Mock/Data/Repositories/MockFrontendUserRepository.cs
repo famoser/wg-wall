@@ -30,7 +30,7 @@ namespace WgWall.Test.Mock.Data.Repositories
             return user;
         }
 
-        public async Task<List<FrontendUser>> GetAllAsync()
+        public async Task<List<FrontendUser>> GetActiveAsync()
         {
             return new List<FrontendUser>(_testSet);
         }

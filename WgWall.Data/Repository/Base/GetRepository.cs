@@ -7,16 +7,16 @@ using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Data.Repository.Base
 {
-    public abstract class GetAllRepository<T> : TryGetRepository<T>, IGetAllRepository<T>
+    public abstract class GetRepository<T> : TryFindRepository<T>, IGetRepository<T>
     where T : BaseEntity
     {
-        protected GetAllRepository(MyDbContext context) : base(context)
+        protected GetRepository(MyDbContext context) : base(context)
         {
         }
 
-        public Task<List<T>> GetAllAsync()
+        public Task<List<T>> GetAsync()
         {
-            return Context.Set<T>().ToListAsync();
+            return Context.Query<T>().ToListAsync();
         }
     }
 }

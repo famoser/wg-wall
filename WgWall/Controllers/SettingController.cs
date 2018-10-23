@@ -32,7 +32,7 @@ namespace WgWall.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var settings = await _settingRepository.GetAllAsync();
+            var settings = await _settingRepository.GetActiveAsync();
 
             var settingsDto = _mapper.Map<IList<SettingDto>>(settings);
             return Ok(settingsDto);

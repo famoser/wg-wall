@@ -4,14 +4,14 @@ using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Data.Repository.Base
 {
-    public abstract class TryGetRepository<T> : SaveRepository<T>, ITryGetRepository<T>
+    public abstract class TryFindRepository<T> : SaveRepository<T>, ITryGetRepository<T>
     where T : BaseEntity
     {
-        protected TryGetRepository(MyDbContext context) : base(context)
+        protected TryFindRepository(MyDbContext context) : base(context)
         {
         }
 
-        public Task<T> TryGetAsync(int entityId)
+        public Task<T> TryFindAsync(int entityId)
         {
             return Context.FindAsync<T>(entityId);
         }

@@ -9,6 +9,6 @@ namespace WgWall.Data.Repository.Base.Interfaces
     public interface ITryGetRepository<T> : ISaveRepository<T>
         where T : BaseEntity
     {
-        Task<T> TryGetAsync(int entityId);
+        Task<T> TryFindAsync(int entityId);
     }
 }

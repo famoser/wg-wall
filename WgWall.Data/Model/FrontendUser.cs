@@ -10,10 +10,10 @@ namespace WgWall.Data.Model
         public int Karma { get; set; }
         public string ProfileImageSrc { get; set; }
 
-        [InverseProperty("DoneBy")]
+        [InverseProperty("Accountable")]
         public virtual List<TaskExecution> ExecutedTasks { get; set; }
 
-        [InverseProperty("DoneBy")]
+        [InverseProperty("Accountable")]
         public virtual List<ProductPurchase> PurchasedProducts { get; set; }
     }
 }

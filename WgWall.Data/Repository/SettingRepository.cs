@@ -8,7 +8,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace WgWall.Data.Repository
 {
-    public class SettingRepository : GetAllRepository<Setting>, ISettingRepository
+    public class SettingRepository : GetRepository<Setting>, ISettingRepository
     {
         public SettingRepository(MyDbContext context) : base(context)
         {

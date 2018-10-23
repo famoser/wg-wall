@@ -5,7 +5,7 @@ using WgWall.Data.Repository.Base.Interfaces;
 
 namespace WgWall.Data.Repository.Interfaces
 {
-    public interface IFrontendUserRepository : IGetAllRepository<FrontendUser>
+    public interface IFrontendUserRepository : IGetRepository<FrontendUser>
     {
     }
 }

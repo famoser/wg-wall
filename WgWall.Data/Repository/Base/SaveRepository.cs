@@ -9,16 +9,15 @@ namespace WgWall.Data.Repository.Base
     {
         protected readonly MyDbContext Context;
 
-        public SaveRepository(MyDbContext context)
+        protected SaveRepository(MyDbContext context)
         {
             Context = context;
         }
-
-
-        public async Task Save(T entity)
+        
+        public Task Save(T entity)
         {
             Context.Attach(entity);
-            await Context.SaveChangesAsync();
+            return Context.SaveChangesAsync();
         }
     }
 }
