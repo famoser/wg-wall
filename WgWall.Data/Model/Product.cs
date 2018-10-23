@@ -6,6 +6,5 @@ namespace WgWall.Data.Model
     {
         public string Name { get; set; }
         public int Amount { get; set; }
-        public virtual FrontendUser BoughtBy { get; set; }
     }
 }

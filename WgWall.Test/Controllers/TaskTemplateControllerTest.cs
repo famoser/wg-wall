@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WgWall.Test.IntegrationTests.Utils;
-using WgWall.Test.IntegrationTests.Utils.Interface;
+using WgWall.Test.Utils;
+using WgWall.Test.Utils.Interface;
 
-namespace WgWall.Test.IntegrationTests
+namespace WgWall.Test.Controllers
 {
     [TestClass]
     public class TaskTemplateControllerTest : AbstractIntegrationTest
@@ -25,7 +25,7 @@ namespace WgWall.Test.IntegrationTests
             //test put
             await TestPut(testClient, apiUrl, expectedFields, payloadFields);
 
-            //test put
+            //test remove
             await TestRemove(testClient, apiUrl, expectedFields);
         }
     }

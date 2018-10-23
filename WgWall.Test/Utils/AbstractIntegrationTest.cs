@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using WgWall.Test.Controllers;
-using WgWall.Test.IntegrationTests.Utils.Interface;
-using WgWall.Test.Utils;
+using WgWall.Test.Utils.Interface;
 
-namespace WgWall.Test.IntegrationTests.Utils
+namespace WgWall.Test.Utils
 {
     public abstract class AbstractIntegrationTest
     {

@@ -8,10 +8,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using WgWall.Test.IntegrationTests.Utils.Interface;
-using WgWall.Test.Utils;
+using WgWall.Test.Utils.Interface;
 
-namespace WgWall.Test.IntegrationTests.Utils
+namespace WgWall.Test.Utils
 {
     public class TestClient<TStartup> : IDisposable, ITestClient
         where TStartup : WgWall.Startup
