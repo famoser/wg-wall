@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WgWall.Data.Model.Base
+﻿namespace WgWall.Data.Model.Base
 {
     public abstract class HideableEntity : BaseEntity
     {

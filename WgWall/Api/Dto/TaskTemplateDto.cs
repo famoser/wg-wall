@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using WgWall.Api.Dto.Base;
 
 namespace WgWall.Api.Dto

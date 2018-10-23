@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
 using WgWall.Data.Model.Base;
 using WgWall.Data.Repository.Base.Interfaces;
 

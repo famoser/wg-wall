@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using WgWall.Api.Dto;
 using WgWall.Api.Request;
-using WgWall.Api.Request.Base;
 using WgWall.Controllers.Base;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;

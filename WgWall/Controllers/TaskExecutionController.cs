@@ -1,12 +1,7 @@
-﻿using System;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WgWall.Api.Dto;
 using WgWall.Api.Dto.Base;
 using WgWall.Api.Request;
-using WgWall.Api.Request.Base;
 using WgWall.Controllers.Base;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Interfaces;
@@ -20,7 +15,9 @@ namespace WgWall.Controllers
         private readonly ITaskTemplateRepository _taskTemplateRepository;
         private readonly IFrontendUserRepository _frontendUserRepository;
 
-        public TaskExecutionController(IFrontendUserRepository frontendUserRepository, ITaskTemplateRepository taskTemplateRepository, ITaskExecutionRepository taskExecutionRepository) : base(taskExecutionRepository)
+        public TaskExecutionController(IFrontendUserRepository frontendUserRepository,
+            ITaskTemplateRepository taskTemplateRepository, ITaskExecutionRepository taskExecutionRepository) : base(
+            taskExecutionRepository)
         {
             _frontendUserRepository = frontendUserRepository;
             _taskTemplateRepository = taskTemplateRepository;

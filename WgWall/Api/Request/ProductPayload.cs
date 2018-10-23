@@ -1,6 +1,4 @@
-﻿using WgWall.Data.Model;
-
-namespace WgWall.Api.Request
+﻿namespace WgWall.Api.Request
 {
     public class ProductPayload
     {
