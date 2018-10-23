@@ -4,5 +4,6 @@
     {
         public string Name { get; set; }
         public int? IntervalInDays { get; set; }
+        public int Reward { get; set; }
     }
 }

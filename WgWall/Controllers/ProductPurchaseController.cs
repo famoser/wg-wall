@@ -33,6 +33,7 @@ namespace WgWall.Controllers
 
             target.Accountable = frontendUser;
             target.Entity = product;
+            target.KarmaEarned = product.Amount;
 
             return true;
         }

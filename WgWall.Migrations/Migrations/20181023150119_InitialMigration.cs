@@ -28,12 +28,26 @@ namespace WgWall.Migrations.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    Karma = table.Column<int>(nullable: false),
-                    ProfileImageSrc = table.Column<string>(nullable: true)
+                    Karma = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FrontendUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    IsHidden = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Amount = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,60 +73,12 @@ namespace WgWall.Migrations.Migrations
                     IsHidden = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     IntervalInDays = table.Column<int>(nullable: true),
+                    Reward = table.Column<int>(nullable: false),
                     LastExecutionAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaskTemplates", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    IsHidden = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Amount = table.Column<int>(nullable: false),
-                    BoughtById = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Products_FrontendUsers_BoughtById",
-                        column: x => x.BoughtById,
-                        principalTable: "FrontendUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TaskExecutions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    AccountableId = table.Column<int>(nullable: true),
-                    ExecutedAt = table.Column<DateTime>(nullable: false),
-                    EntityId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaskExecutions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TaskExecutions_FrontendUsers_AccountableId",
-                        column: x => x.AccountableId,
-                        principalTable: "FrontendUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TaskExecutions_TaskTemplates_EntityId",
-                        column: x => x.EntityId,
-                        principalTable: "TaskTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,7 +89,8 @@ namespace WgWall.Migrations.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     AccountableId = table.Column<int>(nullable: true),
                     ExecutedAt = table.Column<DateTime>(nullable: false),
-                    EntityId = table.Column<int>(nullable: true)
+                    EntityId = table.Column<int>(nullable: true),
+                    KarmaEarned = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,6 +109,34 @@ namespace WgWall.Migrations.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TaskExecutions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AccountableId = table.Column<int>(nullable: true),
+                    ExecutedAt = table.Column<DateTime>(nullable: false),
+                    EntityId = table.Column<int>(nullable: true),
+                    KarmaEarned = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskExecutions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaskExecutions_FrontendUsers_AccountableId",
+                        column: x => x.AccountableId,
+                        principalTable: "FrontendUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TaskExecutions_TaskTemplates_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "TaskTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPurchases_AccountableId",
                 table: "ProductPurchases",
@@ -151,11 +146,6 @@ namespace WgWall.Migrations.Migrations
                 name: "IX_ProductPurchases_EntityId",
                 table: "ProductPurchases",
                 column: "EntityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_BoughtById",
-                table: "Products",
-                column: "BoughtById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TaskExecutions_AccountableId",
@@ -186,10 +176,10 @@ namespace WgWall.Migrations.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "TaskTemplates");
+                name: "FrontendUsers");
 
             migrationBuilder.DropTable(
-                name: "FrontendUsers");
+                name: "TaskTemplates");
         }
     }
 }

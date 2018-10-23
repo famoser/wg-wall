@@ -8,5 +8,6 @@ namespace WgWall.Api.Dto
         public string Name { get; set; }
         public int? IntervalInDays { get; set; }
         public DateTime? LastExecutionAt { get; set; }
+        public int Reward { get; set; }
     }
 }

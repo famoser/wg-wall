@@ -39,7 +39,8 @@ namespace WgWall.Test.Utils.SampleData
                 {
                     ExecutedAt = new DateTime(),
                     Entity = entities[i % entities.Count],
-                    Accountable = frontendUsers[i % frontendUsers.Count]
+                    Accountable = frontendUsers[i % frontendUsers.Count],
+                    KarmaEarned = i % entities.Count
                 });
             }
             return AddIds(res);

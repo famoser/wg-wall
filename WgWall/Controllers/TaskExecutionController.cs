@@ -35,6 +35,7 @@ namespace WgWall.Controllers
 
             target.Accountable = frontendUser;
             target.Entity = taskTemplate;
+            target.KarmaEarned = taskTemplate.Reward;
 
             return true;
         }

@@ -9,7 +9,7 @@ using WgWall.Data;
 namespace WgWall.Migrations.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20181023093946_InitialMigration")]
+    [Migration("20181023150119_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,8 +41,6 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("ProfileImageSrc");
-
                     b.HasKey("Id");
 
                     b.ToTable("FrontendUsers");
@@ -55,15 +53,11 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<int>("Amount");
 
-                    b.Property<int?>("BoughtById");
-
                     b.Property<bool>("IsHidden");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BoughtById");
 
                     b.ToTable("Products");
                 });
@@ -78,6 +72,8 @@ namespace WgWall.Migrations.Migrations
                     b.Property<int?>("EntityId");
 
                     b.Property<DateTime>("ExecutedAt");
+
+                    b.Property<int>("KarmaEarned");
 
                     b.HasKey("Id");
 
@@ -113,6 +109,8 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<DateTime>("ExecutedAt");
 
+                    b.Property<int>("KarmaEarned");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AccountableId");
@@ -135,16 +133,11 @@ namespace WgWall.Migrations.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("Reward");
+
                     b.HasKey("Id");
 
                     b.ToTable("TaskTemplates");
-                });
-
-            modelBuilder.Entity("WgWall.Data.Model.Product", b =>
-                {
-                    b.HasOne("WgWall.Data.Model.FrontendUser", "BoughtBy")
-                        .WithMany()
-                        .HasForeignKey("BoughtById");
                 });
 
             modelBuilder.Entity("WgWall.Data.Model.ProductPurchase", b =>

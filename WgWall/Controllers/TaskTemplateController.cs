@@ -19,6 +19,7 @@ namespace WgWall.Controllers
         {
             target.Name = source.Name;
             target.IntervalInDays = source.IntervalInDays;
+            target.Reward = source.Reward;
             return true;
         }
     }

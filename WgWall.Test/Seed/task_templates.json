@@ -1,18 +1,22 @@
 ﻿[
   {
     "name": "Waschen",
-    "intervalInDays": 2
+    "intervalInDays": 2,
+    "reward": 10
   },
   {
-    "name": "Staubsaugen"
+    "name": "Staubsaugen",
+    "reward": 5
   },
   {
     "name": "Bad",
-    "intervalInDays": 4
+    "intervalInDays": 4,
+    "reward":  12 
   },
   {
     "name": "Bäd",
     "intervalInDays": 4,
-    "hide": true
+    "hide": true,
+    "reward": 1
   }
 ]

@@ -12,8 +12,8 @@ namespace WgWall.Test.Controllers
         protected override async Task PerformIntegrationTest(ITestClient testClient)
         {
             //arrange
-            var expectedFields = new[] { "id", "name", "intervalInDays", "lastExecutionAt" };
-            var payloadFields = new Dictionary<string, object> { { "name", "new task template" }, { "intervalInDays", 6 } };
+            var expectedFields = new[] { "id", "name", "intervalInDays", "lastExecutionAt", "reward" };
+            var payloadFields = new Dictionary<string, object> { { "name", "new task template" }, { "intervalInDays", 6 }, { "reward", 100 } };
             var apiUrl = "/api/TaskTemplate";
 
             //test get
