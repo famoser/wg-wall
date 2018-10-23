@@ -23,7 +23,6 @@ namespace WgWall.Test.Utils.IntegrationTest
         public TestClient()
         {
             _server = new TestServer(new WebHostBuilder().UseStartup<T>());
-
             _client = _server.CreateClient();
         }
 

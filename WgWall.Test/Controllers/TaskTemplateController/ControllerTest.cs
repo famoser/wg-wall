@@ -9,11 +9,12 @@ using WgWall.Data;
 using WgWall.Data.Model;
 using WgWall.Data.Repository.Base.Interfaces;
 using WgWall.Data.Repository.Interfaces;
+using WgWall.Test.Controllers.Base;
 using WgWall.Test.Utils.Startup;
 
 namespace WgWall.Test.Controllers.TaskTemplateController
 {
-    public class ControllerTest : HideableCrudController<TaskTemplate, TaskTemplateDto, TaskTemplatePayload>
+    public class ControllerTest : HideableCrudControllerTest<TaskTemplate, TaskTemplateDto, TaskTemplatePayload>
     {
         public ControllerTest() : base(null)
         {
@@ -25,8 +26,6 @@ namespace WgWall.Test.Controllers.TaskTemplateController
             //prepare db for run
             var serviceProvider = services.BuildServiceProvider();
             startup.PreConfigureHook(serviceProvider);
-
-            _entityRepository = serviceProvider.GetService<ITaskTemplateRepository>();
         }
     }
 }

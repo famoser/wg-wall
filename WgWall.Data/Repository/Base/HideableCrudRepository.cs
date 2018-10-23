@@ -16,7 +16,7 @@ namespace WgWall.Data.Repository.Base
 
         public Task<List<T>> GetActiveAsync()
         {
-            return Context.Query<T>().Where(t => !t.IsHidden).ToListAsync();
+            return Context.Set<T>().Where(t => !t.IsHidden).ToListAsync();
         }
 
         public Task HideAsync(T element)

@@ -7,7 +7,7 @@ namespace WgWall.Test.Utils.IntegrationTest
 {
     public abstract class AbstractIntegrationTest
     {
-        [TestMethod]
+        //[TestMethod]
         public async Task IntegrationTestWithMockRepositories()
         {
             using (var client = new TestClient<MockRepositoriesStartup>())
