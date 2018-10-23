@@ -13,8 +13,8 @@ using WgWall.Test.Utils.Startup;
 
 namespace WgWall.Test.Utils.IntegrationTest
 {
-    public class TestClient<T> : IDisposable, ITestClient
-        where T: WgWall.Startup
+    public class TestClient<TStartup> : IDisposable, ITestClient
+        where TStartup : WgWall.Startup
     {
         private readonly TestServer _server;
 
@@ -22,26 +22,44 @@ namespace WgWall.Test.Utils.IntegrationTest
 
         public TestClient()
         {
-            _server = new TestServer(new WebHostBuilder().UseStartup<T>());
+            _server = new TestServer(new WebHostBuilder().UseStartup<TStartup>());
             _client = _server.CreateClient();
         }
 
         public async Task<object> GetJsonAsync(string link)
         {
             var response = await _client.GetAsync(link);
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+
             return await DeserializeResponse(response);
         }
 
-        public async Task<object> PostJsonAsync(string link, object content)
+        public async Task<object> PostAsync<T1>(string link, T1 content) where T1 : class
         {
             var response = await _client.PostAsync(link, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+
+            return await DeserializeResponse(response);
+        }
+
+        public async Task<object> PutAsync<T>(string link, T content)
+        {
+            var response = await _client.PutAsync(link, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.NoContent);
+
+            return await DeserializeResponse(response);
+        }
+
+        public async Task<object> DeleteAsync(string link)
+        {
+            var response = await _client.DeleteAsync(link);
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.NoContent);
+
             return await DeserializeResponse(response);
         }
 
         private async Task<object> DeserializeResponse(HttpResponseMessage response)
         {
-            Assert.IsTrue(response.StatusCode == HttpStatusCode.NoContent || response.StatusCode == HttpStatusCode.OK);
-
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject(json);
         }

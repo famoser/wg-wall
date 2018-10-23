@@ -23,8 +23,8 @@ namespace WgWall.Test.Utils.SampleData
             where T : BaseEntity
         {
             var typeName = typeof(T).Name;
-            var snakeCase = Regex.Replace(typeName, "[a-z][A-Z]", "_$1");
-            var filePath = "Seed" + Path.DirectorySeparatorChar + snakeCase + ".json";
+            var snakeCase = Regex.Replace(typeName, "(.)([A-Z])", "$1_$2", RegexOptions.Compiled).ToLower();
+            var filePath = "Seed" + Path.DirectorySeparatorChar + snakeCase + "s.json";
 
             return File.Exists(filePath) ? JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(filePath)) : new List<T>();
         }

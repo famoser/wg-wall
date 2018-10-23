@@ -14,23 +14,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Utils\SampleData\Seed\frontend_users.json" />
-    <None Remove="Utils\SampleData\Seed\products.json" />
-    <None Remove="Utils\SampleData\Seed\settings.json" />
-    <None Remove="Utils\SampleData\Seed\task_templates.json" />
+    <None Remove="Seed\events.json" />
+    <None Remove="Seed\frontend_users.json" />
+    <None Remove="Seed\products.json" />
+    <None Remove="Seed\settings.json" />
+    <None Remove="Seed\task_templates.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Utils\SampleData\Seed\frontend_users.json">
+    <Content Include="Seed\frontend_users.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utils\SampleData\Seed\task_templates.json">
+    <Content Include="Seed\events.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utils\SampleData\Seed\settings.json">
+    <Content Include="Seed\task_templates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utils\SampleData\Seed\products.json">
+    <Content Include="Seed\settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\products.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -57,6 +61,21 @@
     <ProjectReference Include="..\WgWall.Data\WgWall.Data.csproj" />
     <ProjectReference Include="..\WgWall.Migrations\WgWall.Migrations.csproj" />
     <ProjectReference Include="..\WgWall\WgWall.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   
 </Project>

@@ -1,10 +1,10 @@
 ﻿[
   {
-    "name": "Waschen"
+    "name": "Waschen",
+    "intervalInDays": 2
   },
   {
-    "name": "Staubsaugen",
-    "intervalInDays":  7 
+    "name": "Staubsaugen"
   },
   {
     "name": "Bad",

@@ -28,7 +28,7 @@ namespace WgWall.Controllers.Base
             var entity = await _entityRepository.TryFindAsync(id);
             if (entity == null) return NotFound();
 
-            if (!await WriteIntoAsync(entity, payload)) return BadRequest();
+            if (!WriteInto(entity, payload) && !await WriteIntoAsync(entity, payload)) return BadRequest();
 
             await _entityRepository.Save(entity);
 
