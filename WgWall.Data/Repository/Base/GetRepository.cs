@@ -16,7 +16,7 @@ namespace WgWall.Data.Repository.Base
 
         public Task<List<T>> GetAsync()
         {
-            return Context.Query<T>().ToListAsync();
+            return Context.Set<T>().ToListAsync();
         }
     }
 }

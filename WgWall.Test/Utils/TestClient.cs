@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using WgWall.Test.Utils.IntegrationTest.Interface;
-using WgWall.Test.Utils.Startup;
+using WgWall.Test.IntegrationTests.Utils.Interface;
+using WgWall.Test.Utils;
 
-namespace WgWall.Test.Utils.IntegrationTest
+namespace WgWall.Test.IntegrationTests.Utils
 {
     public class TestClient<TStartup> : IDisposable, ITestClient
         where TStartup : WgWall.Startup
@@ -66,7 +66,7 @@ namespace WgWall.Test.Utils.IntegrationTest
 
         public void Dispose()
         {
-            File.Delete(MockDatabaseStartup.DbName);
+            File.Delete(SeededDatabaseStartup.DbName);
             _server?.Dispose();
             _client?.Dispose();
         }

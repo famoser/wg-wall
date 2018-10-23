@@ -2,30 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Query.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using WgWall.Test.Controllers;
-using WgWall.Test.Utils.IntegrationTest.Interface;
-using WgWall.Test.Utils.Startup;
+using WgWall.Test.IntegrationTests.Utils.Interface;
+using WgWall.Test.Utils;
 
-namespace WgWall.Test.Utils.IntegrationTest
+namespace WgWall.Test.IntegrationTests.Utils
 {
     public abstract class AbstractIntegrationTest
     {
         [TestMethod]
-        public async Task IntegrationTestWithMockRepositories()
-        {
-            using (var client = new TestClient<MockRepositoriesStartup>())
-            {
-                await PerformIntegrationTest(client);
-            }
-        }
-
-        [TestMethod]
         public async Task IntegrationTestWithMockDatabase()
         {
-            using (var client = new TestClient<MockDatabaseStartup>())
+            using (var client = new TestClient<SeededDatabaseStartup>())
             {
                 await PerformIntegrationTest(client);
             }

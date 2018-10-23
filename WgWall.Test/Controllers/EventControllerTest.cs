@@ -1,23 +1,21 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using WgWall.Test.Utils.IntegrationTest;
-using WgWall.Test.Utils.IntegrationTest.Interface;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WgWall.Test.IntegrationTests.Utils;
+using WgWall.Test.IntegrationTests.Utils.Interface;
 
-namespace WgWall.Test.Controllers.TaskTemplateController
+namespace WgWall.Test.IntegrationTests
 {
     [TestClass]
-    public class IntegrationTest : AbstractIntegrationTest
+    public class EventControllerTest : AbstractIntegrationTest
     {
         protected override async Task PerformIntegrationTest(ITestClient testClient)
         {
             //arrange
-            var expectedFields = new[] { "name", "id", "intervalInDays", "lastExecutionAt" };
-            var payloadFields = new Dictionary<string, object> { { "name", "new task template" }, { "intervalInDays", 6 } };
-            var apiUrl = "/api/TaskTemplate";
+            var expectedFields = new[] { "id", "name", "startDate" };
+            var payloadFields = new Dictionary<string, object> { { "name", "new event" }, { "startDate", DateTime.Now } };
+            var apiUrl = "/api/Event";
 
             //test get
             await TestGet(testClient, apiUrl, expectedFields);

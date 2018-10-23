@@ -7,12 +7,12 @@ using WgWall.Data;
 using WgWall.Test.Utils.SampleData;
 using WgWall.Test.Utils.SampleData.Interface;
 
-namespace WgWall.Test.Utils.Startup
+namespace WgWall.Test.Utils
 {
-    public class MockDatabaseStartup : WgWall.Startup
+    public class SeededDatabaseStartup : WgWall.Startup
     {
         public static string DbName = "test.sqlite";
-        public MockDatabaseStartup(IConfiguration configuration) : base(configuration)
+        public SeededDatabaseStartup(IConfiguration configuration) : base(configuration)
         {
         }
 
@@ -42,7 +42,7 @@ namespace WgWall.Test.Utils.Startup
             var sampleDataService = serviceScope.GetService<ISampleDataService>();
             var context = serviceScope.GetService<MyDbContext>();
             context.AddRange(sampleDataService.LoadEntities());
-            context.SaveChanges();;
+            context.SaveChanges(); ;
         }
     }
 }

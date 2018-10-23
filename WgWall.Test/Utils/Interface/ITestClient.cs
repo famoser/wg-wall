@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WgWall.Test.Utils.IntegrationTest.Interface
+namespace WgWall.Test.IntegrationTests.Utils.Interface
 {
     public interface ITestClient
     {

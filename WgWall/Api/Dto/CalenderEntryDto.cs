@@ -8,7 +8,7 @@ namespace WgWall.Api.Dto
 {
     public class CalenderEntryDto : BaseDto
     {
-        public string Title { get; set; }
+        public string Name { get; set; }
         public DateTime StartDate { get; set; }
     }
 }
