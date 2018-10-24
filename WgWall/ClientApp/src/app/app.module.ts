@@ -13,6 +13,7 @@ import { TransportComponent } from './transport/transport.component';
 import { UserComponent } from './user/user.component';
 import { UsersComponent } from './users/users.component';
 import { LengthPipe } from './pipes/length.pipe';
+import { HumanizeDatePipe } from './pipes/humanize-date.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LengthPipe } from './pipes/length.pipe';
     TransportComponent,
     TasksComponent,
 
-    LengthPipe
+    LengthPipe,
+    HumanizeDatePipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

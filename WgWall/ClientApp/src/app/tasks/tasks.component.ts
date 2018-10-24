@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 
 import { Component, OnInit } from '@angular/core';
 import {
-  faCheck, faPencilAlt, faPlus, faSave, faTimes, faTrash
+  faCheck, faPencilAlt, faPlus, faSave, faUndo, faTrash
 } from '@fortawesome/free-solid-svg-icons';
 
 import { TaskTemplate } from '../models/task-template';
@@ -20,7 +20,7 @@ export class TasksComponent implements OnInit {
   public faTrash = faTrash;
   public faPencilAlt = faPencilAlt;
   public faSave = faSave;
-  public faTimes = faTimes;
+  public faUndo = faUndo;
   public faPlus = faPlus;
 
   //task lists
@@ -40,8 +40,10 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     this.taskTemplateService.get().subscribe(taskTemplates => {
-      taskTemplates.forEach(tt => tt.expectedRelativeCompletion = this.calculateExpectedRelativeCompletion(tt));
-      this.taskTemplates = taskTemplates.sort((a, b) => b.expectedRelativeCompletion - a.expectedRelativeCompletion;
+      taskTemplates.forEach(tt => {
+        tt.expectedRelativeCompletion = this.calculateExpectedRelativeCompletion(tt);
+      });
+      this.taskTemplates = taskTemplates.sort((a, b) => b.expectedRelativeCompletion - a.expectedRelativeCompletion);
     });
   }
 
@@ -57,6 +59,8 @@ export class TasksComponent implements OnInit {
 
   public startAdd() {
     this.editContainer = new TaskTemplate();
+    this.editContainer.reward = 1;
+    this.editContainer.intervalInDays = 0;
   }
 
   public startEdit(source: TaskTemplate) {
@@ -139,11 +143,18 @@ export class TasksComponent implements OnInit {
       this.taskTemplates.splice(this.taskTemplates.indexOf(taskTemplate), 1);
 
       //insert at correct location
-      var relativeCompletion = taskTemplate.expectedRelativeCompletion();
+      var relativeCompletion = this.calculateExpectedRelativeCompletion(taskTemplate);
+      var added = false;
       for (let i = 0; i < this.taskTemplates.length; i++) {
-        if (this.taskTemplates[i].expectedRelativeCompletion() > relativeCompletion) {
+        if (this.calculateExpectedRelativeCompletion(this.taskTemplates[i]) > relativeCompletion) {
           this.taskTemplates.splice(i, 0, taskTemplate);
+          added = true;
+          break;
         }
+      }
+      //add if not added in loop
+      if (!added) {
+        this.taskTemplates.push(taskTemplate);
       }
 
       this.actionsActive--;

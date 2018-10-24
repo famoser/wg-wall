@@ -43,11 +43,10 @@ export class TaskTemplateService {
           frontendUserId: frontendUser.id,
           taskTemplateId: taskTemplate.id
         }).pipe(
-          switchMap(() => {
+          tap(() => {
             //adapt connected entites
             frontendUser.karma += taskTemplate.reward;
             taskTemplate.lastExecutionAt = new Date();
-            return this.update(taskTemplate);
           })
         )
       })
