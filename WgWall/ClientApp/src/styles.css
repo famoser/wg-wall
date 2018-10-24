@@ -4,9 +4,10 @@
 }
 
 h3 {
-    font-size: 1em;
-    text-transform: uppercase;
-    margin-bottom: 0;
+  font-weight: 300;
+  text-transform: lowercase;
+  font-size: 2.5rem;
+  margin-top: -0.28em;
 }
 
 .help {

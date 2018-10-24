@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using WgWall.Api.Dto;
 using WgWall.Api.Request;
 using WgWall.Controllers.Base;

@@ -1,0 +1,7 @@
+.single-number {
+  width: 3.5rem
+}
+
+.btn-group-sm>.btn {
+  min-width: 2rem;
+}

@@ -1,13 +1,7 @@
 <app-top-bar (userSelected)="selectedUser = $event"></app-top-bar>
-<div class='container-fluid mt-3' *ngIf="selectedUser != null">
+<div class='container-fluid mt-3'>
     <div class="row">
-        <div class="col-md-3">
-            <app-products [user]="selectedUser"></app-products>
-        </div>
-        <div class="col-md-2">
-            <app-transport></app-transport>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <app-tasks></app-tasks>
         </div>
     </div>

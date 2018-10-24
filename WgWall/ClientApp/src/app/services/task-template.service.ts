@@ -11,48 +11,54 @@ import { FrontendUserService } from './frontend-user.service';
 @Injectable({ providedIn: 'root' })
 export class TaskTemplateService {
 
+  private taskExecution = 'api/TaskExecution'; // URL to web api
   private taskTemplateUrl = 'api/TaskTemplate'; // URL to web api
 
   constructor(private http: HttpClient, private reload: ReloadService, private frontendUserService: FrontendUserService) {
   }
 
-  get(): Observable<TaskTemplate[]> {
+  public get(): Observable<TaskTemplate[]> {
     return this.reload.reloadObservable.pipe(
       switchMap(() => this.http.get<TaskTemplate[]>(this.taskTemplateUrl))
     )
   }
 
-  create(taskTemplate: TaskTemplate): Observable<TaskTemplate> {
+  public create(taskTemplate: TaskTemplate): Observable<TaskTemplate> {
     //todo: how to add to get() observable?
-    return this.http.post<TaskTemplate>(this.taskTemplateUrl, {
-      name: taskTemplate.name,
-      intervalInDays: taskTemplate.intervalInDays,
-      reward: taskTemplate.reward
-    }).pipe(
-      tap((newTaskTemplate) => taskTemplate.id = newTaskTemplate.id)
-    );
+    return this.http.post<TaskTemplate>(this.taskTemplateUrl, this.toJsonPayload(taskTemplate));
   }
 
-  update(taskTemplate: TaskTemplate): Observable<any> {
-    return this.http.put(this.taskTemplateUrl + "/" + taskTemplate.id, {
-      name: taskTemplate.name,
-      intervalInDays: taskTemplate.intervalInDays,
-      reward: taskTemplate.reward
-    });
+  public update(taskTemplate: TaskTemplate): Observable<any> {
+    return this.http.put(this.taskTemplateUrl + "/" + taskTemplate.id, this.toJsonPayload(taskTemplate));
   }
 
-  remove(taskTemplate: TaskTemplate): Observable<any> {
+  public remove(taskTemplate: TaskTemplate): Observable<any> {
     return this.http.delete(this.taskTemplateUrl + "/" + taskTemplate.id);
   }
 
-  registerExecution(taskTemplate: TaskTemplate): Observable<any> {
+  public registerExecution(taskTemplate: TaskTemplate): Observable<any> {
     return this.frontendUserService.getActiveUser().pipe(
       switchMap(frontendUser => {
-        return this.http.post(this.taskTemplateUrl + "/executed/" + taskTemplate.id, {
-          frontendUserId: frontendUser.id
-        });
-      }),
-      tap(() => { taskTemplate.lastExecutionAt = new Date() })
+        return this.http.post(this.taskExecution, {
+          frontendUserId: frontendUser.id,
+          taskTemplateId: taskTemplate.id
+        }).pipe(
+          switchMap(() => {
+            //adapt connected entites
+            frontendUser.karma += taskTemplate.reward;
+            taskTemplate.lastExecutionAt = new Date();
+            return this.update(taskTemplate);
+          })
+        )
+      })
     );
+  }
+
+  private toJsonPayload(taskTemplate: TaskTemplate) {
+    return {
+      name: taskTemplate.name,
+      intervalInDays: taskTemplate.intervalInDays,
+      reward: taskTemplate.reward
+    };
   }
 }

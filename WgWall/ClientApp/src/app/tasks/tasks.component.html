@@ -1,56 +1,90 @@
 <div class="card">
   <div class="card-body">
-    <h3>tasks
-      <a *ngIf="!isEditActive" href="#" class="pl-2" (click)="startEdit()">
-        <fa-icon [icon]="faPencilAlt"></fa-icon>
-      </a>
-      <a *ngIf="isEditActive" href="#" class="pl-2" (click)="abortEdit()">
-        <fa-icon [icon]="faTimes"></fa-icon>
-      </a>
-    </h3>
-
-    <p class="small text-secondary help">
-      <ng-container *ngIf="!isEditActive; else editDescription">
-        green marks as completed
-      </ng-container>
-      <ng-template #editDescription>
-        select a task template to edit
-      </ng-template>
-    </p>
-
-    <div *ngIf="isEditActive" class="input-group">
-      <input type="text" [(ngModel)]="editTaskTemplate.name" class="form-control form-control-sm" placeholder="new task name">
-      <input type="number" [(ngModel)]="editTaskTemplate.intervalInDays" class="form-control form-control-sm" placeholder="interval">
-      <input type="number" [(ngModel)]="editTaskTemplate.reward" class="form-control form-control-sm" placeholder="reward">
-      <div class="input-group-append">
-        <button class="btn btn-primary btn-sm" type="button" (click)="saveEditTaskTemplate()">
-          <fa-icon *ngIf="!this.editTaskTemplate.id" [icon]="faPlus"></fa-icon>
-          <fa-icon *ngIf="this.editTaskTemplate.id" [icon]="faSave"></fa-icon>
+    <div class="row">
+      <div class="col">
+        <h3>
+          tasks
+        </h3>
+      </div>
+      <div class="col-md-auto">
+        <button *ngIf="!isEditActive" class="btn btn-secondary" [class.d-none]="actionsActive || (editContainer != null && editSource == null)"
+          (click)="startAdd()">
+          <fa-icon [icon]="faPlus"></fa-icon>
         </button>
       </div>
     </div>
+    <p class="small text-secondary help">
+      execute regularely and with joy!
+    </p>
 
-    <table *ngIf="taskTemplates.length > 0; else placeholder" class="table table-sm table-borderless table-striped">
+    <table *ngIf="taskTemplates.length > 0 || (editContainer != null && editSource == null); else placeholder" class="table table-borderless table-striped">
       <tbody>
-        <tr *ngFor="let taskTemplate of taskTemplates; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst">
-          <td>{{taskTemplate.name}}</td>
-          <td>{{taskTemplate.lastExecutionAt | date}}</td>
-          <td class="minimal-width">
-            <div class="btn-group btn-group-sm">
-              <button *ngIf="!isEditActive" class="btn btn-sm btn-success" type="button" (click)="registerExecution(taskTemplate)">
-                <fa-icon [icon]="faCheck"></fa-icon>
-              </button>
-              <ng-container *ngIf="isEditActive">
-                <button class="btn btn-sm btn-success" #unhide type="button" (click)="toggleHidden(taskTemplate)">
-                  <fa-icon [icon]="faTrash"></fa-icon>
-                </button>
-                <button (click)="startEditTaskTemplate(taskTemplate)" class="btn btn-sm btn-warning" type="button"
-                  (click)="startEditTaskTemplate(taskTemplate)">
-                  <fa-icon [icon]="faPencilAlt"></fa-icon>
-                </button>
-              </ng-container>
+        <tr *ngIf="editContainer != null && editSource == null">
+          <td colspan="2">
+            <div class="form-inline">
+              <div class="form-group flex-grow-1">
+                <label>name</label>
+                <input type="text" [(ngModel)]="editContainer.name" class="form-control form-control-sm ml-2 flex-grow-1">
+              </div>
+              <div class="form-group ml-4">
+                <label>reward</label>
+                <input type="number" [(ngModel)]="editContainer.reward" class="form-control form-control-sm ml-2 single-number">
+              </div>
+              <div class="form-group ml-4">
+                <label>interval in days</label>
+                <input type="number" [(ngModel)]="editContainer.intervalInDays" class="form-control form-control-sm ml-2 single-number">
+              </div>
             </div>
           </td>
+          <td class="minimal-width">
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-success" type="button" (click)="add(editContainer)">
+                <fa-icon [icon]="faSave"></fa-icon>
+              </button>
+              <button class="btn btn-warning" type="button" (click)="abort()">
+                <fa-icon [icon]="faTimes"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let taskTemplate of taskTemplates; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst">
+          <ng-container *ngIf="taskTemplate == editSource">
+            <td>
+              <input type="text" [(ngModel)]="editContainer.name" class="form-control form-control-sm"> |
+              <input type="number" [(ngModel)]="editContainer.reward" class="form-control form-control-sm"> Karma
+            </td>
+            <td class="minimal-width">
+              every <input type="number" [(ngModel)]="editContainer.intervalInDays" class="form-control form-control-sm">
+              days
+            </td>
+            <td class="minimal-width">
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-success" type="button" (click)="save(editContainer, taskTemplate)">
+                  <fa-icon [icon]="faSave"></fa-icon>
+                </button>
+                <button class="btn btn-warning" type="button" (click)="abort()">
+                  <fa-icon [icon]="faTimes"></fa-icon>
+                </button>
+                <button class="btn btn-danger" type="button" (click)="remove(taskTemplate)">
+                  <fa-icon [icon]="faTimes"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="taskTemplate != editSource">
+            <td class="align-midle">{{taskTemplate.name}}</td>
+            <td class="minimal-width align-midle">{{taskTemplate.lastExecutionAt | date}}</td>
+            <td class="minimal-width">
+              <div class="btn-group btn-group-sm" *ngIf="editContainer == null">
+                <button class="btn btn-outline-secondary" type="button" (click)="startEdit(taskTemplate)">
+                  <fa-icon [icon]="faPencilAlt"></fa-icon>
+                </button>
+                <button class="btn btn-success" type="button" (click)="execute(taskTemplate)">
+                  <fa-icon [icon]="faCheck"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
         </tr>
       </tbody>
     </table>
@@ -59,10 +93,5 @@
       <p>no entries yet</p>
     </ng-template>
 
-    <ng-template #loading>
-      <p>
-        loading
-      </p>
-    </ng-template>
   </div>
 </div>

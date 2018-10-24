@@ -11,7 +11,8 @@ import { TaskTemplateService } from '../services/task-template.service';
 
 @Component({
   selector: 'app-tasks',
-  templateUrl: './tasks.component.html'
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
   //icons
@@ -23,52 +24,134 @@ export class TasksComponent implements OnInit {
   public faPlus = faPlus;
 
   //task lists
-  public taskTemplates: TaskTemplate[];
+  public taskTemplates: TaskTemplate[] = [];
 
-  //input
-  public editTaskTemplate: TaskTemplate = new TaskTemplate();
-  public isEditActive: boolean = false;
+  //to disable buttons when appropiate
+  public actionsActive: number;
+
+  //edit entries
+  public editSource: TaskTemplate;
+  public editContainer: TaskTemplate;
+
+  //confirm entry
+  public executeSource: TaskTemplate;
 
   constructor(private taskTemplateService: TaskTemplateService) { }
 
   ngOnInit() {
     this.taskTemplateService.get().subscribe(taskTemplates => {
-      this.taskTemplates = taskTemplates;
+      taskTemplates.forEach(tt => tt.expectedRelativeCompletion = this.calculateExpectedRelativeCompletion(tt));
+      this.taskTemplates = taskTemplates.sort((a, b) => b.expectedRelativeCompletion - a.expectedRelativeCompletion;
     });
   }
 
-  registerExecution(taskTemplate: TaskTemplate) {
-    this.taskTemplateService.registerExecution(taskTemplate).subscribe();
-  }
-
-  //edit stuff
-  saveEditTaskTemplate() {
-    if (!this.editTaskTemplate.id) {
-      this.taskTemplateService.create(this.editTaskTemplate).subscribe((newTaskTemplate => {
-        this.taskTemplates.push(newTaskTemplate);
-      }));
-    } else {
-      this.taskTemplateService.update(this.editTaskTemplate).subscribe();
+  private calculateExpectedRelativeCompletion(taskTemplate: TaskTemplate) {
+    if (taskTemplate.lastExecutionAt == null) {
+      return null;
     }
-    this.editTaskTemplate = new TaskTemplate();
-    this.isEditActive = false;
+
+    var expectedTicks = taskTemplate.intervalInDays * 60 * 60 * 24;
+    var nowTicks = new Date().valueOf() - taskTemplate.lastExecutionAt.valueOf();
+    return nowTicks / expectedTicks;
   }
 
-  remove(taskTemplate: TaskTemplate) {
-    this.taskTemplateService.remove(taskTemplate).subscribe();
+  public startAdd() {
+    this.editContainer = new TaskTemplate();
   }
 
-  startEditTaskTemplate(taskTemplate: TaskTemplate) {
-    this.editTaskTemplate = taskTemplate;
-    this.startEdit();
+  public startEdit(source: TaskTemplate) {
+    this.editSource = source;
+    this.editContainer = new TaskTemplate();
+    this.editContainer.name = source.name;
+    this.editContainer.reward = source.reward;
+    this.editContainer.intervalInDays = source.intervalInDays;
   }
 
-  abortEdit() {
-    this.isEditActive = false;
+  public add(source: TaskTemplate) {
+    //lock
+    this.actionsActive++;
+
+    //save to api
+    this.actionsActive++;
+    this.taskTemplateService.create(source).subscribe(newTaskTemplate => {
+      this.taskTemplates.push(newTaskTemplate);
+      this.actionsActive--;
+    });
+
+    //allow to add new directly
+    this.editContainer = new TaskTemplate();
+    this.actionsActive--;
   }
 
-  startEdit() {
-    this.isEditActive = true;
+  public abort() {
+    this.editSource = null;
+    this.editContainer = null;
+  }
+
+  public save(source: TaskTemplate, target: TaskTemplate) {
+    //lock
+    this.actionsActive++;
+
+    //wrote props
+    target.intervalInDays = source.intervalInDays;
+    target.name = source.name;
+    target.reward = source.reward;
+
+    //lock & persist changes
+    this.actionsActive++;
+    this.taskTemplateService.update(target).subscribe(() => this.actionsActive--);
+
+    //stop edit
+    this.abort();
+    this.actionsActive--;
+  }
+
+  public remove(subject: TaskTemplate) {
+    //lock
+    this.actionsActive++;
+
+    //lock & remove entity
+    this.actionsActive++;
+    this.taskTemplateService.remove(subject).subscribe(() => {
+      this.taskTemplates.splice(this.taskTemplates.indexOf(subject), 1);
+      this.actionsActive--;
+    });
+
+    //stop edit
+    this.abort();
+    this.actionsActive--;
+  }
+
+  public execute(taskTemplate: TaskTemplate) {
+    this.executeSource = taskTemplate;
+  }
+
+  public abortExecution() {
+    this.executeSource = null;
+  }
+
+  public confirmExecution(taskTemplate: TaskTemplate) {
+    //lock
+    this.actionsActive++;
+
+    this.taskTemplateService.registerExecution(taskTemplate).subscribe(() => {
+      //remove from array
+      this.taskTemplates.splice(this.taskTemplates.indexOf(taskTemplate), 1);
+
+      //insert at correct location
+      var relativeCompletion = taskTemplate.expectedRelativeCompletion();
+      for (let i = 0; i < this.taskTemplates.length; i++) {
+        if (this.taskTemplates[i].expectedRelativeCompletion() > relativeCompletion) {
+          this.taskTemplates.splice(i, 0, taskTemplate);
+        }
+      }
+
+      this.actionsActive--;
+    });
+
+    //stop execution
+    this.abortExecution();
+    this.actionsActive--;
   }
 
   trackByFn(index) {

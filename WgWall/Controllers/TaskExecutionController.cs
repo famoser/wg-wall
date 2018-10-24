@@ -37,6 +37,8 @@ namespace WgWall.Controllers
             target.Entity = taskTemplate;
             target.KarmaEarned = taskTemplate.Reward;
 
+            await _frontendUserRepository.RecalculateKarma<TaskExecution, TaskTemplate>(frontendUser, target);
+
             return true;
         }
     }

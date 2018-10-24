@@ -35,6 +35,8 @@ namespace WgWall.Controllers
             target.Entity = product;
             target.KarmaEarned = product.Amount;
 
+            await _frontendUserRepository.RecalculateKarma<ProductPurchase, Product>(frontendUser, target);
+
             return true;
         }
     }
