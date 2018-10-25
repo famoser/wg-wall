@@ -46,6 +46,10 @@ export class TasksComponent implements OnInit {
       taskTemplates.sort((a, b) => b.expectedRelativeCompletion - a.expectedRelativeCompletion);
 
       this.taskTemplates = taskTemplates;
+
+      if (this.taskTemplates.length == 0) {
+        this.startAdd();
+      }
     });
   }
 
@@ -103,7 +107,7 @@ export class TasksComponent implements OnInit {
     //lock
     this.actionsActive++;
 
-    //wrote props
+    //write props
     target.intervalInDays = source.intervalInDays;
     target.name = source.name;
     target.reward = source.reward;
@@ -133,7 +137,7 @@ export class TasksComponent implements OnInit {
     this.actionsActive--;
   }
 
-  public execute(taskTemplate: TaskTemplate) {
+  public prepareExecution(taskTemplate: TaskTemplate) {
     this.executeSource = taskTemplate;
   }
 
@@ -145,6 +149,8 @@ export class TasksComponent implements OnInit {
     //lock
     this.actionsActive++;
 
+    //register execution
+    this.actionsActive++;
     this.taskTemplateService.registerExecution(taskTemplate).subscribe(() => {
       //remove from array
       this.taskTemplates.splice(this.taskTemplates.indexOf(taskTemplate), 1);

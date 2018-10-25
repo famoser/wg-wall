@@ -27,3 +27,7 @@ html, body {
 .table td {
   vertical-align: middle;
 }
+
+.btn-group-sm>.btn {
+  min-width: 2rem;
+}

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { TaskTemplate } from '../models/task-template';
-import { map, switchMap, tap, debounce, startWith } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { ReloadService } from './reload.service';
 import { FrontendUserService } from './frontend-user.service';
 
@@ -24,7 +24,6 @@ export class TaskTemplateService {
   }
 
   public create(taskTemplate: TaskTemplate): Observable<TaskTemplate> {
-    //todo: how to add to get() observable?
     return this.http.post<TaskTemplate>(this.taskTemplateUrl, this.toJsonPayload(taskTemplate));
   }
 
@@ -46,7 +45,7 @@ export class TaskTemplateService {
           tap(() => {
             //adapt connected entites
             frontendUser.karma += taskTemplate.reward;
-            taskTemplate.lastExecutionAt = new Date();
+            taskTemplate.lastExecutionAt = new Date().toISOString();
           })
         )
       })

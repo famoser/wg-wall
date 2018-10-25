@@ -1,0 +1,96 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h3>
+          events
+        </h3>
+      </div>
+      <div class="col-md-auto">
+        <button *ngIf="!isEditActive" class="btn btn-link text-secondary btn-lg" [class.d-none]="actionsActive || (editContainer != null && editSource == null)"
+          (click)="startAdd()">
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <p class="small text-secondary help">
+      ready or not
+    </p>
+
+    <table *ngIf="futureEvents.length > 0 || (editContainer != null && editSource == null); else placeholder" class="table table-borderless table-sm table-striped">
+      <tbody>
+        <tr *ngIf="editContainer != null && editSource == null">
+          <td colspan="2">
+            <div class="form-inline">
+              <div class="form-group flex-grow-1">
+                <label>start</label>
+                <input type="datetime-local" [(ngModel)]="editContainer.startDate" class="form-control form-control-sm ml-2 flex-grow-1">
+              </div>
+              <div class="form-group ml-4">
+                <label>name</label>
+                <input type="text" [(ngModel)]="editContainer.name" class="form-control form-control-sm ml-2">
+              </div>
+            </div>
+          </td>
+          <td class="minimal-width">
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-link text-success" type="button" (click)="add(editContainer)">
+                <fa-icon [icon]="faSave"></fa-icon>
+              </button>
+              <button class="btn btn-link text-warning" type="button" (click)="abort()">
+                <fa-icon [icon]="faUndo"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let event of futureEvents; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst || editContainer != null && editSource == null">
+          <ng-container *ngIf="event == editSource">
+            <td colspan="2">
+              <div class="form-inline">
+                <div class="form-group flex-grow-1">
+                  <label>start</label>
+                  <input type="datetime" [(ngModel)]="editContainer.startDate" class="form-control form-control-sm ml-2 flex-grow-1">
+                </div>
+                <div class="form-group ml-4">
+                  <label>name</label>
+                  <input type="text" [(ngModel)]="editContainer.name" class="form-control form-control-sm ml-2">
+                </div>
+              </div>
+            </td>
+            <td class="minimal-width">
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-link text-success" type="button" (click)="save(editContainer, event)">
+                  <fa-icon [icon]="faSave"></fa-icon>
+                </button>
+                <button class="btn btn-link text-warning" type="button" (click)="abort()">
+                  <fa-icon [icon]="faUndo"></fa-icon>
+                </button>
+                <button class="btn btn-link text-danger" type="button" (click)="remove(event)">
+                  <fa-icon [icon]="faTrash"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="event != editSource">
+            <td class="align-midle">{{event.name}}</td>
+            <td class="minimal-width align-midle relative">
+              {{event.startDate | date: "dd.MM.yyyy HH:mm"}}
+            </td>
+            <td class="minimal-width">
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-link text-secondary" type="button" (click)="startEdit(event)">
+                  <fa-icon [icon]="faPencilAlt"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #placeholder>
+      <p>no entries yet</p>
+    </ng-template>
+
+  </div>
+</div>

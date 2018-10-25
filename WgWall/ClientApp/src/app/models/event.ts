@@ -1,6 +1,6 @@
 import { Base } from "./base/base";
 
-export class FrontendUser extends Base {
+export class EventEntity extends Base {
   name: string;
-  startDate: Date;
+  startDate: string;
 }

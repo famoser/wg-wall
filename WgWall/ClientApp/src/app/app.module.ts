@@ -17,6 +17,8 @@ import { UserComponent } from './user/user.component';
 import { UsersComponent } from './users/users.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { environment } from '../environments/environment';
+import { EventsComponent } from './events/events.component';
+
 
 let enableSampleData = false;
 
@@ -30,6 +32,7 @@ let enableSampleData = false;
     ProductsComponent,
     TransportComponent,
     TasksComponent,
+    EventsComponent,
 
     LengthPipe,
     HumanizeDatePipe
