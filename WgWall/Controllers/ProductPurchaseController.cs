@@ -35,6 +35,8 @@ namespace WgWall.Controllers
             target.Entity = product;
             target.KarmaEarned = product.Amount;
 
+            product.Amount = 0;
+            await _productRepository.Save(product);
             await _frontendUserRepository.RecalculateKarma<ProductPurchase, Product>(frontendUser, target);
 
             return true;

@@ -23,3 +23,7 @@ h3 {
 html, body {
     background-color: #212529;
 }
+
+.table td {
+  vertical-align: middle;
+}

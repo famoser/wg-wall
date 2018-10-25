@@ -81,7 +81,13 @@
           </ng-container>
           <ng-container *ngIf="taskTemplate != editSource">
             <td class="align-midle">{{taskTemplate.name}}</td>
-            <td class="minimal-width align-midle">{{taskTemplate.lastExecutionAt | humanizeDate}}</td>
+            <td class="minimal-width align-midle relative">
+              {{ taskTemplate.lastExecutionAt ? "last execution was " + (taskTemplate.lastExecutionAt | humanizeDate) :
+              "not yet executed"}}
+              <div class="progress progress-relative-completion" *ngIf="taskTemplate.expectedRelativeCompletion > 0">
+                <div class="progress-bar" [ngStyle]="{width : ( taskTemplate.expectedRelativeCompletion * 100 + '%' ) }"></div>
+              </div>
+            </td>
             <td class="minimal-width">
               <div class="btn-group btn-group-sm">
                 <button class="btn btn-link text-secondary" type="button" (click)="startEdit(taskTemplate)">

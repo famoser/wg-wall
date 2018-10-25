@@ -43,18 +43,26 @@ export class TasksComponent implements OnInit {
       taskTemplates.forEach(tt => {
         tt.expectedRelativeCompletion = this.calculateExpectedRelativeCompletion(tt);
       });
-      this.taskTemplates = taskTemplates.sort((a, b) => b.expectedRelativeCompletion - a.expectedRelativeCompletion);
+      console.log(taskTemplates);
+      taskTemplates.sort((a, b) => b.expectedRelativeCompletion - a.expectedRelativeCompletion);
+
+      this.taskTemplates = taskTemplates;
     });
   }
 
   private calculateExpectedRelativeCompletion(taskTemplate: TaskTemplate) {
     if (taskTemplate.lastExecutionAt == null) {
-      return null;
+      return 1;
     }
 
-    var expectedTicks = taskTemplate.intervalInDays * 60 * 60 * 24;
-    var nowTicks = new Date().valueOf() - taskTemplate.lastExecutionAt.valueOf();
-    return nowTicks / expectedTicks;
+    if (taskTemplate.intervalInDays <= 0) {
+      return 0;
+    }
+
+    //miliseconds of the interval days
+    var expectedTicks = taskTemplate.intervalInDays * 60 * 60 * 24 * 1000;
+    var passedTicks = new Date().valueOf() - new Date(taskTemplate.lastExecutionAt).valueOf();
+    return passedTicks / expectedTicks;
   }
 
   public startAdd() {

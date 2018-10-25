@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WgWall.Api.Dto.Base;
 using WgWall.Api.Request;
@@ -37,6 +38,8 @@ namespace WgWall.Controllers
             target.Entity = taskTemplate;
             target.KarmaEarned = taskTemplate.Reward;
 
+            taskTemplate.LastExecutionAt = DateTime.Now;
+            await _taskTemplateRepository.Save(taskTemplate);
             await _frontendUserRepository.RecalculateKarma<TaskExecution, TaskTemplate>(frontendUser, target);
 
             return true;
