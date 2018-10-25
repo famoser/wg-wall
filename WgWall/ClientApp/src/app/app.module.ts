@@ -18,6 +18,8 @@ import { UsersComponent } from './users/users.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { environment } from '../environments/environment';
 
+let enableSampleData = false;
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +37,7 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(
+    environment.production || !enableSampleData ? [] : HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false, passThruUnknownUrl: true }
     ),
     FormsModule,

@@ -17,7 +17,7 @@
       execute regularely and with joy!
     </p>
 
-    <table *ngIf="taskTemplates.length > 0 || (editContainer != null && editSource == null); else placeholder" class="table table-borderless table-striped">
+    <table *ngIf="taskTemplates.length > 0 || (editContainer != null && editSource == null); else placeholder" class="table table-borderless table-sm table-striped">
       <tbody>
         <tr *ngIf="editContainer != null && editSource == null">
           <td colspan="2">
@@ -47,7 +47,7 @@
             </div>
           </td>
         </tr>
-        <tr *ngFor="let taskTemplate of taskTemplates; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst">
+        <tr *ngFor="let taskTemplate of taskTemplates; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst || editContainer != null && editSource == null">
           <ng-container *ngIf="taskTemplate == editSource">
             <td colspan="2">
               <div class="form-inline">
@@ -82,11 +82,11 @@
           <ng-container *ngIf="taskTemplate != editSource">
             <td class="align-midle">{{taskTemplate.name}}</td>
             <td class="minimal-width align-midle relative">
+                <div class="progress progress-relative-completion" *ngIf="taskTemplate.expectedRelativeCompletion > 0">
+                  <div class="progress-bar" [ngStyle]="{width : ( taskTemplate.expectedRelativeCompletion * 100 + '%' ) }"></div>
+                </div>
               {{ taskTemplate.lastExecutionAt ? "last execution was " + (taskTemplate.lastExecutionAt | humanizeDate) :
               "not yet executed"}}
-              <div class="progress progress-relative-completion" *ngIf="taskTemplate.expectedRelativeCompletion > 0">
-                <div class="progress-bar" [ngStyle]="{width : ( taskTemplate.expectedRelativeCompletion * 100 + '%' ) }"></div>
-              </div>
             </td>
             <td class="minimal-width">
               <div class="btn-group btn-group-sm">

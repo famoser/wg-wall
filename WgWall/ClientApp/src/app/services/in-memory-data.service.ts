@@ -18,7 +18,6 @@ export class InMemoryDataService implements InMemoryDbService {
   responseInterceptor(resOptions: ResponseOptions, reqInfo: RequestInfo) {
     const method = reqInfo.method.toUpperCase();
     console.log(`request intercepted by the InMemoryDataService: ${method} ${reqInfo.req.url}`);
-
     return resOptions;
   }
 

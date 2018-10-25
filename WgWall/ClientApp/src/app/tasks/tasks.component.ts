@@ -43,7 +43,6 @@ export class TasksComponent implements OnInit {
       taskTemplates.forEach(tt => {
         tt.expectedRelativeCompletion = this.calculateExpectedRelativeCompletion(tt);
       });
-      console.log(taskTemplates);
       taskTemplates.sort((a, b) => b.expectedRelativeCompletion - a.expectedRelativeCompletion);
 
       this.taskTemplates = taskTemplates;
@@ -154,7 +153,7 @@ export class TasksComponent implements OnInit {
       var relativeCompletion = this.calculateExpectedRelativeCompletion(taskTemplate);
       var added = false;
       for (let i = 0; i < this.taskTemplates.length; i++) {
-        if (this.calculateExpectedRelativeCompletion(this.taskTemplates[i]) > relativeCompletion) {
+        if (this.calculateExpectedRelativeCompletion(this.taskTemplates[i]) < relativeCompletion) {
           this.taskTemplates.splice(i, 0, taskTemplate);
           added = true;
           break;

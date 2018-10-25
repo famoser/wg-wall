@@ -1,4 +1,5 @@
 export class Vehicle {
     name: string;
-    departureTime: Date
+    departureTime: Date;
+    to: string;
 }
