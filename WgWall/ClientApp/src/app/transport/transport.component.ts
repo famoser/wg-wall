@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { faPencilAlt, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit } from '@angular/core';
+import { faPencilAlt, faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
 
 import { Setting } from '../models/setting';
 import { Vehicle } from '../models/vehicle';
@@ -10,14 +10,15 @@ import { TransportService } from '../services/transport.service';
   selector: 'app-transport',
   templateUrl: './transport.component.html'
 })
-export class TransportComponent {
+export class TransportComponent implements OnInit {
   //icons
   public faPencilAlt = faPencilAlt;
   public faSave = faSave;
-  public faTimes = faTimes;
+  public faUndo = faUndo;
 
   //properties
   public stationName: string;
+  public newStationName: string;
   public vehicles: Vehicle[];
   private settingKey = "transport.station-name";
   private setting: Setting;
@@ -35,26 +36,33 @@ export class TransportComponent {
     });
   }
 
-  refreshVehicles(stationName: string) {
+  private refreshVehicles(stationName: string) {
     this.transportService.get(stationName).subscribe(vh => {
       this.vehicles = vh;
     });
   }
 
-  save() {
-    this.setting.value = this.stationName;
-    this.settingService.save(this.setting);
-    this.isEditActive = false;
-
-    this.refreshVehicles(this.stationName);
+  private setNewStationName(stationName: string) {
+    this.stationName = stationName;
+    this.setting.value = stationName;
+    this.settingService.save(this.setting).subscribe();
   }
 
-  abort() {
-    this.stationName = this.setting.value;
+  public save() {
+    if (this.newStationName != this.stationName) {
+      //save changes & refresh
+      this.setNewStationName(this.newStationName);
+      this.refreshVehicles(this.newStationName);
+    }
     this.isEditActive = false;
   }
 
-  enableEdit() {
+  public abort() {
+    this.isEditActive = false;
+  }
+
+  public startEdit() {
+    this.newStationName = this.stationName;
     this.isEditActive = true;
   }
 }

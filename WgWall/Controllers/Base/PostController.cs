@@ -46,7 +46,7 @@ namespace WgWall.Controllers.Base
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] TPayload payload)
+        public virtual async Task<IActionResult> Post([FromBody] TPayload payload)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

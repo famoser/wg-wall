@@ -3,7 +3,7 @@
     <div class="row" *ngIf="!isEditActive">
       <div class="col">
         <h3>
-          departures
+          weather
         </h3>
       </div>
       <div class="col-md-auto">
@@ -13,10 +13,14 @@
       </div>
     </div>
 
-
     <div class="form-inline" *ngIf="isEditActive">
-      <div class="form-group flex-grow-1">
-        <input type="text" [(ngModel)]="newStationName" class="form-control form-control-lg flex-grow-1" (keyup.enter)="save()">
+      <div class="form-group flex-shrink-1">
+        <label>plz</label>
+        <input type="number" [(ngModel)]="postalCode.editValue" class="form-control form-control-sm ml-2 input-plz flex-grow-1">
+      </div>
+      <div class="form-group ml-4 flex-grow-1">
+        <label>weatherbit.io api key</label>
+        <input type="text" [(ngModel)]="apiKey.editValue" class="form-control form-control-sm ml-2 flex-grow-1">
       </div>
       <div class="btn-group btn-group-lg ml-4">
         <button class="btn btn-link text-success" type="button" (click)="save()">
@@ -28,19 +32,11 @@
       </div>
     </div>
 
-    <p class="small text-secondary help">
-      the next few departures from {{stationName}}
-    </p>
-    <table class="table table-sm table-borderless table-striped">
-      <tbody>
-        <tr *ngFor="let vehicle of vehicles; first as isFirst" [class.border-top]="!isFirst">
-          <td>{{vehicle.name}}</td>
-          <td>{{vehicle.to}}</td>
-          <td class="minimal-width">
-            {{vehicle.departureTime.getTime() | date: 'HH:mm'}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="small text-secondary help">
+      weather for the next 48 hours
+    </div>
+
+    <canvas id="weather"></canvas>
+
   </div>
 </div>

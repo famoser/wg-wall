@@ -1,0 +1,21 @@
+.single-number {
+  width: 3.5rem
+}
+
+.btn-group-sm>.btn {
+  min-width: 2rem;
+}
+
+.relative {
+  position: relative;
+}
+
+.progress-relative-completion {
+  height: 100%;
+  opacity: 0.2;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  border-radius: 0;
+}

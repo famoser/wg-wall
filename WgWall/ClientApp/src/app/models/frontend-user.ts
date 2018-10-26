@@ -1,6 +1,6 @@
-export class FrontendUser {
-  id: number;
+import { Base } from "./base/base";
+
+export class FrontendUser extends Base {
   name: string;
   karma: number;
-  profileImageSrc: string;
 }

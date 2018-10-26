@@ -1,0 +1,14 @@
+.clickable {
+  cursor: pointer;
+}
+
+.custom-control-label-sm:before, .custom-control-label-sm:after {
+  width: 0.8rem;
+  height: 0.8rem;
+  left: -1rem;
+}
+
+.custom-control-label-sm {
+  font-size: 0.8rem;
+  color: #6c757d!important;
+}

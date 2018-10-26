@@ -2,7 +2,7 @@
 
 namespace WgWall.Api.Request
 {
-    public class CalenderEntryPayload
+    public class EventPayload
     {
         public string Name { get; set; }
         public DateTime StartDate { get; set; }

@@ -1,34 +1,46 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import {
-    faCheck, faEyeSlash, faMinus, faPencilAlt, faPlus
+  faCheck, faSave, faUndo, faTrash, faPencilAlt, faPlus, faChevronUp, faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
 
-import { FrontendUser } from '../models/frontend-user';
 import { Product } from '../models/product';
 import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html'
+  templateUrl: './products.component.html',
+  styleUrls: [
+    './products.component.css'
+  ]
 })
 export class ProductsComponent {
   //icons
   public faCheck = faCheck;
   public faPlus = faPlus;
-  public faMinus = faMinus;
   public faPencilAlt = faPencilAlt;
-  public faEyeSlash = faEyeSlash;
+  public faTrash = faTrash;
+  public faSave = faSave;
+  public faUndo = faUndo;
+  public faChevronUp = faChevronUp;
+  public faChevronDown = faChevronDown;
 
   //product lists
-  private products: Product[]
-  public register: string[] = [];
-  public active: Product[] = [];
+  public products: Product[] = [];
 
   //input
-  public newProductName: string = ""
+  public newProductName: string = "";
   public isEditActive: boolean = false;
+  public onlyActive: boolean = false;
 
-  @Input() user: FrontendUser
+  //to disable buttons when appropiate
+  public actionsActive: number;
+
+  //edit entries
+  public editSource: Product;
+  public editContainer: Product;
+
+  //confirm entry
+  public executeSource: Product;
 
   constructor(private productService: ProductService) { }
 
@@ -36,87 +48,125 @@ export class ProductsComponent {
     this.productService.get().subscribe(products => {
       //init view
       this.products = products;
-      this.active = this.products.filter(p => p.boughtById == null && p.amount > 0);
-      this.populateRegister();
+      this.products.sort((a, b) => a.name.localeCompare(b.name));
+
       if (this.products.length == 0) {
-        this.isEditActive = true;
+        this.startAdd();
       }
     });
   }
 
-  create(name: string) {
-    //create product
-    const newProduct = new Product();
-    newProduct.name = name;
+  public startAdd() {
+    this.editContainer = new Product();
+  }
 
-    this.productService.create(newProduct, this.user).subscribe(fu => {
-      //referesh view
-      this.products.push(fu);
-      this.active.push(fu);
-      this.populateRegister();
+
+  public startEdit(source: Product) {
+    this.editSource = source;
+    this.editContainer = new Product();
+    this.editContainer.name = source.name;
+  }
+
+  public add(source: Product) {
+    //lock
+    this.actionsActive++;
+
+    //save to api
+    this.actionsActive++;
+    source.amount = 1;
+    this.productService.create(source).subscribe(newProduct => {
+      var added = false;
+      for (let i = 0; i < this.products.length; i++) {
+        if (this.products[i].name.localeCompare(newProduct.name) > 0) {
+          this.products.splice(i, 0, newProduct);
+          added = true;
+          break;
+        }
+      }
+      //add if not added in loop
+      if (!added) {
+        this.products.push(newProduct);
+      }
+
+      this.actionsActive--;
     });
+
+    //allow to add new directly
+    this.editContainer = new Product();
+    this.actionsActive--;
   }
 
-  populateRegister() {
-    this.register = Array.from(new Set(this.products.filter(p => !p.hide).map(p => p.name))).sort();
+  public abort() {
+    this.editSource = null;
+    this.editContainer = null;
   }
 
-  update(product: Product) {
-    this.productService.update(product);
+  public save(source: Product, target: Product) {
+    //lock
+    this.actionsActive++;
+
+    //write props
+    target.name = source.name;
+
+    //lock & persist changes
+    this.actionsActive++;
+    this.productService.update(target).subscribe(() => this.actionsActive--);
+
+    //stop edit
+    this.abort();
+    this.actionsActive--;
   }
 
-  select(name: string) {
-    const existing = this.active.filter(p => p.name == name);
-    if (existing.length > 0) {
-      existing[0].amount = +existing[0].amount + 1;
-      this.update(existing[0]);
-    } else {
-      this.create(name);
+  public remove(subject: Product) {
+    //lock
+    this.actionsActive++;
+
+    //lock & remove entity
+    this.actionsActive++;
+    this.productService.remove(subject).subscribe(() => {
+      this.products.splice(this.products.indexOf(subject), 1);
+      this.actionsActive--;
+    });
+
+    //stop edit
+    this.abort();
+    this.actionsActive--;
+  }
+
+  public preparePurchase(product: Product) {
+    this.executeSource = product;
+  }
+
+  public abortPurchase() {
+    this.executeSource = null;
+  }
+
+  public confirmPurchase(product: Product) {
+    if (product.amount <= 0) {
+      return;
     }
+
+    //lock
+    this.actionsActive++;
+
+    //register purchase
+    this.actionsActive++;
+    this.productService.registerPurchase(product).subscribe(() => {
+      this.actionsActive--;
+    });
+
+    //stop execution
+    this.abortPurchase();
+    this.actionsActive--;
   }
 
-  add() {
-    //add if not existing
-    const existing = this.active.filter(p => p.name == this.newProductName);
-    if (existing.length == 0) {
-      this.create(this.newProductName);
-    }
-
-    //reset view
-    this.newProductName = "";
+  public toggleActive(product: Product) {
+    console.log("clicked");
+    product.amount = product.amount > 0 ? 0 : 1;
+    this.productService.update(product).subscribe(() => this.actionsActive--);
   }
 
-  abortEdit() {
-    this.isEditActive = false;
-  }
-
-  decrement(product: Product) {
-    if (product.amount == 1) {
-      this.active.splice(this.active.indexOf(product), 1);
-    }
-    product.amount = product.amount - 1;
-    this.update(product);
-  }
-
-  increment(product: Product) {
-    product.amount = product.amount + 1;
-    this.update(product);
-  }
-
-  confirmBuy(product: Product) {
-    product.boughtById = this.user.id;
-    this.active.splice(this.active.indexOf(product), 1);
-    this.update(product);
-    this.user.karma = +this.user.karma + +product.amount;
-  }
-
-  hide(name: string) {
-    this.productService.hideAll(name);
-    this.products.filter(p => p.name == name).forEach(p => p.hide = true);
-    this.populateRegister();
-  }
-
-  enableEdit() {
-    this.isEditActive = true;
+  trackByFn(index) {
+    return index;
   }
 }

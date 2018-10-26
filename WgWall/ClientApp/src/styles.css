@@ -4,9 +4,9 @@
 }
 
 h3 {
-    font-size: 1em;
-    text-transform: uppercase;
-    margin-bottom: 0;
+  font-weight: 300;
+  text-transform: lowercase;
+  font-size: 2.5rem;
 }
 
 .help {
@@ -22,4 +22,12 @@ h3 {
 
 html, body {
     background-color: #212529;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.btn-group-sm>.btn {
+  min-width: 2rem;
 }

@@ -1,7 +1,7 @@
-export class Product {
+import { Base } from "./base/base";
+
+export class Product extends Base {
     id: number;
     name: string;
     amount: number;
-    boughtById: number | null; 
-    hide: boolean;
 }

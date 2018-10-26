@@ -18,7 +18,7 @@ namespace WgWall.Controllers.Base
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] TPayload payload)
+        public virtual async Task<IActionResult> Put([FromRoute] int id, [FromBody] TPayload payload)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

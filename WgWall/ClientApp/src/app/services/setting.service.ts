@@ -9,25 +9,47 @@ import { Setting } from '../models/setting';
 @Injectable({ providedIn: 'root' })
 export class SettingService {
 
-    private settingUrl = 'api/Setting';
-    private settings$: Observable<Setting[]> = this.http.get<Setting[]>(this.settingUrl).pipe(shareReplay(1));
+  private settingUrl = 'api/Setting';
+  private settings$: Observable<Setting[]> = this.http.get<Setting[]>(this.settingUrl).pipe(shareReplay(1));
+  private newSettings: Setting[] = [];
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-    get(key: string, def: string = ""): Observable<Setting> {
-        return this.settings$.pipe(map(s => {
-            let setting = s.filter(s => s.key == key)[0];
-            if (!(setting instanceof Setting)) {
-                setting = new Setting();
-                setting.key = key;
-                setting.value = def;
-                s.push(setting);
-            }
-            return setting;
-        }));
+  public get(key: string, def: string = ""): Observable<Setting> {
+    return this.settings$.pipe(map(s => {
+      let setting = s.filter(s => s.key == key)[0];
+      if (setting) {
+        return setting;
+      }
+
+      let newSetting = this.newSettings.filter(s => s.key == key)[0];
+      if (newSetting) {
+        return newSetting;
+      }
+
+      setting = new Setting();
+      setting.key = key;
+      setting.value = def;
+      this.newSettings.push(setting);
+
+      return setting;
+    }));
+  }
+
+  public save(setting: Setting): Observable<any> {
+    var payload = {
+      key: setting.key,
+      value: setting.value
     }
 
-    save(setting: Setting): void {
-        this.http.post(this.settingUrl, setting).subscribe(() => 1);
+    //put or post depending if it exists
+    if (setting.id > 0) {
+      return this.http.put(this.settingUrl + "/" + setting.id, payload);
     }
+    return this.http.post<Setting>(this.settingUrl, payload).pipe(
+      map(answer => {
+        setting.id = answer.id;
+      })
+    );
+  }
 }
