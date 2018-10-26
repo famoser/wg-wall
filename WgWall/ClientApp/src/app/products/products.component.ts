@@ -1,15 +1,17 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import {
-  faCheck, faSave, faUndo, faTrash, faPencilAlt, faPlus, faMinus, faChevronUp, faChevronDown
+  faCheck, faSave, faUndo, faTrash, faPencilAlt, faPlus, faChevronUp, faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
 
 import { Product } from '../models/product';
 import { ProductService } from '../services/product.service';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html'
+  templateUrl: './products.component.html',
+  styleUrls: [
+    './products.component.css'
+  ]
 })
 export class ProductsComponent {
   //icons
@@ -28,6 +30,7 @@ export class ProductsComponent {
   //input
   public newProductName: string = "";
   public isEditActive: boolean = false;
+  public onlyActive: boolean = false;
 
   //to disable buttons when appropiate
   public actionsActive: number;
@@ -70,6 +73,7 @@ export class ProductsComponent {
 
     //save to api
     this.actionsActive++;
+    source.amount = 1;
     this.productService.create(source).subscribe(newProduct => {
       var added = false;
       for (let i = 0; i < this.products.length; i++) {
@@ -138,6 +142,10 @@ export class ProductsComponent {
   }
 
   public confirmPurchase(product: Product) {
+    if (product.amount <= 0) {
+      return;
+    }
+
     //lock
     this.actionsActive++;
 
@@ -152,11 +160,10 @@ export class ProductsComponent {
     this.actionsActive--;
   }
 
-  public mutateAmount(product: Product, mutation: number) {
-    product.amount += mutation;
-    this.productService.update(product).pipe(
-      debounceTime(500)
-    ).subscribe(() => this.actionsActive--);
+  public toggleActive(product: Product) {
+    console.log("clicked");
+    product.amount = product.amount > 0 ? 0 : 1;
+    this.productService.update(product).subscribe(() => this.actionsActive--);
   }
 
   trackByFn(index) {
