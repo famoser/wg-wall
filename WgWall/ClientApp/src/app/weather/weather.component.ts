@@ -78,9 +78,6 @@ export class WeatherComponent {
           }]
         },
         options: {
-          legend: {
-            placement: 'bottom'
-          },
           scales: {
             yAxes: [{
               id: 'temparature',
