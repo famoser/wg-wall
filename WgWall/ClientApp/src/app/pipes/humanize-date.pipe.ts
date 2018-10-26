@@ -1,6 +1,5 @@
 import { PipeTransform, Pipe } from "@angular/core";
 import * as moment from 'moment';
-import { Moment } from 'moment';
 
 type nullableDate = Date | null;
 

@@ -18,6 +18,8 @@ import { UsersComponent } from './users/users.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { environment } from '../environments/environment';
 import { EventsComponent } from './events/events.component';
+import { WeatherComponent } from './weather/weather.component';
+import { Store } from './store.service';
 
 
 let enableSampleData = false;
@@ -33,6 +35,7 @@ let enableSampleData = false;
     TransportComponent,
     TasksComponent,
     EventsComponent,
+    WeatherComponent,
 
     LengthPipe,
     HumanizeDatePipe
@@ -46,7 +49,7 @@ let enableSampleData = false;
     FormsModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [Store],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

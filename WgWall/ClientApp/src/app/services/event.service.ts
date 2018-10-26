@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 import { EventEntity } from '../models/event';
 import { ReloadService } from './reload.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class EventService {

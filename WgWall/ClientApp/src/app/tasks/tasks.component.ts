@@ -1,6 +1,3 @@
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { Component, OnInit } from '@angular/core';
 import {
   faCheck, faPencilAlt, faPlus, faSave, faUndo, faTrash

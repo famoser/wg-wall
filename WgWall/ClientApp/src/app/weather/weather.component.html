@@ -1,0 +1,42 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row" *ngIf="!isEditActive">
+      <div class="col">
+        <h3>
+          weather
+        </h3>
+      </div>
+      <div class="col-md-auto">
+        <button *ngIf="!isEditActive" class="btn btn-link text-secondary btn-lg" [class.d-none]="isEditActive" (click)="startEdit()">
+          <fa-icon [icon]="faPencilAlt"></fa-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-inline" *ngIf="isEditActive">
+      <div class="form-group flex-shrink-1">
+        <label>plz</label>
+        <input type="number" [(ngModel)]="postalCode.editValue" class="form-control form-control-sm ml-2 input-plz flex-grow-1">
+      </div>
+      <div class="form-group ml-4 flex-grow-1">
+        <label>weatherbit.io api key</label>
+        <input type="text" [(ngModel)]="apiKey.editValue" class="form-control form-control-sm ml-2 flex-grow-1">
+      </div>
+      <div class="btn-group btn-group-lg ml-4">
+        <button class="btn btn-link text-success" type="button" (click)="save()">
+          <fa-icon [icon]="faSave"></fa-icon>
+        </button>
+        <button class="btn btn-link text-warning" type="button" (click)="abort()">
+          <fa-icon [icon]="faUndo"></fa-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="small text-secondary help">
+      weather for the next 48 hours
+    </div>
+
+    <canvas id="weather"></canvas>
+
+  </div>
+</div>
