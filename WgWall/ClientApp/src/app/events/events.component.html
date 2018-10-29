@@ -22,14 +22,10 @@
         <tr *ngIf="editContainer != null && editSource == null">
           <td colspan="2">
             <div class="form-inline">
-              <div class="form-group flex-grow-1">
-                <label>start</label>
-                <input type="datetime-local" [(ngModel)]="editContainer.startDate" class="form-control form-control-sm ml-2 flex-grow-1">
-              </div>
-              <div class="form-group ml-4">
-                <label>name</label>
-                <input type="text" [(ngModel)]="editContainer.name" class="form-control form-control-sm ml-2">
-              </div>
+              <input type="text" [(ngModel)]="editContainer.name" class="form-control form-control-sm form-control-name"
+                placeholder="name">
+              <input type="datetime-local" [(ngModel)]="editContainer.startDate" class="form-control form-control-sm ml-2 flex-grow-1 form-control-date"
+                placeholder="date">
             </div>
           </td>
           <td class="minimal-width">
@@ -47,14 +43,10 @@
           <ng-container *ngIf="event == editSource">
             <td colspan="2">
               <div class="form-inline">
-                <div class="form-group flex-grow-1">
-                  <label>start</label>
-                  <input type="datetime" [(ngModel)]="editContainer.startDate" class="form-control form-control-sm ml-2 flex-grow-1">
-                </div>
-                <div class="form-group ml-4">
-                  <label>name</label>
-                  <input type="text" [(ngModel)]="editContainer.name" class="form-control form-control-sm ml-2">
-                </div>
+                <input type="text" [(ngModel)]="editContainer.name" class="form-control form-control-sm form-control-name"
+                  placeholder="name">
+                <input type="datetime-local" [(ngModel)]="editContainer.startDate" class="form-control form-control-sm ml-2 flex-grow-1 form-control-date"
+                  placeholder="date">
               </div>
             </td>
             <td class="minimal-width">

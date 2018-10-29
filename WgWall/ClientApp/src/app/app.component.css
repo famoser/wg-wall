@@ -23,6 +23,7 @@
 
 .row-lg {
   height: 62.5%;
+  display: block;
 }
 
 .row-full {
