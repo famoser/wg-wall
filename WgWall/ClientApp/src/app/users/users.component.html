@@ -1,4 +1,33 @@
 <div class="row no-gutters">
-    <app-new-user class="col" (create)="onCreateUser($event)"></app-new-user>
-    <app-user class="col" *ngFor="let user of users" [user]="user" [selectedUser]="selectedUser" (selected)="onSelectUser(user)"></app-user>
+  <nav class="nav nav-user">
+    <div class="nav-link">
+      <div class="form-inline" *ngIf="editContainer != null">
+        <div class="form-group flex-grow-1">
+          <label>name</label>
+          <input type="text" [(ngModel)]="editContainer.name" (keyup.enter)="save()" class="form-control form-control-sm ml-2 flex-grow-1">
+        </div>
+        <div class="btn-group btn-group-sm ml-2" *ngIf="editContainer != null">
+          <button class="btn btn-link text-success" type="button" (click)="save()">
+            <fa-icon [icon]="faSave"></fa-icon>
+          </button>
+          <button class="btn btn-link text-warning" type="button" (click)="abortEdit()">
+            <fa-icon [icon]="faUndo"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="btn-group btn-group-sm" *ngIf="editContainer == null">
+        <button class="btn btn-link text-secondary" type="button" (click)="startAdd()">
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <div *ngFor="let user of users" class="nav-link">
+      <div class="btn-group btn-group-sm" *ngIf="editContainer == null">
+        <button *ngIf="user == selectedUser" class="btn btn-link text-secondary" type="button" (click)="startEdit(selectedUser)">
+          <fa-icon [icon]="faPencilAlt"></fa-icon>
+        </button>
+      </div>
+      <a [class.active]="user == selectedUser" (click)="select(user)" href="#">{{user.name}} <span class="text-secondary">{{user.karma}}</span></a>
+    </div>
+  </nav>
 </div>

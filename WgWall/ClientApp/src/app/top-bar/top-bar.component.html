@@ -1,10 +1,14 @@
 <section class="top-bar">
-  <div class="row">
+  <div class="row no-gutters">
     <div class="col">
-        <button class="btn btn-primary" type="button" (click)="reload()">
+      <nav class="nav">
+        <div class="nav-link">
+          <button class="btn btn-primary btn-sm mr-2" type="button" (click)="reload()">
             <fa-icon [icon]="faSync"></fa-icon>
-        </button>
-        {{ timeFromNow }}
+          </button>
+          {{ timeFromNow | async }}
+        </div>
+      </nav>
     </div>
     <div class="col-md-auto">
       <app-users (userSelected)="onUserSelected($event)"></app-users>

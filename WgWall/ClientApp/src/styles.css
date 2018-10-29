@@ -20,14 +20,20 @@ h3 {
     text-align: right;
 }
 
-html, body {
-    background-color: #212529;
-}
-
 .table td {
   vertical-align: middle;
 }
 
 .btn-group-sm>.btn {
   min-width: 2rem;
+}
+
+html, body {
+  height: 100%;
+}
+
+.card {
+  border-radius: 0;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+  height: 100%;
 }

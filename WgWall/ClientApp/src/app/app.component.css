@@ -1,1 +1,30 @@
 /* layout css*/
+.dashboard-wrapper {
+  background-color: #f8f9fa;
+  height: calc(100% - 3.3rem);
+}
+
+.col-sm {
+  width: 37.5%;
+}
+.col-lg {
+  width: 62.5%;
+}
+
+.row-sm {
+  height: 37.5%;
+  display: block;
+}
+
+.row-md {
+  height: 50%;
+  display: block;
+}
+
+.row-lg {
+  height: 62.5%;
+}
+
+.row-full {
+  height: 100%;
+}

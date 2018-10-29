@@ -27,6 +27,10 @@ export class FrontendUserService {
     this.activeUser$.next(frontendUser);
   }
 
+  public update(frontendUser: FrontendUser): Observable<any> {
+    return this.http.put(this.frontendUserUrl + "/" + frontendUser.id, frontendUser);
+  }
+
   public getActiveUser(): Observable<FrontendUser> {
     return this.activeUser$;
   }

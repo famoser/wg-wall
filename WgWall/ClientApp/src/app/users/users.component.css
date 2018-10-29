@@ -1,0 +1,18 @@
+.nav-user .active {
+  cursor: default;
+  color: #212529;
+  text-decoration: underline;
+}
+
+.nav-user .active:hover {
+  cursor: default;
+  color: #212529;
+}
+
+.nav-link {
+  padding: 0.8rem 1rem;
+}
+
+.nav-link .btn-group-sm > .btn {
+  line-height: 1;
+}
