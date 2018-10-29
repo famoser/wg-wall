@@ -7,14 +7,14 @@ using WgWall.Test.Utils.Interface;
 namespace WgWall.Test.Controllers
 {
     [TestClass]
-    public class ProductPurchaseTest : AbstractIntegrationTest
+    public class TaskExecutionControllerTest : AbstractIntegrationTest
     {
         protected override async Task PerformIntegrationTest(ITestClient testClient)
         {
             //arrange
             var expectedFields = new[] { "id" };
-            var payloadFields = new Dictionary<string, object> { { "productId", 1 }, { "frontendUserId", 1 } };
-            var apiUrl = "/api/ProductPurchase";
+            var payloadFields = new Dictionary<string, object> { { "taskTemplateId", 1 }, { "frontendUserId", 1 } };
+            var apiUrl = "/api/TaskExecution";
             
             //test post
             await TestPost(testClient, apiUrl, expectedFields, payloadFields);

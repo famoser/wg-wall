@@ -42,6 +42,7 @@ namespace WgWall
             services.AddScoped<ISettingRepository, SettingRepository>();
             services.AddScoped<ITaskExecutionRepository, TaskExecutionRepository>();
             services.AddScoped<ITaskTemplateRepository, TaskTemplateRepository>();
+            services.AddScoped<IPlateRepository, PlateRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
         }
 

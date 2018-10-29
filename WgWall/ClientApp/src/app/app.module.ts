@@ -18,6 +18,7 @@ import { environment } from '../environments/environment';
 import { EventsComponent } from './events/events.component';
 import { WeatherComponent } from './weather/weather.component';
 import { Store } from './store.service';
+import { DinnerComponent } from './dinner/dinner.component';
 
 
 let enableSampleData = false;
@@ -32,7 +33,7 @@ let enableSampleData = false;
     TasksComponent,
     EventsComponent,
     WeatherComponent,
-
+    DinnerComponent,
     LengthPipe,
     HumanizeDatePipe
   ],

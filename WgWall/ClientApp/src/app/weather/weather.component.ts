@@ -45,8 +45,6 @@ export class WeatherComponent {
 
   private retrieveWeather() {
     this.weatherService.get(this.postalCode.value, this.apiKey.value).subscribe(weatherEntries => {
-      this.store.setWeatherEntries(weatherEntries);
-
       var canvas = document.getElementById('weather');
       new Chart(canvas, {
         type: 'line',
