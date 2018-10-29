@@ -14,6 +14,8 @@ namespace WgWall
 {
     public class Startup
     {
+        public const string DbFileName = "db.sqlite";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,7 +34,7 @@ namespace WgWall
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            var connection = @"Data Source = db.sqlite";
+            var connection = "Data Source = " + DbFileName;
             services.AddDbContext<MyDbContext>(options => options.UseLazyLoadingProxies().UseSqlite(connection, x => x.MigrationsAssembly("WgWall.Migrations")));
             services.AddScoped<IFrontendUserRepository, FrontendUserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
