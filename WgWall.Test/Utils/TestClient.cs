@@ -48,7 +48,7 @@ namespace WgWall.Test.Utils
             return await response.Content.ReadAsByteArrayAsync();
         }
 
-        public async Task<string> PostFileAsync(string link, byte[] payload, string name)
+        public async Task<string> PostFileAsync(string link, byte[] payload, string name = "name")
         {
             using (var content = new MultipartFormDataContent())
             {

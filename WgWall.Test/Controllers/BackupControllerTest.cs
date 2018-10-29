@@ -28,7 +28,7 @@ namespace WgWall.Test.Controllers
             Assert.IsTrue(originalDb.Length > 0);
 
             //replace db with own file
-            var replaceResponse = await testClient.PostFileAsync(apiUrl + "/post", payload, "files");
+            var replaceResponse = await testClient.PostFileAsync(apiUrl + "/post", payload);
             Assert.IsNotNull(replaceResponse);
             Assert.IsTrue(replaceResponse.ToLower().Contains("true"));
 
