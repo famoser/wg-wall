@@ -3,9 +3,7 @@ import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FrontendUserService } from '../services/frontend-user.service';
 import { FrontendUser } from '../models/frontend-user';
 import { Plate } from '../models/plate';
-import { forkJoin, Subject } from 'rxjs';
 import { PlateService } from '../services/plate.service';
-import { distinctUntilChanged, debounceTime, switchMap, debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dinner',

@@ -53,6 +53,7 @@ export class WeatherComponent {
           datasets: [{
             label: 'temparature',
             yAxisID: 'temparature',
+            xAxisID: 'time',
             data: weatherEntries.map(we => we.temparature),
             backgroundColor: 'rgba(255, 193, 7, 0)',
             borderColor: "rgba(200, 133, 3, 0.4)",
@@ -60,6 +61,7 @@ export class WeatherComponent {
           }, {
             label: 'feels-like temparature',
             yAxisID: 'temparature',
+            xAxisID: 'time',
             data: weatherEntries.map(we => we.perceivedTemparature),
             backgroundColor: 'rgba(255, 193, 7, 0.2)',
             pointBackgroundColor: 'rgba(0,0,0,0)',
@@ -69,6 +71,7 @@ export class WeatherComponent {
           }, {
             label: 'precipation',
             yAxisID: 'precipationProbability',
+            xAxisID: 'time',
             data: weatherEntries.map(we => we.precipationProbability),
             backgroundColor: 'rgba(0, 123, 255, 0.2)',
             borderColor: "rgba(0, 80, 200, 0.4)",
@@ -106,6 +109,7 @@ export class WeatherComponent {
               }
             }],
             xAxes: [{
+              id: "time",
               ticks: {
                 autoSkip: true,
                 maxTicksLimit: 8
