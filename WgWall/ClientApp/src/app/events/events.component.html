@@ -7,7 +7,7 @@
         </h3>
       </div>
       <div class="col-md-auto">
-        <button *ngIf="!isEditActive" class="btn btn-link text-secondary btn-lg" [class.d-none]="actionsActive || (editContainer != null && editSource == null)"
+        <button class="btn btn-link text-secondary btn-lg" [class.d-none]="actionsActive || (editContainer != null && editSource == null)"
           (click)="startAdd()">
           <fa-icon [icon]="faPlus"></fa-icon>
         </button>
