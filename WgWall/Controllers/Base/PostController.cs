@@ -19,8 +19,14 @@ namespace WgWall.Controllers.Base
         {
             _entityRepository = entityRepository;
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<TEntity, TDto>());
+            var config = new MapperConfiguration(GetMappingExpression);
+            config.AssertConfigurationIsValid();
             Mapper = new Mapper(config);
+        }
+
+        protected virtual void GetMappingExpression(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<TEntity, TDto>();
         }
 
         /// <summary>

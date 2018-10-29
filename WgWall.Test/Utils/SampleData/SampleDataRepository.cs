@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using WgWall.Data.Model;
 using WgWall.Data.Model.Base;
+using WgWall.Migrations.Migrations;
 using WgWall.Test.Utils.SampleData.Interface;
 
 namespace WgWall.Test.Utils.SampleData
@@ -46,6 +47,25 @@ namespace WgWall.Test.Utils.SampleData
             return AddIds(res);
         }
 
+        private List<Plate> LoadPlates(List<FrontendUser> frontendUsers)
+        {
+            int skip = 0;
+            var plates = new List<Plate>();
+            foreach (var frontendUser in frontendUsers)
+            {
+                if (skip++ % 2 == 0)
+                {
+                    plates.Add(new Plate()
+                    {
+                        Accountable = frontendUser,
+                        DinnerState = skip % 3,
+                        ValidityDate = DateTime.Today
+                    });
+                }
+            }
+            return AddIds(plates);
+        }
+
         public List<BaseEntity> LoadEntities()
         {
             var list = new List<BaseEntity>();
@@ -54,6 +74,7 @@ namespace WgWall.Test.Utils.SampleData
 
             var frontendUsers = LoadSampleFor<FrontendUser>();
             list.AddRange(frontendUsers);
+            list.AddRange(LoadPlates(frontendUsers));
             
             var products = LoadSampleFor<Product>();
             list.AddRange(products);

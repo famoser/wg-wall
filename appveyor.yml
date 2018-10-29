@@ -22,5 +22,8 @@ test_script:
   - ps: if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarScanner.MSBuild.exe begin /k:"famoser_wg-wall" /d:sonar.organization="famoser-github" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578" }
   - ps: MSBuild.exe /t:Rebuild /verbosity:minimal
   - ps: SonarScanner.MSBuild.exe end /d:"sonar.login=d361ddb7b2f8195bd07fd82571f44ac631ecf578"
+  
+  # check if npm can complete successfully
+  - cmd: 'cd WgWall/ClientApp && npm run build -- --prod'
 
 deploy: off

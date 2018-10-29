@@ -1,0 +1,16 @@
+.col-icon {
+  height: 5rem;
+  display: inline-block;
+}
+
+.accepted path {
+  fill: #28a745;
+}
+
+.declined path {
+  fill: #dc3545;
+}
+
+.indeterminate path {
+  fill: #6c757d;
+}

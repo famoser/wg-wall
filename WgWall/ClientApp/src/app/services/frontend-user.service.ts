@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 
 import { FrontendUser } from '../models/frontend-user';
+import { ReloadService } from './reload.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class FrontendUserService {
@@ -11,12 +13,14 @@ export class FrontendUserService {
   private frontendUserUrl = 'api/FrontendUser'; // URL to web api
   private activeUser$: BehaviorSubject<FrontendUser>
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private reload: ReloadService, ) {
     this.activeUser$ = new BehaviorSubject<FrontendUser>(null);
   }
 
   public get(): Observable<FrontendUser[]> {
-    return this.http.get<FrontendUser[]>(this.frontendUserUrl);
+    return this.reload.reloadObservable.pipe(
+      switchMap(() => this.http.get<FrontendUser[]>(this.frontendUserUrl))
+    );
   }
 
   public create(frontendUser: FrontendUser): Observable<FrontendUser> {
@@ -25,6 +29,10 @@ export class FrontendUserService {
 
   public setActiveUser(frontendUser: FrontendUser) : void {
     this.activeUser$.next(frontendUser);
+  }
+
+  public update(frontendUser: FrontendUser): Observable<any> {
+    return this.http.put(this.frontendUserUrl + "/" + frontendUser.id, frontendUser);
   }
 
   public getActiveUser(): Observable<FrontendUser> {

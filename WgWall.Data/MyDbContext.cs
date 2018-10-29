@@ -12,6 +12,7 @@ namespace WgWall.Data
         }
 
         public DbSet<Event> Events { get; set; }
+        public DbSet<Plate> Plates { get; set; }
         public DbSet<FrontendUser> FrontendUsers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductPurchase> ProductPurchases { get; set; }
