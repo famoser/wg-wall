@@ -15,7 +15,7 @@ using WgWall.Test.Utils.Interface;
 namespace WgWall.Test.Utils
 {
     public class TestClient<TStartup> : IDisposable, ITestClient
-        where TStartup : WgWall.Startup
+        where TStartup : Startup
     {
         private readonly TestServer _server;
 
@@ -65,7 +65,6 @@ namespace WgWall.Test.Utils
         {
             var response = await _client.PostAsync(link, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
-
             return await DeserializeResponse(response);
         }
 
@@ -73,7 +72,6 @@ namespace WgWall.Test.Utils
         {
             var response = await _client.PutAsync(link, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             Assert.IsTrue(response.StatusCode == HttpStatusCode.NoContent);
-
             return await DeserializeResponse(response);
         }
 
@@ -81,7 +79,6 @@ namespace WgWall.Test.Utils
         {
             var response = await _client.DeleteAsync(link);
             Assert.IsTrue(response.StatusCode == HttpStatusCode.NoContent);
-
             return await DeserializeResponse(response);
         }
 

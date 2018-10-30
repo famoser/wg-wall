@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { faUtensils } from '@fortawesome/free-solid-svg-icons';
-import { FrontendUserService } from '../services/frontend-user.service';
+
 import { FrontendUser } from '../models/frontend-user';
 import { Plate } from '../models/plate';
+import { FrontendUserService } from '../services/frontend-user.service';
 import { PlateService } from '../services/plate.service';
 
 @Component({

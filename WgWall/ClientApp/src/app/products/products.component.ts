@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {
-  faCheck, faSave, faUndo, faTrash, faPencilAlt, faPlus, faChevronUp, faChevronDown
+    faCheck, faChevronDown, faChevronUp, faPencilAlt, faPlus, faSave, faTrash, faUndo
 } from '@fortawesome/free-solid-svg-icons';
 
 import { Product } from '../models/product';
@@ -161,7 +161,6 @@ export class ProductsComponent {
   }
 
   public toggleActive(product: Product) {
-    console.log("clicked");
     product.amount = product.amount > 0 ? 0 : 1;
     this.productService.update(product).subscribe(() => this.actionsActive--);
   }

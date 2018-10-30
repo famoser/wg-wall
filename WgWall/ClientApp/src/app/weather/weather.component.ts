@@ -26,6 +26,7 @@ export class WeatherComponent {
   //properties
   public postalCode = new Configuration("weather.postal_code", "8053");
   public apiKey = new Configuration("weather.api_key");
+  public chartHtml: string = "";
 
   //input
   public isEditActive: boolean = false;
@@ -46,12 +47,13 @@ export class WeatherComponent {
   private retrieveWeather() {
     this.weatherService.get(this.postalCode.value, this.apiKey.value).subscribe(weatherEntries => {
       var canvas = document.getElementById('weather');
+      console.log(weatherEntries.map(we => we.cloudiness / 100));
       new Chart(canvas, {
-        type: 'line',
         data: {
           labels: weatherEntries.map(we => moment(we.timestamp, "X").format("HH:mm")),
           datasets: [{
             label: 'temparature',
+            type: 'line',
             yAxisID: 'temparature',
             xAxisID: 'time',
             data: weatherEntries.map(we => we.temparature),
@@ -60,6 +62,7 @@ export class WeatherComponent {
             pointHitRadius: 10
           }, {
             label: 'feels-like temparature',
+            type: 'line',
             yAxisID: 'temparature',
             xAxisID: 'time',
             data: weatherEntries.map(we => we.perceivedTemparature),
@@ -70,15 +73,35 @@ export class WeatherComponent {
             pointHitRadius: 10
           }, {
             label: 'precipation',
+            type: 'line',
             yAxisID: 'precipationProbability',
             xAxisID: 'time',
             data: weatherEntries.map(we => we.precipationProbability),
             backgroundColor: 'rgba(0, 123, 255, 0.2)',
             borderColor: "rgba(0, 80, 200, 0.4)",
             pointHitRadius: 10
+          }, {
+            type: 'bar',
+            label: 'false',
+            xAxisID: 'time',
+            yAxisID: 'precipationProbability',
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            borderColor: 'rgba(255, 255, 255, 0)',
+            borderWidth: 0,
+            data: weatherEntries.map(() => 98)
+          }, {
+            type: 'bar',
+            label: 'now',
+            xAxisID: 'time',
+            yAxisID: 'precipationProbability',
+            backgroundColor: weatherEntries.map(we => 1- (we.cloudiness / 100)).map(per => 'rgb(' + 147 * per + ',' + 188 * per + ',' + 255 * per + ')'),
+            data: weatherEntries.map(() => 100)
           }]
         },
         options: {
+          tooltips: {
+            enabled: false
+          },
           scales: {
             yAxes: [{
               id: 'temparature',
@@ -97,6 +120,7 @@ export class WeatherComponent {
               id: 'precipationProbability',
               type: 'linear',
               position: 'right',
+              stacked: true,
               ticks: {
                 min: 0,
                 max: 100,
@@ -110,6 +134,9 @@ export class WeatherComponent {
             }],
             xAxes: [{
               id: "time",
+              stacked: true,
+              barPercentage: 1,
+              categoryPercentage: 1,
               ticks: {
                 autoSkip: true,
                 maxTicksLimit: 8
