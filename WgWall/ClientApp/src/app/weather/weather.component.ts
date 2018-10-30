@@ -11,29 +11,28 @@ import { tap } from 'rxjs/operators';
 import { Chart } from 'chart.js'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-//implements the tooltip.onlyShowForDatasetIndex option
+/*
+var draw = false;
+//implements options.tooltip.onlyShowForDatasetIndex option
 Chart.plugins.register({
   // need to manipulate tooltip visibility before its drawn (but after update)
   beforeDraw: function (chartInstance, easing) {
     if (chartInstance.config.options.tooltips.onlyShowForDatasetIndex) {
       var tooltipsToDisplay = chartInstance.config.options.tooltips.onlyShowForDatasetIndex;
+      if (!tooltipsToDisplay) {
+        draw = true;
+      }
 
       // get the active tooltip (if there is one)
       var active = chartInstance.tooltip._active || [];
-      if (active.length > 0) {
-        if (tooltipsToDisplay.indexOf(active[0]._datasetIndex) === -1) {
-          // we don't want to show this tooltip so set it's opacity back to 0
-          chartInstance.tooltip._model.opacity = 0;
-          chartInstance.tooltip._model.width = 0;
-          chartInstance.tooltip._model.height = 0;
-          chartInstance.tooltip._model.x = -20;
-          chartInstance.tooltip._model.y = -20;
-          console.log(easing);
-        }
-      }
+      draw = active.length === 0 || tooltipsToDisplay.indexOf(active[0]._datasetIndex) > 0;
     }
+  },
+  beforeTooltipDraw: function () {
+    return draw;
   }
 });
+*/
 
 @Component({
   selector: 'app-weather',
@@ -85,6 +84,15 @@ export class WeatherComponent {
             borderColor: "rgba(200, 133, 3, 0.4)",
             pointHitRadius: 10
           }, {
+            label: 'precipation',
+            type: 'line',
+            yAxisID: 'precipationProbability',
+            xAxisID: 'time',
+            data: weatherEntries.map(we => we.precipationProbability),
+            backgroundColor: 'rgba(0, 123, 255, 0.2)',
+            borderColor: "rgba(0, 80, 200, 0.4)",
+            pointHitRadius: 10
+          }, {
             label: 'feels-like temparature',
             type: 'line',
             yAxisID: 'temparature',
@@ -94,16 +102,7 @@ export class WeatherComponent {
             pointBackgroundColor: 'rgba(0,0,0,0)',
             pointBorderColor: 'rgba(0,0,0,0)',
             borderColor: 'rgba(0,0,0,0)',
-            pointHitRadius: 10
-          }, {
-            label: 'precipation',
-            type: 'line',
-            yAxisID: 'precipationProbability',
-            xAxisID: 'time',
-            data: weatherEntries.map(we => we.precipationProbability),
-            backgroundColor: 'rgba(0, 123, 255, 0.2)',
-            borderColor: "rgba(0, 80, 200, 0.4)",
-            pointHitRadius: 10
+            pointHitRadius: 0
           }, {
             type: 'bar',
             label: false,
@@ -126,7 +125,9 @@ export class WeatherComponent {
         },
         options: {
           tooltips: {
-            onlyShowForDatasetIndex: [0, 1, 2],
+            filter: function (tooltipItem) {
+              return tooltipItem.datasetIndex <= 1;
+            }
           },
           legend: {
             display: false
