@@ -9,6 +9,31 @@ import { WeatherService } from '../services/weather.service';
 import { forkJoin, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Chart } from 'chart.js'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+//implements the tooltip.onlyShowForDatasetIndex option
+Chart.plugins.register({
+  // need to manipulate tooltip visibility before its drawn (but after update)
+  beforeDraw: function (chartInstance, easing) {
+    if (chartInstance.config.options.tooltips.onlyShowForDatasetIndex) {
+      var tooltipsToDisplay = chartInstance.config.options.tooltips.onlyShowForDatasetIndex;
+
+      // get the active tooltip (if there is one)
+      var active = chartInstance.tooltip._active || [];
+      if (active.length > 0) {
+        if (tooltipsToDisplay.indexOf(active[0]._datasetIndex) === -1) {
+          // we don't want to show this tooltip so set it's opacity back to 0
+          chartInstance.tooltip._model.opacity = 0;
+          chartInstance.tooltip._model.width = 0;
+          chartInstance.tooltip._model.height = 0;
+          chartInstance.tooltip._model.x = -20;
+          chartInstance.tooltip._model.y = -20;
+          console.log(easing);
+        }
+      }
+    }
+  }
+});
 
 @Component({
   selector: 'app-weather',
@@ -26,12 +51,12 @@ export class WeatherComponent {
   //properties
   public postalCode = new Configuration("weather.postal_code", "8053");
   public apiKey = new Configuration("weather.api_key");
-  public chartHtml: string = "";
+  public chartHtml: SafeHtml = "";
 
   //input
   public isEditActive: boolean = false;
 
-  constructor(private weatherService: WeatherService, private settingService: SettingService, public store: Store) { }
+  constructor(private weatherService: WeatherService, private settingService: SettingService, public store: Store, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     forkJoin(
@@ -47,8 +72,7 @@ export class WeatherComponent {
   private retrieveWeather() {
     this.weatherService.get(this.postalCode.value, this.apiKey.value).subscribe(weatherEntries => {
       var canvas = document.getElementById('weather');
-      console.log(weatherEntries.map(we => we.cloudiness / 100));
-      new Chart(canvas, {
+      const chart = new Chart(canvas, {
         data: {
           labels: weatherEntries.map(we => moment(we.timestamp, "X").format("HH:mm")),
           datasets: [{
@@ -82,25 +106,48 @@ export class WeatherComponent {
             pointHitRadius: 10
           }, {
             type: 'bar',
-            label: 'false',
+            label: false,
             xAxisID: 'time',
             yAxisID: 'precipationProbability',
             backgroundColor: 'rgba(255, 255, 255, 0)',
             borderColor: 'rgba(255, 255, 255, 0)',
             borderWidth: 0,
-            data: weatherEntries.map(() => 98)
+            pointHitRadius: 0,
+            data: weatherEntries.map(() => 99)
           }, {
             type: 'bar',
-            label: 'now',
+            label: 'cloudiness',
             xAxisID: 'time',
             yAxisID: 'precipationProbability',
-            backgroundColor: weatherEntries.map(we => 1- (we.cloudiness / 100)).map(per => 'rgb(' + 147 * per + ',' + 188 * per + ',' + 255 * per + ')'),
+            labelStyle: "background-image: linear-gradient(to right, rgb(216,230,254), rgb(108,115,127));",
+            backgroundColor: weatherEntries.map(we => 1 - (we.cloudiness / 100) ** 2).map(we => (0.5 * (1 - we)) + we).map(per => 'rgb(' + 216 * per + ',' + 230 * per + ',' + 254 * per + ')'),
             data: weatherEntries.map(() => 100)
           }]
         },
         options: {
           tooltips: {
-            enabled: false
+            onlyShowForDatasetIndex: [0, 1, 2],
+          },
+          legend: {
+            display: false
+          },
+          legendCallback: function (chart) {
+            var text = [];
+            text.push('<ul class="chart-legend">');
+            for (var i = 0; i < chart.data.datasets.length; i++) {
+              if (chart.data.datasets[i].label) {
+                let style = chart.data.datasets[i].labelStyle;
+                if (!style) {
+                  style = 'background-color:' + chart.data.datasets[i].backgroundColor + ";" +
+                    'border: solid 1px ' + chart.data.datasets[i].borderColor;
+                }
+                text.push('<li><span class="chart-legend-preview" style="' + style + '"></span>');
+                text.push(chart.data.datasets[i].label);
+                text.push('</li>');
+              }
+            }
+            text.push('</ul>');
+            return text.join('');
           },
           scales: {
             yAxes: [{
@@ -145,6 +192,7 @@ export class WeatherComponent {
           }
         }
       });
+      this.chartHtml = this.sanitizer.bypassSecurityTrustHtml(chart.generateLegend());
     });
   }
 

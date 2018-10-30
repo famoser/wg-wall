@@ -38,3 +38,29 @@ html, body {
   height: 100%;
   overflow-y: auto;
 }
+
+.chart-legend {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.chart-legend > li {
+  float: left;
+}
+
+.chart-legend .chart-legend-preview {
+  height: 1rem;
+  width: 3rem;
+  margin-left: 1.5rem;
+  display: inline-block;
+  margin-right: 0.5rem;
+  margin-bottom: -0.1rem;
+}
+
+.chart-legend .chart-legend-preview:first {
+  margin-left: 0;
+}
