@@ -7,3 +7,11 @@
 [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=famoser_wg-wall&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=famoser_wg-wall)  
 
 "smart" screen for WG
+
+## get started
+
+when you are opening the app for the first time, you need to do the following:
+
+- [ ] add users using the plus sign above
+- [ ] select you user by clicking on a name
+- [ ] configure the weather widget with an API key
