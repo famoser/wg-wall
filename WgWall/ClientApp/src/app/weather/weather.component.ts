@@ -9,6 +9,30 @@ import { WeatherService } from '../services/weather.service';
 import { forkJoin, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Chart } from 'chart.js'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+/*
+var draw = false;
+//implements options.tooltip.onlyShowForDatasetIndex option
+Chart.plugins.register({
+  // need to manipulate tooltip visibility before its drawn (but after update)
+  beforeDraw: function (chartInstance, easing) {
+    if (chartInstance.config.options.tooltips.onlyShowForDatasetIndex) {
+      var tooltipsToDisplay = chartInstance.config.options.tooltips.onlyShowForDatasetIndex;
+      if (!tooltipsToDisplay) {
+        draw = true;
+      }
+
+      // get the active tooltip (if there is one)
+      var active = chartInstance.tooltip._active || [];
+      draw = active.length === 0 || tooltipsToDisplay.indexOf(active[0]._datasetIndex) > 0;
+    }
+  },
+  beforeTooltipDraw: function () {
+    return draw;
+  }
+});
+*/
 
 @Component({
   selector: 'app-weather',
@@ -26,11 +50,12 @@ export class WeatherComponent {
   //properties
   public postalCode = new Configuration("weather.postal_code", "8053");
   public apiKey = new Configuration("weather.api_key");
+  public chartHtml: SafeHtml = "";
 
   //input
   public isEditActive: boolean = false;
 
-  constructor(private weatherService: WeatherService, private settingService: SettingService, public store: Store) { }
+  constructor(private weatherService: WeatherService, private settingService: SettingService, public store: Store, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     forkJoin(
@@ -46,12 +71,12 @@ export class WeatherComponent {
   private retrieveWeather() {
     this.weatherService.get(this.postalCode.value, this.apiKey.value).subscribe(weatherEntries => {
       var canvas = document.getElementById('weather');
-      new Chart(canvas, {
-        type: 'line',
+      const chart = new Chart(canvas, {
         data: {
           labels: weatherEntries.map(we => moment(we.timestamp, "X").format("HH:mm")),
           datasets: [{
             label: 'temparature',
+            type: 'line',
             yAxisID: 'temparature',
             xAxisID: 'time',
             data: weatherEntries.map(we => we.temparature),
@@ -59,7 +84,17 @@ export class WeatherComponent {
             borderColor: "rgba(200, 133, 3, 0.4)",
             pointHitRadius: 10
           }, {
+            label: 'precipation',
+            type: 'line',
+            yAxisID: 'precipationProbability',
+            xAxisID: 'time',
+            data: weatherEntries.map(we => we.precipationProbability),
+            backgroundColor: 'rgba(0, 123, 255, 0.2)',
+            borderColor: "rgba(0, 80, 200, 0.4)",
+            pointHitRadius: 10
+          }, {
             label: 'feels-like temparature',
+            type: 'line',
             yAxisID: 'temparature',
             xAxisID: 'time',
             data: weatherEntries.map(we => we.perceivedTemparature),
@@ -67,18 +102,54 @@ export class WeatherComponent {
             pointBackgroundColor: 'rgba(0,0,0,0)',
             pointBorderColor: 'rgba(0,0,0,0)',
             borderColor: 'rgba(0,0,0,0)',
-            pointHitRadius: 10
+            pointHitRadius: 0
           }, {
-            label: 'precipation',
-            yAxisID: 'precipationProbability',
+            type: 'bar',
+            label: false,
             xAxisID: 'time',
-            data: weatherEntries.map(we => we.precipationProbability),
-            backgroundColor: 'rgba(0, 123, 255, 0.2)',
-            borderColor: "rgba(0, 80, 200, 0.4)",
-            pointHitRadius: 10
+            yAxisID: 'precipationProbability',
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            borderColor: 'rgba(255, 255, 255, 0)',
+            borderWidth: 0,
+            pointHitRadius: 0,
+            data: weatherEntries.map(() => 99)
+          }, {
+            type: 'bar',
+            label: 'cloudiness',
+            xAxisID: 'time',
+            yAxisID: 'precipationProbability',
+            labelStyle: "background-image: linear-gradient(to right, rgb(216,230,254), rgb(108,115,127));",
+            backgroundColor: weatherEntries.map(we => 1 - (we.cloudiness / 100) ** 2).map(we => (0.5 * (1 - we)) + we).map(per => 'rgb(' + 216 * per + ',' + 230 * per + ',' + 254 * per + ')'),
+            data: weatherEntries.map(() => 100)
           }]
         },
         options: {
+          tooltips: {
+            filter: function (tooltipItem) {
+              return tooltipItem.datasetIndex <= 1;
+            }
+          },
+          legend: {
+            display: false
+          },
+          legendCallback: function (chart) {
+            var text = [];
+            text.push('<ul class="chart-legend">');
+            for (var i = 0; i < chart.data.datasets.length; i++) {
+              if (chart.data.datasets[i].label) {
+                let style = chart.data.datasets[i].labelStyle;
+                if (!style) {
+                  style = 'background-color:' + chart.data.datasets[i].backgroundColor + ";" +
+                    'border: solid 1px ' + chart.data.datasets[i].borderColor;
+                }
+                text.push('<li><span class="chart-legend-preview" style="' + style + '"></span>');
+                text.push(chart.data.datasets[i].label);
+                text.push('</li>');
+              }
+            }
+            text.push('</ul>');
+            return text.join('');
+          },
           scales: {
             yAxes: [{
               id: 'temparature',
@@ -97,6 +168,7 @@ export class WeatherComponent {
               id: 'precipationProbability',
               type: 'linear',
               position: 'right',
+              stacked: true,
               ticks: {
                 min: 0,
                 max: 100,
@@ -110,6 +182,9 @@ export class WeatherComponent {
             }],
             xAxes: [{
               id: "time",
+              stacked: true,
+              barPercentage: 1,
+              categoryPercentage: 1,
               ticks: {
                 autoSkip: true,
                 maxTicksLimit: 8
@@ -118,6 +193,7 @@ export class WeatherComponent {
           }
         }
       });
+      this.chartHtml = this.sanitizer.bypassSecurityTrustHtml(chart.generateLegend());
     });
   }
 
