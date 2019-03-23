@@ -6,8 +6,9 @@
           weather
         </h3>
       </div>
-      <div class="col-md-auto">
-        <button *ngIf="!isEditActive" class="btn btn-link text-secondary btn-lg" [class.d-none]="isEditActive" (click)="startEdit()">
+      <div class="col-auto">
+        <button *ngIf="!isEditActive" class="btn btn-link text-secondary btn-lg" [class.d-none]="isEditActive"
+          (click)="startEdit()">
           <fa-icon [icon]="faPencilAlt"></fa-icon>
         </button>
       </div>
@@ -16,7 +17,8 @@
     <div class="form-inline" *ngIf="isEditActive">
       <div class="form-group flex-shrink-1">
         <label>plz</label>
-        <input type="number" [(ngModel)]="postalCode.editValue" class="form-control form-control-sm ml-2 input-plz flex-grow-1">
+        <input type="number" [(ngModel)]="postalCode.editValue"
+          class="form-control form-control-sm ml-2 input-plz flex-grow-1">
       </div>
       <div class="form-group ml-4 flex-grow-1">
         <label>weatherbit.io api key</label>
@@ -38,7 +40,9 @@
 
     <div class="chart-label" [innerHTML]="chartHtml">
     </div>
-    <canvas id="weather"></canvas>
 
+    <div>
+      <canvas id="weather"></canvas>
+    </div>
   </div>
 </div>

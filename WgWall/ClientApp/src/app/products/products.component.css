@@ -12,3 +12,7 @@
   font-size: 0.8rem;
   color: #6c757d!important;
 }
+
+.form-control-name {
+  width: 100%
+}

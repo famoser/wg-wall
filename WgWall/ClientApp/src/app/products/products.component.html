@@ -6,8 +6,9 @@
           grocery list
         </h3>
       </div>
-      <div class="col-md-auto">
-        <button *ngIf="!isEditActive" class="btn btn-link text-secondary btn-lg" [class.d-none]="onlyActive || actionsActive || (editContainer != null && editSource == null)"
+      <div class="col-auto">
+        <button *ngIf="!isEditActive" class="btn btn-link text-secondary btn-lg"
+          [class.d-none]="onlyActive || actionsActive || (editContainer != null && editSource == null)"
           (click)="startAdd()">
           <fa-icon [icon]="faPlus"></fa-icon>
         </button>
@@ -19,24 +20,26 @@
           stock up
         </p>
       </div>
-      <div class="col-md-auto">
+      <div class="col-auto">
         <div class="form-inline help">
           <div class="custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="customCheck1" [(ngModel)]="onlyActive" name="onlyActive">
+            <input type="checkbox" class="custom-control-input" id="customCheck1" [(ngModel)]="onlyActive"
+              name="onlyActive">
             <label class="custom-control-label custom-control-label-sm" for="customCheck1">shopping mode</label>
           </div>
         </div>
       </div>
     </div>
 
-    <table *ngIf="products.length > 0 || (editContainer != null && editSource == null); else placeholder" class="table table-borderless table-sm table-striped">
+    <table *ngIf="products.length > 0 || (editContainer != null && editSource == null); else placeholder"
+      class="table table-borderless table-sm table-striped">
       <tbody>
         <tr *ngIf="editContainer != null && editSource == null && !onlyActive">
           <td>
             <div class="form-inline">
               <div class="form-group flex-grow-1">
-                <label>name</label>
-                <input type="text" [(ngModel)]="editContainer.name" (keyup.enter)="add(editContainer)" class="form-control form-control-sm ml-2 flex-grow-1">
+                <input type="text" [(ngModel)]="editContainer.name" (keyup.enter)="add(editContainer)"
+                  class="form-control form-control-sm form-control-name" placeholder="name" />
               </div>
             </div>
           </td>
@@ -51,7 +54,8 @@
             </div>
           </td>
         </tr>
-        <tr *ngFor="let product of products; first as isFirst; trackBy trackByFn" [class.border-top]="!isFirst || editContainer != null && editSource == null"
+        <tr *ngFor="let product of products; first as isFirst; trackBy trackByFn"
+          [class.border-top]="!isFirst || editContainer != null && editSource == null"
           [class.table-primary]="product.amount > 0">
           <ng-container *ngIf="!onlyActive && product == editSource">
             <td>
@@ -78,10 +82,12 @@
             </td>
           </ng-container>
           <ng-container *ngIf="(product != editSource || onlyActive) && (!onlyActive || product.amount > 0)">
-            <td class="align-midle clickable" (click)="toggleActive(product)" [class.font-weight-bold]="editSource == null && product.amount > 0">{{product.name}}</td>
+            <td class="align-midle clickable" (click)="toggleActive(product)"
+              [class.font-weight-bold]="editSource == null && product.amount > 0">{{product.name}}</td>
             <td class="minimal-width">
               <div class="btn-group btn-group-sm">
-                <button *ngIf="!onlyActive" class="btn btn-link text-secondary" type="button" (click)="startEdit(product)">
+                <button *ngIf="!onlyActive" class="btn btn-link text-secondary" type="button"
+                  (click)="startEdit(product)">
                   <fa-icon [icon]="faPencilAlt"></fa-icon>
                 </button>
                 <button *ngIf="editSource == null && product.amount > 0" class="btn btn-link text-success" type="button"

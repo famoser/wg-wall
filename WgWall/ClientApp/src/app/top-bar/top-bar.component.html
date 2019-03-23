@@ -1,6 +1,6 @@
 <section class="top-bar">
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col d-md-block d-none">
       <nav class="nav">
         <div class="nav-link">
           <button class="btn btn-primary btn-sm mr-2" type="button" (click)="reload()">
@@ -10,7 +10,7 @@
         </div>
       </nav>
     </div>
-    <div class="col-md-auto">
+    <div class="col-auto">
       <app-users (userSelected)="onUserSelected($event)"></app-users>
     </div>
   </div>

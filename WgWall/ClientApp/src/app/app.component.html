@@ -1,27 +1,19 @@
 <app-top-bar (userSelected)="selectedUser = $event"></app-top-bar>
 <div class="dashboard-wrapper p-3">
-  <div class="row row-full">
-    <div class="col-sm pr-2">
-      <div class="row-sm">
-        <app-tasks></app-tasks>
-      </div>
-      <div class="row-lg pt-3">
-        <app-weather></app-weather>
+  <div class="row height-full">
+    <div class="col-lg-6">
+      <app-tasks class="height-low bottom-padding"></app-tasks>
+      <app-weather class="height-high"></app-weather>
+    </div>
+    <div class="col-lg">
+      <app-transport class="height-low bottom-padding"></app-transport>
+      <div class="height-high">
+        <app-events class="height-high bottom-padding"></app-events>
+        <app-dinner class="height-low"></app-dinner>
       </div>
     </div>
-    <div class="col col-lg pl-2">
-      <div class="row row-full">
-        <div class="col col-lg pr-2">
-          <app-transport class="row-sm"></app-transport>
-          <div class="row-lg">
-            <app-events class="row-lg pt-3"></app-events>
-            <app-dinner class="row-sm pt-3"></app-dinner>
-          </div>
-        </div>
-        <div class="col col-sm pl-2">
-          <app-products></app-products>
-        </div>
-      </div>
+    <div class="col-lg">
+      <app-products></app-products>
     </div>
   </div>
 </div>
