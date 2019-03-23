@@ -5,7 +5,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using WgWall.Data.Model;
 using WgWall.Data.Model.Base;
-using WgWall.Migrations.Migrations;
 using WgWall.Test.Utils.SampleData.Interface;
 
 namespace WgWall.Test.Utils.SampleData

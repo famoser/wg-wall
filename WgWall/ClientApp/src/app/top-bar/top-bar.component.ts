@@ -38,8 +38,8 @@ export class TopBarComponent implements OnInit {
     this.frontendUserService.setActiveUser(frontendUser);
   }
 
-
   reload() {
-    this.reloadService.reload()
+    this.reloadService.reload();
+    this.pageLoaded = moment();
   }
 }
