@@ -43,7 +43,8 @@
     "popper.js": "^1.14.7",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.4.0",
-    "zone.js": "^0.8.29"
+    "zone.js": "^0.8.29",
+    "extend": ">=3.0.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.6",
