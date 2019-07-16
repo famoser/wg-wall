@@ -23,7 +23,7 @@
     </div>
     <div *ngFor="let user of users" class="nav-link">
       <div class="btn-group btn-group-sm" *ngIf="editContainer == null">
-        <button *ngIf="user == selectedUser" class="btn btn-link text-secondary" type="button" (click)="startEdit(selectedUser)">
+        <button *ngIf="user == selectedUser" class="btn btn-link text-secondary d-none d-md-block" type="button" (click)="startEdit(selectedUser)">
           <fa-icon [icon]="faPencilAlt"></fa-icon>
         </button>
       </div>

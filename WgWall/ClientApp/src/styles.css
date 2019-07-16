@@ -10,9 +10,9 @@ h3 {
 }
 
 .minimal-width {
-    width: 1%;
-    white-space: nowrap;
-    text-align: right;
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
 }
 
 .table td {
@@ -59,6 +59,10 @@ html, body {
     overflow-y: auto;
   }
 
+  .dashboard-wrapper {
+    padding: 1rem
+  }
+
   .help {
       margin-bottom: 0.2rem;
       margin-top: 0.5rem;
@@ -67,12 +71,25 @@ html, body {
 
 @media only screen and (max-width: 992px) {
   .card {
-    margin-bottom: 1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .dashboard-wrapper {
+    padding: 0.3rem;
   }
 
   .help {
       margin-bottom: 0.2rem;
       margin-top: 0;
+  }
+
+  h3 {
+    font-size: 2rem;
+    margin-bottom: 0rem;
+  }
+
+  .card-body {
+    padding: 0.5rem 0.9rem
   }
 }
 
