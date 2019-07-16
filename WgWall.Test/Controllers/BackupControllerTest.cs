@@ -36,9 +36,6 @@ namespace WgWall.Test.Controllers
             //check that backup was successful
             var backupDb = await testClient.GetFileAsync(apiUrl + "/db.sqlite_backup");
             CheckArraysMatch(originalDb, backupDb);
-
-            //reupload correct db
-            await testClient.PostFileAsync(apiUrl + "/post", payload, "database");
         }
 
         private void CheckArraysMatch(byte[] expected, byte[] actual)

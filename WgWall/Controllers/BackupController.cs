@@ -25,7 +25,7 @@ namespace WgWall.Controllers
         [HttpGet("db.sqlite_backup")]
         public async Task<IActionResult> DownloadBackup()
         {
-            var bytes = await System.IO.File.ReadAllBytesAsync(Startup.DbFileName);
+            var bytes = await System.IO.File.ReadAllBytesAsync(Startup.DbFileName + "_backup");
             return new FileContentResult(bytes, "application/octet-stream");
         }
 
