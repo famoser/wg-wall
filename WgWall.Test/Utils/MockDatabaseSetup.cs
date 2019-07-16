@@ -11,7 +11,7 @@ namespace WgWall.Test.Utils
 {
     public class SeededDatabaseStartup : WgWall.Startup
     {
-        public static string DbName = "test.sqlite";
+        public static string DbName = "db.sqlite";
         public SeededDatabaseStartup(IConfiguration configuration) : base(configuration)
         {
         }
